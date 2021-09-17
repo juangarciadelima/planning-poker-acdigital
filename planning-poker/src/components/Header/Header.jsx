@@ -1,7 +1,7 @@
 import { Flex, Box, Spacer, Heading, Image, Avatar } from '@chakra-ui/react'
 import React from 'react'
 import './Header.css'
-import ACLogo from '../../Images/Ac digital.png'
+import ACLogo from '../../images/Ac digital.png'
 
 export default function header() {
   return (

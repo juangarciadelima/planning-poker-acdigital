@@ -1,8 +1,8 @@
-import Footer from './components/Footer/Footer'
-import Header from './components/Header/Header'
-import Table from './components/Table/Table'
+import Footer from './components/footer/Footer'
+import Header from './components/header/Header'
+import Table from './components/room/home'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import CardRoom from './screens/Home/CardRoom/CardRoom'
+import CardRoom from './screens/cardRoom/CardRoom'
 
 export default function App() {
   return (

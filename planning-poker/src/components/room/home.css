@@ -1,0 +1,11 @@
+:root {
+  --toastify-color-progress-light: linear-gradient(
+    326deg,
+    #bd4f6c 0%,
+    #d7816a 74%
+  );
+}
+
+.headerTableColor th {
+  color: #ea4c46;
+}

@@ -1,0 +1,56 @@
+.grid {
+  margin: auto;
+  text-align: center;
+  place-self: center;
+  align-self: center;
+  margin-top: 3rem;
+}
+
+.euiTab.euiTab-isSelected .euiTab__content {
+  color: #f6443d !important;
+}
+
+.euiTab {
+  margin-left: 1rem;
+}
+
+.euiTab.euiTab-isSelected {
+  box-shadow: inset 0 -2px 0 #f6443d !important;
+}
+
+.euiTab.euiTab-isSelected svg {
+  color: #f6443d;
+}
+
+.euiTabs.euiTabs--bottomBorder {
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.75);
+}
+
+.euiTab__prepend:focus {
+  color: #f6443d;
+}
+
+.card {
+  position: relative;
+  font-family: 'Oswald', sans-serif;
+  font-size: 5rem;
+  border: 1px #ff0800 solid;
+
+  border-radius: 10px;
+  margin: 0 auto;
+  padding: 0;
+
+  width: 100px;
+  height: 150px;
+  justify-content: space-evenly;
+  align-items: center;
+  white-space: nowrap;
+  text-align: center;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translate3d(0px, -5px, 0px);
+  border-bottom: 8px solid #ff0800;
+}
