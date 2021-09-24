@@ -1,8 +1,9 @@
-import Footer from './components/footer/Footer'
-import Header from './components/header/Header'
-import Table from './components/room/home'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import CardRoom from './screens/cardRoom/CardRoom'
+import Footer from "./components/footer/";
+import Header from "./components/header/";
+import Home from "./components/pages/home";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import CardRoom from "./pages/cardRoom";
+import React from "react";
 
 export default function App() {
   return (
@@ -11,7 +12,7 @@ export default function App() {
       <Switch>
         <Route exact path="/home">
           <div>
-            <Table />
+            <Home />
           </div>
         </Route>
         <Route exact path="/room">
@@ -20,5 +21,5 @@ export default function App() {
       </Switch>
       <Footer />
     </Router>
-  )
+  );
 }

@@ -6,8 +6,8 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  NumberInputField
-} from '@chakra-ui/react'
+  NumberInputField,
+} from "@chakra-ui/react";
 
 export const editFormSample = (
   <form>
@@ -24,4 +24,4 @@ export const editFormSample = (
       </NumberInput>
     </FormControl>
   </form>
-)
+);

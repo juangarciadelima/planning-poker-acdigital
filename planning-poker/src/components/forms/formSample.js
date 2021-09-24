@@ -4,8 +4,8 @@ import {
   EuiModalHeaderTitle,
   EuiModalBody,
   EuiModalFooter,
-  EuiButton
-} from '@elastic/eui'
+  EuiButton,
+} from "@elastic/eui";
 
 export default function FormSample({
   onClose,
@@ -14,7 +14,7 @@ export default function FormSample({
   onClick,
   onClickBtn,
   lBtnText,
-  rBtnText
+  rBtnText,
 }) {
   return (
     <EuiModal onClose={onClose}>
@@ -37,5 +37,5 @@ export default function FormSample({
         </EuiButton>
       </EuiModalFooter>
     </EuiModal>
-  )
+  );
 }

@@ -1,8 +1,10 @@
-import { Box, Container, Stack, Text } from '@chakra-ui/react'
-import './Footer.css'
-import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa'
+import React from "react";
 
-export default function footer() {
+import { Box, Container, Stack, Text } from "@chakra-ui/react";
+import "./Footer.css";
+import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
+
+export default function Footer() {
   return (
     <div className="footer">
       <Box bg="gray.50" color="gray.700">
@@ -42,5 +44,5 @@ export default function footer() {
         </Box>
       </Box>
     </div>
-  )
+  );
 }

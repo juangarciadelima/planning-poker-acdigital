@@ -1,63 +1,61 @@
-import React, { useState } from 'react'
-import { editFormSample } from './forms/editForm.js'
-import { Button } from '@chakra-ui/react'
-import FormSample from './forms/formSample.js'
-import '@elastic/eui/dist/eui_theme_amsterdam_light.css'
-import 'react-toastify/dist/ReactToastify.css'
-import { AiOutlinePlus } from 'react-icons/ai'
-import { EuiConfirmModal } from '@elastic/eui'
-import './home.css'
-import { ToastContainer, toast } from 'react-toastify'
-import TableComponent from './table/table.jsx'
-import { FormControl, FormLabel, Input } from '@chakra-ui/react'
+import React, { useState } from "react";
+import { editFormSample } from "../forms/editForm.js.js";
+import { Button } from "@chakra-ui/react";
+import FormSample from "../forms/formSample.js.js.js.js";
+import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
+import "react-toastify/dist/ReactToastify.css";
+import { AiOutlinePlus } from "react-icons/ai";
+import { EuiConfirmModal } from "@elastic/eui";
+import "./home.css";
+import { ToastContainer, toast } from "react-toastify";
+import TableComponent from "../table/table.jsx.js";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 export default function TableTop() {
-  const [room, setRoom] = useState('')
-
   const roomInformations = [
     {
-      name: 'Sala Teste 1',
+      name: "Sala Teste 1",
       size: 5,
-      createdBy: 'Juan Garcia de Lima'
-    }
-  ]
+      createdBy: "Juan Garcia de Lima",
+    },
+  ];
 
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const closeModal = () => setIsModalVisible(false)
-  const showModal = () => setIsModalVisible(true)
+  const closeModal = () => setIsModalVisible(false);
+  const showModal = () => setIsModalVisible(true);
 
-  const [editModalVisible, setEditModalVisible] = useState(false)
+  const [editModalVisible, setEditModalVisible] = useState(false);
 
-  const closeEditModal = () => setEditModalVisible(false)
-  const showEditModal = () => setEditModalVisible(true)
+  const closeEditModal = () => setEditModalVisible(false);
+  const showEditModal = () => setEditModalVisible(true);
 
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
-  const closeDeleteModal = () => setIsDeleteModalVisible(false)
-  const showDeleteModal = () => setIsDeleteModalVisible(true)
+  const closeDeleteModal = () => setIsDeleteModalVisible(false);
+  const showDeleteModal = () => setIsDeleteModalVisible(true);
 
   function handleClick() {
-    closeModal()
+    closeModal();
 
-    toast('Sala Criada')
+    toast("Sala Criada");
   }
 
   function handleEditClick() {
-    closeEditModal()
+    closeEditModal();
 
-    toast('Sala Editada')
+    toast("Sala Editada");
   }
 
   function handleDeleteClick() {
-    closeDeleteModal()
+    closeDeleteModal();
 
-    toast('Sala Deletada')
+    toast("Sala Deletada");
   }
 
-  let modal
-  let deleteModal
-  let editModal
+  let modal;
+  let deleteModal;
+  let editModal;
 
   if (editModalVisible) {
     editModal = (
@@ -70,7 +68,7 @@ export default function TableTop() {
         lBtnText="Exit"
         rBtnText="Edit"
       />
-    )
+    );
   }
 
   if (isDeleteModalVisible) {
@@ -86,7 +84,7 @@ export default function TableTop() {
       >
         Você deseja apagar mesmo a sala?
       </EuiConfirmModal>
-    )
+    );
   }
 
   if (isModalVisible) {
@@ -105,24 +103,25 @@ export default function TableTop() {
         lBtnText="Cancel"
         rBtnText="Create"
       />
-    )
+    );
   }
 
   return (
     <>
       <div
         style={{
-          textAlign: 'right',
-          margin: '3rem'
+          textAlign: "right",
+          margin: "3rem",
         }}
       >
         <Button
+          title="Create Room"
           leftIcon={<AiOutlinePlus />}
           size="md"
           bg="#be282c"
           color="white"
           _hover={{
-            background: '#a62327'
+            background: "#a62327",
           }}
           onClick={showModal}
         >
@@ -143,5 +142,5 @@ export default function TableTop() {
         funcEdit={showEditModal}
       />
     </>
-  )
+  );
 }

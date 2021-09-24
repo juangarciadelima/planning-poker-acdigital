@@ -1,0 +1,24 @@
+:root {
+  --toastify-color-progress-light: linear-gradient(
+    326deg,
+    #bd4f6c 0%,
+    #d7816a 74%
+  );
+}
+
+.headerTableColor th {
+  color: #ea4c46;
+}
+
+.table thead tr th {
+  font-family: "Poppins";
+}
+
+.table tfoot tr th {
+  font-family: "Poppins";
+}
+
+.table caption {
+  font-family: "Poppins";
+  text-transform: uppercase;
+}
