@@ -1,6 +1,6 @@
-import Footer from "./components/footer/";
-import Header from "./components/header/";
-import Home from "./components/pages/home";
+import Footer from "./components/Footer/";
+import Header from "./components/Header";
+import Home from "./pages/home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CardRoom from "./pages/cardRoom";
 import React from "react";

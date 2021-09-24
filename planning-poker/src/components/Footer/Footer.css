@@ -19,3 +19,16 @@
 .iconBackground:hover {
   box-shadow: -2px 0px 5px -2px rgba(0, 0, 0, 0.75);
 }
+
+@media screen and (max-width: 768px) {
+  .footer div div div {
+    display: flex;
+    flex-direction: column !important;
+  }
+
+  .footer .links {
+    display: flex;
+    flex-direction: row !important;
+    margin-top: 2rem;
+  }
+}

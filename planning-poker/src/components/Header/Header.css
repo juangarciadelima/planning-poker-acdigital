@@ -1,6 +1,31 @@
-.header {
-  width: 100%;
-  height: 20%;
-  background-color: #b3b3b3;
-  text-align: center;
+.imgBox h2 img {
+  box-sizing: 5rem;
+  margin-left: 2rem;
+  object-fit: cover;
+  width: 5rem;
+  height: rem;
+}
+
+@media screen and (max-width: 768px) {
+  .imgBox h2 img {
+    float: left;
+    margin: 0;
+    width: 5rem;
+    height: 5rem;
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    margin-left: 2rem;
+    align-items: center;
+    justify-content: center;
+  }
+  .header {
+    width: 75vh !important;
+  }
+
+  .imgBox div {
+    float: right;
+    margin: 0;
+    margin-left: 10rem;
+  }
 }

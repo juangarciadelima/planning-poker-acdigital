@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { editFormSample } from "../forms/editForm.js.js";
+import { editFormSample } from "../../components/forms/editForm";
 import { Button } from "@chakra-ui/react";
-import FormSample from "../forms/formSample.js.js.js.js";
+import FormSample from "../../components/forms/formSample.js";
 import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
 import "react-toastify/dist/ReactToastify.css";
 import { AiOutlinePlus } from "react-icons/ai";
 import { EuiConfirmModal } from "@elastic/eui";
 import "./home.css";
 import { ToastContainer, toast } from "react-toastify";
-import TableComponent from "../table/table.jsx.js";
+import TableComponent from "../../components/table/";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 export default function TableTop() {

@@ -38,7 +38,7 @@ import { AddIcon, EditIcon, CloseIcon } from "@chakra-ui/icons";
 
 import { EuiNotificationBadge } from "@elastic/eui";
 
-import cards from "./components/cards";
+import { cards } from "./cards";
 
 export default function CardRoom() {
   const clickMe = (num) => {
@@ -51,28 +51,33 @@ export default function CardRoom() {
 
   return (
     <div className="grid">
-      <Grid marginLeft="1rem" templateColumns="1.75fr 1fr" gap={2}>
-        <Box marginTop="2rem" w="100%" h="750px" marginLeft="2rem">
+      <Grid
+        marginLeft="1rem"
+        templateColumns="1.75fr 1fr"
+        gap={2}
+        className="gridCustom"
+      >
+        <Box
+          marginTop="2rem"
+          w="100%"
+          h="750px"
+          marginLeft="2rem"
+          className="box"
+        >
           <Grid templateRows="0.4fr 1.5fr 0.5fr" gap={8}>
-            <Box
-              textAlign="center"
-              d="flex"
-              justifyContent="center"
-              w="90%"
-              alignItems="center"
-            >
-              <Text alignItems="center" fontSize="3xl" fontFamily="Poppins">
+            <Box w="100%">
+              <Text
+                className="text"
+                d="flex"
+                alignItems="center"
+                fontSize="3xl"
+                fontFamily="Poppins"
+                justifyContent="center"
+              >
                 História Teste
               </Text>
             </Box>
-            <Box
-              boxShadow=" 0px 0px 1px 0px rgba(0, 0, 0, 0.75)"
-              d="flex"
-              w="90%"
-              justifyContent="center"
-              alignItems="center"
-              h="400px"
-            >
+            <Box className="boxCard">
               {cards.map((card) => (
                 <Box key={card.id}>
                   <Box>
@@ -83,17 +88,23 @@ export default function CardRoom() {
                       }}
                     >
                       <Heading>{card.title}</Heading>
-                      <span className="numCardR">{card.title}</span>
                       <span className="numCardL">{card.title}</span>
+                      <span className="numCardR">{card.title}</span>
                     </Box>
                   </Box>
                 </Box>
               ))}
             </Box>
-            <Box h="200px" w="90%" justifyContent="center" alignItems="center">
+            <Box
+              h="200px"
+              w="100%"
+              justifyContent="center"
+              alignItems="center"
+              background="gray.100"
+            >
               <Tabs
                 className="tab"
-                size="lg"
+                size="md"
                 variant="line"
                 position="relative"
               >
@@ -114,36 +125,32 @@ export default function CardRoom() {
                       </EuiNotificationBadge>
                     </Box>
                   </Tab>
-                  <Tab>
-                    All Stories
-                    <Box marginLeft="10px">
-                      <EuiNotificationBadge color="subdued">
-                        0
-                      </EuiNotificationBadge>
-                    </Box>
-                  </Tab>
                   <Button
+                    className="btnTab"
                     variant="outline"
                     colorScheme="red"
                     leftIcon={<AddIcon />}
-                    className="btn"
+                    style={{
+                      position: "absolute",
+                      display: "flex",
+                      textAlign: "center",
+                      justifyContent: "center",
+                      right: 0,
+                      marginRight: "1rem",
+                      marginTop: "0.4rem",
+                    }}
                   >
-                    Add
-                  </Button>
-                  <Button
-                    variant="outline"
-                    colorScheme="red"
-                    leftIcon={<EditIcon />}
-                    className="btn"
-                    right="0"
-                  >
-                    Edit
+                    New
                   </Button>
                 </TabList>
 
                 <TabPanels>
                   <TabPanel>
-                    <Table variant="striped" colorScheme="red">
+                    <Table
+                      variant="striped"
+                      colorScheme="red"
+                      className="tableGrid"
+                    >
                       <Thead>
                         <Th></Th>
                         <Th isNumeric></Th>
@@ -171,13 +178,14 @@ export default function CardRoom() {
           marginTop="1rem"
           marginRight="1rem"
           h="750px"
-          boxShadow=" 0px 0px 1px 0px rgba(0, 0, 0, 0.75)"
+          border="1px solid #f2f2f2"
           w="550px"
           d="flex"
           justifyContent="center"
           alignItems="center"
           borderRadius="5px"
           position="relative"
+          className="gridTwo"
         >
           <Grid
             templateColumns="1fr"
@@ -185,6 +193,8 @@ export default function CardRoom() {
             w="100%"
             h="100%"
             gap={0}
+            background="gray.100"
+            borderRadius="5px"
           >
             <Box
               w="100%"
@@ -193,16 +203,16 @@ export default function CardRoom() {
               justifyContent="center"
               alignItems="center"
             >
-              <Box width="100%">
+              <Box width="100%" marginTop="2rem">
                 <Heading
-                  className="header"
+                  className="headerGrid"
                   color="white"
                   fontFamily="Poppins"
                   fontWeight="700"
                 >
                   Players
                 </Heading>
-                <Table size="lg">
+                <Table size="lg" className="tableGridTwo">
                   <Thead></Thead>
                   <Tbody>
                     <Tr>
@@ -257,29 +267,30 @@ export default function CardRoom() {
               </Box>
             </Box>
 
-            <Box w="100%" d="flex" justifyContent="center" alignItems="center">
-              <ButtonGroup
-                colorScheme="red"
-                variant="outline"
-                size="lg"
-                marginBottom="5rem"
-                d="flex"
-                spacing="30px"
-                justifyContent="center"
-                alignItems="center"
-                padding="10px"
-                minWidth="100%"
-              >
-                <Button>Reset Votes</Button>
-                <Button>Flip Cards</Button>
-              </ButtonGroup>
-            </Box>
+            <ButtonGroup
+              className="btnGroup"
+              colorScheme="red"
+              variant="outline"
+              size="lg"
+              marginBottom="1rem"
+              d="flex"
+              spacing="30px"
+              justifyContent="center"
+              alignItems="center"
+              padding="10px"
+              minWidth="100%"
+            >
+              <Button className="btnGrid">Reset Votes</Button>
+              <Button className="btnGrid">Flip Cards</Button>
+            </ButtonGroup>
+
             <Box
               w="100%"
               d="flex"
               justifyContent="center"
               alignItems="center"
               position="relative"
+              marginBottom="2rem"
             >
               <Accordion allowToggle w="100%">
                 <AccordionItem>

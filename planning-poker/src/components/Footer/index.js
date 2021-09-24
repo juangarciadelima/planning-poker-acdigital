@@ -27,7 +27,7 @@ export default function Footer() {
             alignItems="center"
           >
             <Text>© 2021 Juan Garcia de Lima. All rights reserved</Text>
-            <Stack direction="row" spacing={6}>
+            <Stack direction="row" spacing={6} className="links">
               <div className="iconBackground">
                 <FaGithub />
               </div>
