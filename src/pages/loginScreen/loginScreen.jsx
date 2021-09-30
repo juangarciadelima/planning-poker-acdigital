@@ -18,7 +18,7 @@ import { useHistory } from "react-router-dom";
 
 import "./loginScreen.css";
 
-import AcLogo from "../../Images/AC Digital.png";
+import AcLogo from "../../Images/Acdigital.png";
 export default function LoginScreen() {
   const history = useHistory();
   return (

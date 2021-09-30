@@ -18,9 +18,11 @@ code {
 
 html {
   background: #ffff !important;
-  font-family: "Poppins" !important;
+  font-family: "poppinsmedium" !important;
 }
 
 * {
-  font-family: "Poppins" !important;
+  font-family: "poppinsmedium" !important;
 }
+
+
