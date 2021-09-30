@@ -125,7 +125,7 @@ export default function CardRoom() {
             </Box>
             <Box className="boxCard" w="100%">
               {cards.map((card) => (
-                <Box key={card.id}>
+                <Box key={card.id} className="cardBox">
                   <Box
                     className="card"
                     onClick={() => {
@@ -232,7 +232,6 @@ export default function CardRoom() {
           justifyContent="center"
           alignItems="center"
           borderRadius="5px"
-          className="gridTwo"
           marginLeft="8rem"
         >
           <Grid
@@ -241,6 +240,7 @@ export default function CardRoom() {
             w="100%"
             gap={0}
             borderRadius="5px"
+            className="gridTwo"
           >
             <Box
               w="100%"
@@ -341,7 +341,6 @@ export default function CardRoom() {
               alignItems="center"
               padding="10px"
               minWidth="100%"
-              marginTop="3rem"
             >
               <Button className="btnGrid">Resetar Votação</Button>
               <Button className="btnGrid">Virar Cartas</Button>

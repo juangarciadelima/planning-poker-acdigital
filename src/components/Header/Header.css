@@ -1,4 +1,4 @@
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 736px) {
   .imgBox h2 img {
     float: left;
     margin: 0;
@@ -12,7 +12,8 @@
     justify-content: center;
   }
   .header {
-    width: 92.5vh !important;
+    min-width: 736px !important;
+    max-width: 736px;
   }
 
   .imgBox div {

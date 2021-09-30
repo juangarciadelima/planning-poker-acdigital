@@ -27,6 +27,7 @@ export default function Header() {
       borderBottomColor="#FF2E34"
       className="header"
       position="relative"
+      w="100%"
     >
       <Box ml="3rem" width="10%" height="10%" cursor="pointer">
         <img src={ACLogo} />
