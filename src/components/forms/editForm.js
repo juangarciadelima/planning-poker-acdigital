@@ -1,28 +1,11 @@
 import React from "react";
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  NumberInput,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  NumberInputField,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 export const editFormSample = (
   <form>
     <FormControl id="room-name " isRequired>
-      <FormLabel>Name of Room</FormLabel>
-      <Input placeholder="Name" />
-      <FormLabel>Size of Room</FormLabel>
-      <NumberInput placeholder="Size" max={5} min={1}>
-        <NumberInputField />
-        <NumberInputStepper>
-          <NumberIncrementStepper />
-          <NumberDecrementStepper />
-        </NumberInputStepper>
-      </NumberInput>
+      <FormLabel>Nome da Sala</FormLabel>
+      <Input placeholder="Nome" />
     </FormControl>
   </form>
 );

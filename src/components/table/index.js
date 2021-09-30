@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useHistory } from "react-router";
 import {
   Table,
   Thead,
@@ -12,8 +12,10 @@ import {
   Box,
   ButtonGroup,
   IconButton,
+  Button,
 } from "@chakra-ui/react";
 import { EditIcon, CloseIcon } from "@chakra-ui/icons";
+
 export default function TableComponent({
   array,
   deleteModal,
@@ -21,6 +23,7 @@ export default function TableComponent({
   funcDel,
   funcEdit,
 }) {
+  const history = useHistory();
   return (
     <Box
       w="100%"
@@ -39,13 +42,13 @@ export default function TableComponent({
         }}
         className="table"
       >
-        <TableCaption>Rooms</TableCaption>
+        <TableCaption>Salas</TableCaption>
         <Thead>
           <Tr className="headerTableColor">
-            <Th>Name</Th>
-            <Th>Created by</Th>
-            <Th>Size</Th>
-            <Th isNumeric>Actions</Th>
+            <Th>Nome</Th>
+            <Th>Criada por</Th>
+            <Th>Sala</Th>
+            <Th isNumeric>Ações</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -53,7 +56,17 @@ export default function TableComponent({
             <Tr key={room.id}>
               <Td>{room.name}</Td>
               <Td>{room.createdBy}</Td>
-              <Td>{room.size}</Td>
+              <Td>
+                <Button
+                  colorScheme="red"
+                  onClick={() => {
+                    console.log(room.name);
+                    history.push("/room");
+                  }}
+                >
+                  Entrar na Sala
+                </Button>
+              </Td>
               <Td isNumeric>
                 <ButtonGroup spacing="3">
                   <IconButton
@@ -79,9 +92,10 @@ export default function TableComponent({
         </Tbody>
         <Tfoot>
           <Tr>
-            <Th>Name</Th>
-            <Th>Created by</Th>
-            <Th>Size</Th>
+            <Th>Nome</Th>
+            <Th>Criada por</Th>
+            <Th>Tamanho</Th>
+            <Th isNumeric>Ações</Th>
           </Tr>
         </Tfoot>
       </Table>

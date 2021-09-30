@@ -14,6 +14,7 @@
   padding: 0.5rem;
   border-radius: 50%;
   transition: 0.5s ease;
+  margin-right: 1rem;
 }
 
 .iconBackground:hover {
@@ -24,11 +25,19 @@
   .footer div div div {
     display: flex;
     flex-direction: column !important;
+    align-items: center;
   }
 
-  .footer .links {
-    display: flex;
-    flex-direction: row !important;
+  .footer {
+    width: 90%;
+  }
+
+  .footer div p {
+    text-align: center;
+  }
+
+  .footer .links a {
+    text-align: center;
     margin-top: 2rem;
   }
 }

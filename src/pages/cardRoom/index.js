@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./cardRoom.css";
 
 //ANCHOR
@@ -32,27 +32,71 @@ import {
   Td,
   Thead,
   Th,
+  Flex,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 
 import { AddIcon, EditIcon, CloseIcon } from "@chakra-ui/icons";
 
-import { EuiNotificationBadge } from "@elastic/eui";
+import { toast, ToastContainer } from "react-toastify";
+import { useHistory } from "react-router-dom";
+
+import { EuiNotificationBadge, EuiAccordion, EuiPanel } from "@elastic/eui";
 
 import { cards } from "./cards";
+import FormSample from "../../components/forms/formSample";
 
 export default function CardRoom() {
+  const [isStoryModalVisible, setStoryModal] = useState(false);
+
+  const buttonContent = (
+    <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
+      Convide os seus colegas
+    </Heading>
+  );
+
+  const closeStoryModal = () => setStoryModal(false);
+  const showStoryModal = () => setStoryModal(true);
   const clickMe = (num) => {
     console.log(`You clicked the card of number ${num}`);
   };
+
+  function toastStory() {
+    closeStoryModal();
+
+    toast("História criada");
+  }
 
   const clickSvg = () => {
     alert("Quer deletar mesmo a história?");
   };
 
+  let storyModal;
+
+  if (isStoryModalVisible) {
+    storyModal = (
+      <FormSample
+        onClose={closeStoryModal}
+        modalHeader="Criar a História"
+        modalBody={
+          <FormControl id="room-name " isRequired>
+            <FormLabel>Nome da História</FormLabel>
+            <Input placeholder="Nome da História" />
+          </FormControl>
+        }
+        onClick={closeStoryModal}
+        onClickBtn={toastStory}
+        lBtnText="Sair"
+        rBtnText="Criar"
+      />
+    );
+  }
+
   return (
     <div className="grid">
       <Grid
-        marginLeft="1rem"
+        marginRight="5rem"
         templateColumns="1.75fr 1fr"
         gap={2}
         className="gridCustom"
@@ -61,10 +105,12 @@ export default function CardRoom() {
           marginTop="2rem"
           w="100%"
           h="750px"
-          marginLeft="2rem"
           className="box"
+          marginRight="2rem"
+          d="flex"
+          justifyContent="center"
         >
-          <Grid templateRows="0.4fr 1.5fr 0.5fr" gap={8}>
+          <Grid templateRows="0.4fr 1.5fr 0.5fr" gap={8} className="gridOne">
             <Box w="100%">
               <Text
                 className="text"
@@ -77,20 +123,18 @@ export default function CardRoom() {
                 História Teste
               </Text>
             </Box>
-            <Box className="boxCard">
+            <Box className="boxCard" w="100%">
               {cards.map((card) => (
                 <Box key={card.id}>
-                  <Box>
-                    <Box
-                      className="card"
-                      onClick={() => {
-                        clickMe(card.title);
-                      }}
-                    >
-                      <Heading>{card.title}</Heading>
-                      <span className="numCardL">{card.title}</span>
-                      <span className="numCardR">{card.title}</span>
-                    </Box>
+                  <Box
+                    className="card"
+                    onClick={() => {
+                      clickMe(card.title);
+                    }}
+                  >
+                    <Heading>{card.title}</Heading>
+                    <span className="numCardL">{card.title}</span>
+                    <span className="numCardR">{card.title}</span>
                   </Box>
                 </Box>
               ))}
@@ -101,16 +145,20 @@ export default function CardRoom() {
               justifyContent="center"
               alignItems="center"
               background="gray.100"
+              marginBottom="3rem"
+              className="tabBox"
             >
               <Tabs
                 className="tab"
                 size="md"
                 variant="line"
                 position="relative"
+                width="1000px"
               >
+                {storyModal}
                 <TabList>
                   <Tab>
-                    Active Stories
+                    Histórias ativas
                     <Box marginLeft="10px">
                       <EuiNotificationBadge className="tabBadge">
                         1
@@ -118,13 +166,14 @@ export default function CardRoom() {
                     </Box>
                   </Tab>
                   <Tab>
-                    Completed Stories
+                    Histórias completadas
                     <Box marginLeft="10px">
                       <EuiNotificationBadge color="subdued">
                         0
                       </EuiNotificationBadge>
                     </Box>
                   </Tab>
+
                   <Button
                     className="btnTab"
                     variant="outline"
@@ -139,9 +188,11 @@ export default function CardRoom() {
                       marginRight: "1rem",
                       marginTop: "0.4rem",
                     }}
+                    onClick={showStoryModal}
                   >
-                    New
+                    Nova
                   </Button>
+                  <ToastContainer />
                 </TabList>
 
                 <TabPanels>
@@ -157,7 +208,7 @@ export default function CardRoom() {
                       </Thead>
                       <Tbody>
                         <Tr>
-                          <Td>Name of History</Td>
+                          <Td>Nome da história</Td>
                           <Td isNumeric>
                             <i onClick={clickSvg}>
                               <CloseIcon />
@@ -176,94 +227,105 @@ export default function CardRoom() {
         </Box>
         <Box
           marginTop="1rem"
-          marginRight="1rem"
-          h="750px"
-          border="1px solid #f2f2f2"
-          w="550px"
+          w="500px"
           d="flex"
           justifyContent="center"
           alignItems="center"
           borderRadius="5px"
-          position="relative"
           className="gridTwo"
+          marginLeft="8rem"
         >
           <Grid
             templateColumns="1fr"
-            templateRows=" 1fr 1fr 0.5fr"
+            templateRows=" 1fr 1fr 1fr"
             w="100%"
-            h="100%"
             gap={0}
-            background="gray.100"
             borderRadius="5px"
           >
             <Box
               w="100%"
               d="flex"
-              position="relative"
               justifyContent="center"
               alignItems="center"
+              h="200px"
             >
               <Box width="100%" marginTop="2rem">
                 <Heading
+                  top="0"
                   className="headerGrid"
                   color="white"
                   fontFamily="Poppins"
                   fontWeight="700"
                 >
-                  Players
+                  Jogadores
                 </Heading>
-                <Table size="lg" className="tableGridTwo">
-                  <Thead></Thead>
-                  <Tbody>
-                    <Tr>
-                      <Td>
-                        <cite>
-                          <Avatar
-                            name="Dan Abrahmov"
-                            size="lg"
-                            src="https://bit.ly/dan-abramov"
-                          />
-                          <Text
-                            fontSize="md"
-                            fontFamily="Poppins"
-                            fontWeight="700"
-                          >
-                            Dan Abrahmov
-                          </Text>
-                        </cite>
-                      </Td>
-                      <Td></Td>
-                    </Tr>
-                    <Tr>
-                      <Td>
-                        <cite>
-                          <Avatar
-                            size="lg"
-                            name="Dan Abrahmov"
-                            src="https://bit.ly/dan-abramov"
-                          />
 
-                          <Text
-                            fontSize="md"
-                            fontFamily="Poppins"
-                            fontWeight="700"
-                          >
-                            Dan Abrahmov
-                          </Text>
-                        </cite>
-                      </Td>
-                      <Td isNumeric>
+                <Flex
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  className="playerBox"
+                >
+                  <ul
+                    style={{
+                      marginTop: "3rem",
+                    }}
+                  >
+                    <li>
+                      <cite>
+                        <Avatar
+                          name="Dan Abrahmov"
+                          size="lg"
+                          src="https://bit.ly/dan-abramov"
+                          marginLeft="1rem"
+                        />
                         <Text
-                          fontSize="3xl"
+                          fontSize="md"
                           fontFamily="Poppins"
-                          fontWeight="light"
+                          fontWeight="700"
+                          ml="0.5rem"
+                        >
+                          Dan Abrahmov
+                        </Text>
+                        <Text
+                          right="0"
+                          fontWeight="700"
+                          fontSize="3xl"
+                          position="absolute"
+                          mr="2rem"
                         >
                           3
                         </Text>
-                      </Td>
-                    </Tr>
-                  </Tbody>
-                </Table>
+                      </cite>
+                    </li>
+                    <li>
+                      <cite>
+                        <Avatar
+                          name="Dan Abrahmov"
+                          size="lg"
+                          src="https://bit.ly/dan-abramov"
+                          marginLeft="1rem"
+                        />
+                        <Text
+                          fontSize="md"
+                          fontFamily="Poppins"
+                          fontWeight="700"
+                          ml="0.5rem"
+                        >
+                          Dan Abrahmov
+                        </Text>
+                        <Text
+                          right="0"
+                          fontWeight="700"
+                          fontSize="3xl"
+                          position="absolute"
+                          mr="2rem"
+                        >
+                          3
+                        </Text>
+                      </cite>
+                    </li>
+                  </ul>
+                </Flex>
               </Box>
             </Box>
 
@@ -279,9 +341,10 @@ export default function CardRoom() {
               alignItems="center"
               padding="10px"
               minWidth="100%"
+              marginTop="3rem"
             >
-              <Button className="btnGrid">Reset Votes</Button>
-              <Button className="btnGrid">Flip Cards</Button>
+              <Button className="btnGrid">Resetar Votação</Button>
+              <Button className="btnGrid">Virar Cartas</Button>
             </ButtonGroup>
 
             <Box
@@ -290,49 +353,27 @@ export default function CardRoom() {
               justifyContent="center"
               alignItems="center"
               position="relative"
-              marginBottom="2rem"
+              className="boxAccordion"
             >
-              <Accordion allowToggle w="100%">
-                <AccordionItem>
-                  <AccordionButton>
-                    <Box flex="1" textAlign="left">
-                      <Heading
-                        fontSize="2xl"
-                        fontFamily="Poppins"
-                        fontWeight="light"
-                      >
-                        Convide os seus colegas
-                      </Heading>
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                  <AccordionPanel pb={4}>
-                    <Box>
-                      <Box marginBottom="10px" marginTop="10px">
-                        <Input value="https://github.com/juangarciadelima" />
-                      </Box>
-                      <Box>
-                        <span
-                          style={{
-                            textAlign: "center",
-                            fontFamily: "Poppins",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            color: "#808284",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          Ou envie um e-mail
-                        </span>
-                        <Textarea
-                          marginTop="1rem"
-                          placeholder="Insira o e-mail para enviarmos o convite"
-                        />
-                      </Box>
-                    </Box>
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
+              <EuiAccordion
+                id="accordion1"
+                buttonContent={buttonContent}
+                arrowDisplay="right"
+              >
+                <EuiPanel color="none">
+                  <Box
+                    marginBottom="10px"
+                    marginTop="10px"
+                    background="transparent"
+                    className="boxInput"
+                  >
+                    <Input
+                      placeholder="https://github.com/juangarciadelima"
+                      w="300px"
+                    />
+                  </Box>
+                </EuiPanel>
+              </EuiAccordion>
             </Box>
           </Grid>
         </Box>

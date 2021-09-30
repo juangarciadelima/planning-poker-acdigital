@@ -1,11 +1,3 @@
-.imgBox h2 img {
-  box-sizing: 5rem;
-  margin-left: 2rem;
-  object-fit: cover;
-  width: 5rem;
-  height: rem;
-}
-
 @media screen and (max-width: 768px) {
   .imgBox h2 img {
     float: left;
@@ -20,12 +12,20 @@
     justify-content: center;
   }
   .header {
-    width: 75vh !important;
+    width: 92.5vh !important;
   }
 
   .imgBox div {
     float: right;
     margin: 0;
-    margin-left: 10rem;
+  }
+
+  .imgBox p {
+    inline-size: 150px;
+    overflow-wrap: break-word;
+  }
+
+  .imgBox p strong {
+    margin-left: 1rem;
   }
 }

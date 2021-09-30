@@ -22,3 +22,12 @@
   font-family: "Poppins";
   text-transform: uppercase;
 }
+
+.cancelText div button[data-test-subj="confirmModalCancelButton"] span span {
+  color: #bd271e;
+}
+
+.cancelText div button[data-test-subj="confirmModalCancelButton"] :hover {
+  text-decoration: underline;
+  text-decoration-color: #bd271e;
+}

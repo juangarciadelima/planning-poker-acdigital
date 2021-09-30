@@ -61,12 +61,12 @@ export default function TableTop() {
     editModal = (
       <FormSample
         onClose={closeEditModal}
-        modalHeader="Edit the Room"
+        modalHeader="Editar a Sala"
         modalBody={editFormSample}
         onClick={closeEditModal}
         onClickBtn={handleEditClick}
-        lBtnText="Exit"
-        rBtnText="Edit"
+        lBtnText="Sair"
+        rBtnText="Editar"
       />
     );
   }
@@ -74,11 +74,12 @@ export default function TableTop() {
   if (isDeleteModalVisible) {
     deleteModal = (
       <EuiConfirmModal
-        title="Delete Room"
+        title="Deletar a Sala"
         onCancel={closeDeleteModal}
         onConfirm={handleDeleteClick}
-        cancelButtonText="No"
-        confirmButtonText="Yes"
+        cancelButtonText="Sair"
+        className="cancelText"
+        confirmButtonText="Deletar"
         buttonColor="danger"
         defaultFocusedButton="confirm"
       >
@@ -91,17 +92,17 @@ export default function TableTop() {
     modal = (
       <FormSample
         onClose={closeModal}
-        modalHeader="Create your Room"
+        modalHeader="Criar a Sala"
         modalBody={
           <FormControl id="room-name " isRequired>
-            <FormLabel>Name of Room</FormLabel>
-            <Input placeholder="Name" />
+            <FormLabel>Nome da Sala</FormLabel>
+            <Input placeholder="Nome da Sala" />
           </FormControl>
         }
         onClick={closeModal}
         onClickBtn={handleClick}
-        lBtnText="Cancel"
-        rBtnText="Create"
+        lBtnText="Cancelar"
+        rBtnText="Criar"
       />
     );
   }
@@ -125,7 +126,7 @@ export default function TableTop() {
           }}
           onClick={showModal}
         >
-          Create Room
+          Criar Sala
         </Button>
         {modal}
         <ToastContainer
@@ -136,6 +137,7 @@ export default function TableTop() {
       </div>
       <TableComponent
         array={roomInformations}
+        props={roomInformations}
         deleteModal={deleteModal}
         editModal={editModal}
         funcDel={showDeleteModal}

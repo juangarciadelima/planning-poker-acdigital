@@ -19,26 +19,24 @@ export default function Footer() {
         >
           <Container
             as={Stack}
-            maxW="6xl"
+            maxW="3xl"
             py={4}
             direction="row"
             spacing={4}
             justifyContent="space-between"
             alignItems="center"
           >
-            <Text>© 2021 Juan Garcia de Lima. All rights reserved</Text>
+            <Text>
+              © 2021 Juan Garcia de Lima. Todos os direitos reservados
+            </Text>
             <Stack direction="row" spacing={6} className="links">
-              <div className="iconBackground">
+              <a
+                target="blank"
+                className="iconBackground"
+                href="https://github.com/juangarciadelima/plan-it-poker"
+              >
                 <FaGithub />
-              </div>
-
-              <div className="iconBackground">
-                <FaLinkedin />
-              </div>
-
-              <div className="iconBackground">
-                <FaInstagram />
-              </div>
+              </a>
             </Stack>
           </Container>
         </Box>
