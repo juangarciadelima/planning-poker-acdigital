@@ -1,3 +1,23 @@
+.imgBox {
+  cursor: pointer;
+}
+
+.imgBox button span {
+  font-family: "Poppins";
+  font-weight: 500;
+}
+
+.imgBox button:hover {
+  background: var(--chakra-colors-red-100) !important;
+}
+.imgBox button:active {
+  background: var(--chakra-colors-red-100) !important;
+}
+
+.imgBox button[data-active] {
+  background: var(--chakra-colors-red-100) !important;
+}
+
 @media screen and (max-width: 736px) {
   .imgBox h2 img {
     float: left;

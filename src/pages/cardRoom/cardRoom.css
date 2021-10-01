@@ -10,6 +10,7 @@
   position: relative;
 
   margin-bottom: 5rem;
+  box-shadow: 0px 21px 80px rgba(0, 0, 0, 0.05);
 }
 .tab div[role="tablist"] {
   border: 0;
@@ -98,11 +99,12 @@ cite {
   align-items: center;
   font-style: normal;
   padding: 15px;
+  width: 100%;
 }
 
 li {
-  border-bottom: 1px solid #f5f5f5 !important;
-  width: 500px;
+  border-bottom: 1px solid #dcdcdc !important;
+  width: 100%;
 }
 
 cite p {
@@ -258,14 +260,59 @@ cite span {
   height: 400px;
 }
 
+.cardSelected {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-family: "Oswald", sans-serif;
+  border: 1px white solid;
+  background-color: #e84a4a;
+  align-items: center;
+  color: white;
+  border-radius: 10px;
+  margin: 15px;
+  flex-wrap: wrap;
+  padding: 0;
+  width: 75px;
+  height: 125px;
+  text-align: center;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
 .text {
   text-align: center;
 }
 
 .boxAccordion .boxInput input {
   border-color: #e84a4a;
+  width: 100%;
+  text-align: center;
 }
 
 .boxAccordion span svg {
   color: #e84a4a;
+}
+
+.tabBox {
+  padding: 5px;
+  box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.02);
+}
+
+.playerBox {
+  margin-top: 2rem;
+  padding: 10px;
+}
+
+.playerBox ul {
+  width: 100%;
+  margin-top: 3rem;
+}
+
+.accordion {
+  width: 90%;
+}
+
+.btnGroup {
+  margin-top: 9rem;
 }

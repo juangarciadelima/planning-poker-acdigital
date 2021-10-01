@@ -49,12 +49,17 @@ import FormSample from "../../components/forms/formSample";
 
 export default function CardRoom() {
   const [isStoryModalVisible, setStoryModal] = useState(false);
+  const [selected, setSelected] = useState("card");
 
   const buttonContent = (
     <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
       Convide os seus colegas
     </Heading>
   );
+
+  const changeCardStyle = (card) => {
+    setSelected("cardSelected");
+  };
 
   const closeStoryModal = () => setStoryModal(false);
   const showStoryModal = () => setStoryModal(true);
@@ -116,7 +121,7 @@ export default function CardRoom() {
                 className="text"
                 d="flex"
                 alignItems="center"
-                fontSize="3xl"
+                fontSize="4xl"
                 fontFamily="Poppins"
                 justifyContent="center"
               >
@@ -127,7 +132,7 @@ export default function CardRoom() {
               {cards.map((card) => (
                 <Box key={card.id} className="cardBox">
                   <Box
-                    className="card"
+                    className={selected}
                     onClick={() => {
                       clickMe(card.title);
                     }}
@@ -144,7 +149,6 @@ export default function CardRoom() {
               w="100%"
               justifyContent="center"
               alignItems="center"
-              background="gray.100"
               marginBottom="3rem"
               className="tabBox"
             >
@@ -231,7 +235,7 @@ export default function CardRoom() {
           d="flex"
           justifyContent="center"
           alignItems="center"
-          borderRadius="5px"
+          borderRadius="3px"
           marginLeft="8rem"
         >
           <Grid
@@ -336,7 +340,7 @@ export default function CardRoom() {
               size="lg"
               marginBottom="1rem"
               d="flex"
-              spacing="30px"
+              spacing="6rem"
               justifyContent="center"
               alignItems="center"
               padding="10px"
@@ -351,10 +355,10 @@ export default function CardRoom() {
               d="flex"
               justifyContent="center"
               alignItems="center"
-              position="relative"
               className="boxAccordion"
             >
               <EuiAccordion
+                className="accordion"
                 id="accordion1"
                 buttonContent={buttonContent}
                 arrowDisplay="right"

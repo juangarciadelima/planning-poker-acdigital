@@ -6,6 +6,11 @@ import {
   Image,
   Avatar,
   Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
 } from "@chakra-ui/react";
 import React from "react";
 import "./Header.css";
@@ -36,9 +41,27 @@ export default function Header() {
       <Spacer />
       <Spacer />
       <Box d="flex" mr="7rem" className="imgBox">
-        <Text fontSize="lg" fontWeight="500" fontFamily="Poppins">
-          Seja bem Vindo, <strong>Juan Garcia</strong>
-        </Text>
+        <Menu>
+          <MenuButton as={Button}>
+            Seja Bem Vindo, <strong>Juan Garcia</strong>
+          </MenuButton>
+          <MenuList>
+            <MenuItem
+              onClick={() => {
+                history.push("/");
+              }}
+            >
+              Deslogar
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                history.push("/home");
+              }}
+            >
+              Voltar para Salas
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </Box>
     </Flex>
   );
