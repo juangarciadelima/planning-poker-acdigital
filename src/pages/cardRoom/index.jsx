@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./cardRoom.css";
 
-//ANCHOR
 //TODO Refactor Code
-//FIXME Componentize the code
 
+// ANCHOR Use more than one UseEffect
 //
 import {
   Grid,
@@ -19,12 +18,6 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Textarea,
   Input,
   Table,
   Tbody,
@@ -37,19 +30,33 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 
-import { AddIcon, EditIcon, CloseIcon } from "@chakra-ui/icons";
+import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 
 import { toast, ToastContainer } from "react-toastify";
-import { useHistory } from "react-router-dom";
 
 import { EuiNotificationBadge, EuiAccordion, EuiPanel } from "@elastic/eui";
 
-import { cards } from "./cards";
 import FormSample from "../../components/forms/formSample";
+import { enterRoom } from "../../services/rooms";
+import {
+  getOpenHistory,
+  getClosedHistory,
+  createHistory,
+} from "../../services/histories";
 
 export default function CardRoom() {
   const [isStoryModalVisible, setStoryModal] = useState(false);
-  const [selected, setSelected] = useState("card");
+  const [room, setRoom] = useState(JSON.parse(localStorage.getItem("room")));
+  const [historias, setHistorias] = useState([]);
+  //ANCHOR Pedir Ajuda pro Oliveira em três pontos : Há a possibilidade de criar essa estrutura de dados :
+  // {historiasAtivas : [],
+  //  historiasFechadas : [],} & como trocar automaticamente o dado de se está logado ou não quando entrar na sala(Inserido no Header)
+  //Perguntar o que ele acha de definir requisições só feitas com a presença do usuário estar autenticado, assim, evitando que ajam renderizações desnecessárias
+  //Mais uma coisa(Hehe) -> Comentar sobre como funcionará a lógica de votações
+  useEffect(async () => {
+    const res = await getOpenHistory();
+    setHistorias(res);
+  }, []);
 
   const buttonContent = (
     <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
@@ -57,21 +64,21 @@ export default function CardRoom() {
     </Heading>
   );
 
-  const changeCardStyle = (card) => {
-    setSelected("cardSelected");
-  };
-
   const closeStoryModal = () => setStoryModal(false);
   const showStoryModal = () => setStoryModal(true);
   const clickMe = (num) => {
     console.log(`You clicked the card of number ${num}`);
   };
 
-  function toastStory() {
+  async function toastStory() {
     closeStoryModal();
 
     toast("História criada");
   }
+
+  const handleChange = (e) => {
+    setHistoria(e.target.value);
+  };
 
   const clickSvg = () => {
     alert("Quer deletar mesmo a história?");
@@ -87,7 +94,7 @@ export default function CardRoom() {
         modalBody={
           <FormControl id="room-name " isRequired>
             <FormLabel>Nome da História</FormLabel>
-            <Input placeholder="Nome da História" />
+            <Input placeholder="Nome da História" onChange={handleChange} />
           </FormControl>
         }
         onClick={closeStoryModal}
@@ -125,24 +132,25 @@ export default function CardRoom() {
                 fontFamily="Poppins"
                 justifyContent="center"
               >
-                História Teste
+                {historias.length > 0 ? (
+                  historias[0].nome
+                ) : (
+                  <Text>Loading...</Text>
+                )}
               </Text>
             </Box>
             <Box className="boxCard" w="100%">
-              {cards.map((card) => (
-                <Box key={card.id} className="cardBox">
-                  <Box
-                    className={selected}
-                    onClick={() => {
-                      clickMe(card.title);
-                    }}
-                  >
-                    <Heading>{card.title}</Heading>
-                    <span className="numCardL">{card.title}</span>
-                    <span className="numCardR">{card.title}</span>
-                  </Box>
-                </Box>
-              ))}
+              {room.metodologias
+                ? room.metodologias.cartas.map((card) => (
+                    <Box key={card.id} className="cardBox">
+                      <Box className="card">
+                        <Heading>{card.valor}</Heading>
+                        <span className="numCardL">{card.valor}</span>
+                        <span className="numCardR">{card.valor}</span>
+                      </Box>
+                    </Box>
+                  ))
+                : "Não foi possível encontrar as cartas"}
             </Box>
             <Box
               h="200px"
@@ -162,17 +170,17 @@ export default function CardRoom() {
                 {storyModal}
                 <TabList>
                   <Tab>
-                    Histórias ativas
+                    Histórias Abertas
                     <Box marginLeft="10px">
                       <EuiNotificationBadge className="tabBadge">
-                        1
+                        {historias.length}
                       </EuiNotificationBadge>
                     </Box>
                   </Tab>
                   <Tab>
-                    Histórias completadas
+                    Histórias Fechadas
                     <Box marginLeft="10px">
-                      <EuiNotificationBadge color="subdued">
+                      <EuiNotificationBadge className="tabBadge">
                         0
                       </EuiNotificationBadge>
                     </Box>
@@ -192,7 +200,9 @@ export default function CardRoom() {
                       marginRight: "1rem",
                       marginTop: "0.4rem",
                     }}
-                    onClick={showStoryModal}
+                    onClick={() => {
+                      showStoryModal();
+                    }}
                   >
                     Nova
                   </Button>
@@ -211,14 +221,16 @@ export default function CardRoom() {
                         <Th isNumeric></Th>
                       </Thead>
                       <Tbody>
-                        <Tr>
-                          <Td>Nome da história</Td>
-                          <Td isNumeric>
-                            <i onClick={clickSvg}>
-                              <CloseIcon />
-                            </i>
-                          </Td>
-                        </Tr>
+                        {historias.map((history) => (
+                          <Tr>
+                            <Td>{history.nome}</Td>
+                            <Td isNumeric>
+                              <i onClick={clickSvg}>
+                                <CloseIcon />
+                              </i>
+                            </Td>
+                          </Tr>
+                        ))}
                       </Tbody>
                     </Table>
                   </TabPanel>

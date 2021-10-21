@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { editFormSample } from "../../components/forms/editForm";
 import { Button } from "@chakra-ui/react";
 import FormSample from "../../components/forms/formSample.js";
@@ -10,16 +11,17 @@ import "./home.css";
 import { ToastContainer, toast } from "react-toastify";
 import TableComponent from "../../components/table/";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { useRoomsContext } from "../../contexts";
 
 export default function TableTop() {
-  const roomInformations = [
-    {
-      name: "Sala Teste 1",
-      size: 5,
-      createdBy: "Juan Garcia de Lima",
-    },
-  ];
+  const history = useHistory();
+  const { user } = useRoomsContext();
 
+  useEffect(() => {
+    if (!user.nome) {
+      history.push("/");
+    }
+  }, []);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const closeModal = () => setIsModalVisible(false);
@@ -136,8 +138,6 @@ export default function TableTop() {
         />
       </div>
       <TableComponent
-        array={roomInformations}
-        props={roomInformations}
         deleteModal={deleteModal}
         editModal={editModal}
         funcDel={showDeleteModal}

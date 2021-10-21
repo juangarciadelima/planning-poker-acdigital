@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -13,13 +13,37 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
-
+import { login } from "../../services/auth/login";
 import { useHistory } from "react-router-dom";
-
+import { useRoomsContext } from "../../contexts";
 import "./loginScreen.css";
 
-import AcLogo from "../../Images/Acdigital.png";
 export default function LoginScreen() {
+  const [usuario, setUsuario] = useState({ nome: "", email: "" });
+  const { user, setUser } = useRoomsContext();
+
+  async function signIn() {
+    const response = await login(user);
+
+    setUser(response);
+
+    history.push("/home");
+  }
+
+  function handleChangeNome(e) {
+    setUsuario((oldUser) => {
+      oldUser.nome = e.target.value;
+      return { ...oldUser };
+    });
+  }
+
+  console.log(usuario);
+  function handleChangeEmail(e) {
+    setUsuario((oldUser) => {
+      oldUser.email = e.target.value;
+      return { ...oldUser };
+    });
+  }
   const history = useHistory();
   return (
     <Flex alignItems="center" justify="center" minH="90vh" marginBottom="3rem">
@@ -29,13 +53,23 @@ export default function LoginScreen() {
         </Stack>
         <Box rounded="lg" bg="gray.200" boxShadow="lg" p={8}>
           <Stack spacing={4}>
-            <FormControl id="nome">
+            <FormControl id="nome" onSubmit={(e) => e.preventDefault()}>
               <FormLabel>Nome</FormLabel>
-              <Input type="name" placeholder="Nome" size="lg" />
+              <Input
+                type="name"
+                placeholder="Nome"
+                size="lg"
+                onChange={handleChangeNome}
+              />
             </FormControl>
             <FormControl id="email">
               <FormLabel>Email</FormLabel>
-              <Input type="email" placeholder="Email" size="lg" />
+              <Input
+                type="email"
+                placeholder="Email"
+                size="lg"
+                onChange={handleChangeEmail}
+              />
             </FormControl>
             <Stack spacing={10}>
               <Button
@@ -45,7 +79,7 @@ export default function LoginScreen() {
                 _hover={{
                   bg: "red.500",
                 }}
-                onClick={() => history.push("/home")}
+                onClick={() => signIn()}
               >
                 Logar
               </Button>
@@ -56,3 +90,5 @@ export default function LoginScreen() {
     </Flex>
   );
 }
+
+// ANCHOR Trocar uma ideia sobre como funcionará para saber se o usuário acertou o seu login, ou não

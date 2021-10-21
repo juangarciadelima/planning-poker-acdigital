@@ -15,6 +15,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { EditIcon, CloseIcon } from "@chakra-ui/icons";
+import { useRoomsContext } from "../../contexts";
+import { enterRoom } from "../../services/rooms";
 
 export default function TableComponent({
   array,
@@ -23,7 +25,15 @@ export default function TableComponent({
   funcDel,
   funcEdit,
 }) {
+  const { rooms, room, setRoom } = useRoomsContext();
+
   const history = useHistory();
+  async function enterCardRoom(id) {
+    const res = await enterRoom(id);
+    setRoom(res);
+    console.log(room);
+    history.push("/room");
+  }
   return (
     <Box
       w="100%"
@@ -52,16 +62,15 @@ export default function TableComponent({
           </Tr>
         </Thead>
         <Tbody>
-          {array.map((room) => (
+          {rooms.map((room) => (
             <Tr key={room.id}>
-              <Td>{room.name}</Td>
-              <Td>{room.createdBy}</Td>
+              <Td>{room.nome}</Td>
+              <Td>{room.administrador.nome}</Td>
               <Td>
                 <Button
                   colorScheme="red"
                   onClick={() => {
-                    console.log(room.name);
-                    history.push("/room");
+                    enterCardRoom(room.id);
                   }}
                 >
                   Entrar na Sala

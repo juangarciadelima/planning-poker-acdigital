@@ -12,13 +12,18 @@ import {
   MenuItem,
   Button,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Header.css";
+import { logout } from "../../services/auth/login";
 import ACLogo from "../../Images/ACLogo.png";
 import { useHistory } from "react-router-dom";
+import { useRoomsContext } from "../../contexts";
 
 export default function Header() {
+  const { user, setUser } = useRoomsContext();
   const history = useHistory();
+
+  //Condicional se estiver no contexto -> Tal ação (a se decidir) -> Senão, outra ação
 
   return (
     <Flex
@@ -40,29 +45,45 @@ export default function Header() {
 
       <Spacer />
       <Spacer />
-      <Box d="flex" mr="7rem" className="imgBox">
-        <Menu>
-          <MenuButton as={Button}>
-            Seja Bem Vindo, <strong>Juan Garcia</strong>
-          </MenuButton>
-          <MenuList>
-            <MenuItem
-              onClick={() => {
-                history.push("/");
-              }}
-            >
-              Deslogar
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                history.push("/home");
-              }}
-            >
-              Voltar para Salas
-            </MenuItem>
-          </MenuList>
-        </Menu>
-      </Box>
+      {user && user.nome ? (
+        <Box d="flex" mr="7rem" className="imgBox">
+          <Menu>
+            <MenuButton as={Button}>
+              <div>
+                Seja Bem Vindo
+                <strong>,{user.nome}</strong>
+              </div>
+            </MenuButton>
+            <MenuList>
+              <MenuItem
+                onClick={() => {
+                  logout(setUser);
+                  history.push("/");
+                }}
+              >
+                Deslogar
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  history.push("/home");
+                  console.log(user.nome);
+                }}
+              >
+                Voltar para Salas
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
+      ) : (
+        <Button
+          fontWeight="700"
+          onClick={() => {
+            history.push("/");
+          }}
+        >
+          Faça seu Login
+        </Button>
+      )}
     </Flex>
   );
 }
