@@ -25,13 +25,13 @@ export default function TableComponent({
   funcDel,
   funcEdit,
 }) {
-  const { rooms, room, setRoom } = useRoomsContext();
+  const { salas, sala, setSala } = useRoomsContext();
 
   const history = useHistory();
   async function enterCardRoom(id) {
     const res = await enterRoom(id);
-    setRoom(res);
-    console.log(room);
+    setSala(res);
+    console.log(sala);
     history.push("/room");
   }
   return (
@@ -62,15 +62,15 @@ export default function TableComponent({
           </Tr>
         </Thead>
         <Tbody>
-          {rooms.map((room) => (
-            <Tr key={room.id}>
-              <Td>{room.nome}</Td>
-              <Td>{room.administrador.nome}</Td>
+          {salas.map((sala) => (
+            <Tr key={sala.id}>
+              <Td>{sala.nome}</Td>
+              <Td>{sala.administrador.nome}</Td>
               <Td>
                 <Button
                   colorScheme="red"
                   onClick={() => {
-                    enterCardRoom(room.id);
+                    enterCardRoom(sala.id);
                   }}
                 >
                   Entrar na Sala

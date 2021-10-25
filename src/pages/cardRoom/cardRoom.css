@@ -140,8 +140,8 @@ cite span {
   font-family: "Poppins", sans-serif;
 }
 
-.tabBadge {
-  background: #e0e5ee;
+.tabBadge svg {
+  background: red !important;
 }
 
 @media screen and (max-width: 736px) {

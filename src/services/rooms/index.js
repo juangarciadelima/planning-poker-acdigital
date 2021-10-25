@@ -13,5 +13,5 @@ export async function enterRoom() {
     "/api/sala/?id=16ece314-9ee1-4c88-96e5-c696c9a346dd"
   );
   localStorage.setItem("room", JSON.stringify(res.data));
-  return res;
+  return res.data;
 }

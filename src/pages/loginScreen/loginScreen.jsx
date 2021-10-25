@@ -19,19 +19,19 @@ import { useRoomsContext } from "../../contexts";
 import "./loginScreen.css";
 
 export default function LoginScreen() {
-  const [usuario, setUsuario] = useState({ nome: "", email: "" });
-  const { user, setUser } = useRoomsContext();
+  const [user, setUser] = useState({ nome: "", email: "" });
+  const { usuario, setUsuario } = useRoomsContext();
 
   async function signIn() {
     const response = await login(user);
 
-    setUser(response);
+    setUsuario(response);
 
     history.push("/home");
   }
 
   function handleChangeNome(e) {
-    setUsuario((oldUser) => {
+    setUser((oldUser) => {
       oldUser.nome = e.target.value;
       return { ...oldUser };
     });
@@ -39,7 +39,7 @@ export default function LoginScreen() {
 
   console.log(usuario);
   function handleChangeEmail(e) {
-    setUsuario((oldUser) => {
+    setUser((oldUser) => {
       oldUser.email = e.target.value;
       return { ...oldUser };
     });

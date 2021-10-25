@@ -2,10 +2,6 @@ import {
   Flex,
   Box,
   Spacer,
-  Heading,
-  Image,
-  Avatar,
-  Text,
   Menu,
   MenuButton,
   MenuList,
@@ -15,12 +11,12 @@ import {
 import React, { useState, useEffect } from "react";
 import "./Header.css";
 import { logout } from "../../services/auth/login";
-import ACLogo from "../../Images/ACLogo.png";
+import ACLogo from "../../images/ACLogo.png";
 import { useHistory } from "react-router-dom";
 import { useRoomsContext } from "../../contexts";
 
 export default function Header() {
-  const { user, setUser } = useRoomsContext();
+  const { usuario, setUsuario } = useRoomsContext();
   const history = useHistory();
 
   //Condicional se estiver no contexto -> Tal ação (a se decidir) -> Senão, outra ação
@@ -45,19 +41,19 @@ export default function Header() {
 
       <Spacer />
       <Spacer />
-      {user && user.nome ? (
+      {usuario && usuario.nome ? (
         <Box d="flex" mr="7rem" className="imgBox">
           <Menu>
             <MenuButton as={Button}>
               <div>
                 Seja Bem Vindo
-                <strong>,{user.nome}</strong>
+                <strong>,{usuario.nome}</strong>
               </div>
             </MenuButton>
             <MenuList>
               <MenuItem
                 onClick={() => {
-                  logout(setUser);
+                  logout(setUsuario);
                   history.push("/");
                 }}
               >
@@ -66,7 +62,7 @@ export default function Header() {
               <MenuItem
                 onClick={() => {
                   history.push("/home");
-                  console.log(user.nome);
+                  console.log(usuario.nome);
                 }}
               >
                 Voltar para Salas

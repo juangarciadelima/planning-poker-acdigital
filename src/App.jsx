@@ -1,5 +1,5 @@
-import Footer from "./components/Footer/";
-import Header from "./components/Header";
+import Footer from "./components/footer";
+import Header from "./components/header";
 import Home from "./pages/home";
 import {
   BrowserRouter as Router,
@@ -10,11 +10,8 @@ import {
 import CardRoom from "./pages/cardRoom";
 import React, { useEffect, useContext } from "react";
 import LoginScreen from "./pages/loginScreen/loginScreen";
-import { RoomsContext } from "./contexts";
 
 export default function App() {
-  const { user } = useContext(RoomsContext);
-
   return (
     <Router>
       <Header />
@@ -36,6 +33,11 @@ export default function App() {
   );
 }
 
-//Aqui deverei exibir um ternário para assim, definir se estou logado ou não, exibindo os componentes, ou só a página de login
-
-// ANCHOR Trocar uma ideia com o vinizeira sobre como funcionará o body
+//ANCHOR   Conversar com o Vini para ver se ele consegue alterar como ficam as histórias fechadas e abertas, colocando as duas nesse modelo de estrutura de dados
+//
+//
+//
+////const historias = {
+//historiasAbertas : [], -> Aberta para ser Votada
+//historiasFechadas : [] -> Votada
+//}

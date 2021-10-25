@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./cardRoom.css";
 
-//TODO Refactor Code
-
-// ANCHOR Use more than one UseEffect
-//
 import {
   Grid,
   Box,
@@ -30,31 +26,37 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 
-import { AddIcon, CloseIcon } from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 import { toast, ToastContainer } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 import { EuiNotificationBadge, EuiAccordion, EuiPanel } from "@elastic/eui";
 
 import FormSample from "../../components/forms/formSample";
-import { enterRoom } from "../../services/rooms";
-import {
-  getOpenHistory,
-  getClosedHistory,
-  createHistory,
-} from "../../services/histories";
+
+import { useRoomsContext } from "../../contexts";
+import { getOpenHistory } from "../../services/histories";
 
 export default function CardRoom() {
   const [isStoryModalVisible, setStoryModal] = useState(false);
-  const [room, setRoom] = useState(JSON.parse(localStorage.getItem("room")));
-  const [historias, setHistorias] = useState([]);
-  //ANCHOR Pedir Ajuda pro Oliveira em três pontos : Há a possibilidade de criar essa estrutura de dados :
-  // {historiasAtivas : [],
-  //  historiasFechadas : [],} & como trocar automaticamente o dado de se está logado ou não quando entrar na sala(Inserido no Header)
-  //Perguntar o que ele acha de definir requisições só feitas com a presença do usuário estar autenticado, assim, evitando que ajam renderizações desnecessárias
-  //Mais uma coisa(Hehe) -> Comentar sobre como funcionará a lógica de votações
+
+  const [historias, setHistorias] = useState([
+    { id: "", nome: "", emAberto: null },
+  ]);
+
+  const { usuario, sala } = useRoomsContext();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!usuario.nome) {
+      history.push("/");
+    }
+  }, []);
+
   useEffect(async () => {
     const res = await getOpenHistory();
+
     setHistorias(res);
   }, []);
 
@@ -139,18 +141,19 @@ export default function CardRoom() {
                 )}
               </Text>
             </Box>
+
             <Box className="boxCard" w="100%">
-              {room.metodologias
-                ? room.metodologias.cartas.map((card) => (
-                    <Box key={card.id} className="cardBox">
+              {sala && sala.metodologias
+                ? sala.metodologias.cartas.map((card) => (
+                    <Box className="cardBox">
                       <Box className="card">
                         <Heading>{card.valor}</Heading>
-                        <span className="numCardL">{card.valor}</span>
                         <span className="numCardR">{card.valor}</span>
+                        <span className="numCardL">{card.valor}</span>
                       </Box>
                     </Box>
                   ))
-                : "Não foi possível encontrar as cartas"}
+                : "Heyheyhey"}
             </Box>
             <Box
               h="200px"
@@ -180,7 +183,7 @@ export default function CardRoom() {
                   <Tab>
                     Histórias Fechadas
                     <Box marginLeft="10px">
-                      <EuiNotificationBadge className="tabBadge">
+                      <EuiNotificationBadge color="subdued">
                         0
                       </EuiNotificationBadge>
                     </Box>
@@ -226,7 +229,16 @@ export default function CardRoom() {
                             <Td>{history.nome}</Td>
                             <Td isNumeric>
                               <i onClick={clickSvg}>
-                                <CloseIcon />
+                                <DeleteIcon marginRight="15px" />
+                              </i>
+                              <i
+                                onClick={() =>
+                                  console.log(
+                                    `Você irá alterar a história ${history.id}`
+                                  )
+                                }
+                              >
+                                <EditIcon />
                               </i>
                             </Td>
                           </Tr>
@@ -234,8 +246,19 @@ export default function CardRoom() {
                       </Tbody>
                     </Table>
                   </TabPanel>
-                  <TabPanel>Tchau</TabPanel>
-                  <TabPanel>Tchau</TabPanel>
+                  <TabPanel>
+                    {" "}
+                    <Table
+                      variant="striped"
+                      colorScheme="red"
+                      className="tableGrid"
+                    >
+                      <Thead>
+                        <Th></Th>
+                        <Th isNumeric></Th>
+                      </Thead>
+                    </Table>
+                  </TabPanel>
                 </TabPanels>
               </Tabs>
             </Box>

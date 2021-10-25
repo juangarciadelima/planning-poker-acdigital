@@ -15,10 +15,10 @@ import { useRoomsContext } from "../../contexts";
 
 export default function TableTop() {
   const history = useHistory();
-  const { user } = useRoomsContext();
+  const { usuario } = useRoomsContext();
 
   useEffect(() => {
-    if (!user.nome) {
+    if (!usuario.nome) {
       history.push("/");
     }
   }, []);

@@ -1,39 +1,45 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { getRooms } from "../services/rooms";
 
-export const RoomsContext = createContext();
+export const PokerContext = createContext();
 
 //TODO Trocar nome para PokerContext
 
 const RoomsProvider = ({ children }) => {
-  const [rooms, setRooms] = useState([]);
-  const [user, setUser] = useState({ nome: "", email: "" });
-  const [room, setRoom] = useState(null);
+  const [salas, setSalas] = useState([]);
+  const [usuario, setUsuario] = useState({ nome: "", email: "" });
+  const [sala, setSala] = useState({
+    nome: "",
+    metodologias: { cartas: [] },
+    jogadores: [],
+    historias: [],
+  });
 
   useEffect(async () => {
     const res = await getRooms();
-    setRooms(res);
+    setSalas(res);
   }, []);
+  console.log(sala);
 
-  const crudSala = { rooms };
+  const crudSala = { salas };
 
-  const administrador = { user, setUser };
+  const administrador = { usuario, setUsuario };
 
-  const voteSala = { room, setRoom };
+  const voteSala = { sala, setSala };
 
   return (
     <>
-      <RoomsContext.Provider
+      <PokerContext.Provider
         value={{ ...crudSala, ...administrador, ...voteSala }}
       >
         {children}
-      </RoomsContext.Provider>
+      </PokerContext.Provider>
     </>
   );
 };
 
 export const useRoomsContext = () => {
-  const context = useContext(RoomsContext);
+  const context = useContext(PokerContext);
   return context;
 };
 
