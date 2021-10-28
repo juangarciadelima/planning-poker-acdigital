@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { EditIcon, CloseIcon } from "@chakra-ui/icons";
 import { useRoomsContext } from "../../contexts";
-import { enterRoom } from "../../services/rooms";
+import { entrarSala } from "../../services/rooms";
 
 export default function TableComponent({
   array,
@@ -29,7 +29,7 @@ export default function TableComponent({
 
   const history = useHistory();
   async function enterCardRoom(id) {
-    const res = await enterRoom(id);
+    const res = await entrarSala(id);
     setSala(res);
     console.log(sala);
     history.push("/room");

@@ -67,7 +67,7 @@
   left: 0;
   top: 0;
 }
-.card h2 {
+.card div h2 {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -4,89 +4,40 @@ import "./cardRoom.css";
 import {
   Grid,
   Box,
-  Text,
-  Button,
-  ButtonGroup,
   Heading,
-  Avatar,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
   Input,
-  Table,
-  Tbody,
-  Tr,
-  Td,
-  Thead,
-  Th,
-  Flex,
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
 
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-
 import { toast, ToastContainer } from "react-toastify";
 import { useHistory } from "react-router-dom";
-
-import { EuiNotificationBadge, EuiAccordion, EuiPanel } from "@elastic/eui";
-
+import { TiCoffee } from "react-icons/ti";
+import {
+  EuiNotificationBadge,
+  EuiAccordion,
+  EuiPanel,
+  EuiConfirmModal,
+} from "@elastic/eui";
 import FormSample from "../../components/forms/formSample";
-
 import { useRoomsContext } from "../../contexts";
-import { getOpenHistory } from "../../services/histories";
+import { buscarHistoriaAberta } from "../../services/histories";
+import GridOne from "./grids/grid1";
+import GridTwo from "./grids/grid2";
 
 export default function CardRoom() {
   const [isStoryModalVisible, setStoryModal] = useState(false);
-
-  const [historias, setHistorias] = useState([
-    { id: "", nome: "", emAberto: null },
-  ]);
-
-  const { usuario, sala } = useRoomsContext();
-  const history = useHistory();
-
-  useEffect(() => {
-    if (!usuario.nome) {
-      history.push("/");
-    }
-  }, []);
-
-  useEffect(async () => {
-    const res = await getOpenHistory();
-
-    setHistorias(res);
-  }, []);
-
-  const buttonContent = (
-    <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
-      Convide os seus colegas
-    </Heading>
-  );
-
   const closeStoryModal = () => setStoryModal(false);
   const showStoryModal = () => setStoryModal(true);
-  const clickMe = (num) => {
-    console.log(`You clicked the card of number ${num}`);
-  };
+
+  let storyModal;
 
   async function toastStory() {
     closeStoryModal();
 
     toast("História criada");
   }
-
-  const handleChange = (e) => {
-    setHistoria(e.target.value);
-  };
-
-  const clickSvg = () => {
-    alert("Quer deletar mesmo a história?");
-  };
-
-  let storyModal;
 
   if (isStoryModalVisible) {
     storyModal = (
@@ -96,7 +47,10 @@ export default function CardRoom() {
         modalBody={
           <FormControl id="room-name " isRequired>
             <FormLabel>Nome da História</FormLabel>
-            <Input placeholder="Nome da História" onChange={handleChange} />
+            <Input
+              placeholder="Nome da História"
+              onChange={(e) => console.log(e.target.value)}
+            />
           </FormControl>
         }
         onClick={closeStoryModal}
@@ -107,6 +61,94 @@ export default function CardRoom() {
     );
   }
 
+  const [isEditModalVisible, setEditModal] = useState(false);
+  const closeEditModal = () => setEditModal(false);
+  const showEditModal = () => setEditModal(true);
+
+  let editModal;
+
+  async function toastEdit() {
+    closeEditModal();
+
+    toast("História Editada");
+  }
+
+  if (isEditModalVisible) {
+    editModal = (
+      <FormSample
+        onClose={closeEditModal}
+        modalHeader="Editar a História"
+        modalBody={
+          <FormControl id="room-name" isRequired>
+            <FormLabel>Nome da História</FormLabel>
+            <Input
+              placeholder="Nome da História"
+              onChange={(e) => console.log(e.target.value)}
+            />
+          </FormControl>
+        }
+        onClick={closeEditModal}
+        onClickBtn={toastEdit}
+        lBtnText="Sair"
+        rBtnText="Criar"
+      />
+    );
+  }
+
+  const [isDeleteModalVisible, setDeleteModal] = useState(false);
+  const closeDeleteModal = () => setDeleteModal(false);
+  const showDeleteModal = () => setDeleteModal(true);
+
+  let deleteModal;
+  if (isDeleteModalVisible) {
+    deleteModal = (
+      <EuiConfirmModal
+        title="Deletar a Sala"
+        onCancel={closeDeleteModal}
+        onConfirm={handleDeleteClick}
+        cancelButtonText="Sair"
+        className="cancelText"
+        confirmButtonText="Deletar"
+        buttonColor="danger"
+        defaultFocusedButton="confirm"
+      >
+        Você deseja apagar mesmo a sala?
+      </EuiConfirmModal>
+    );
+  }
+
+  function handleDeleteClick() {
+    closeDeleteModal();
+
+    toast("Sala deletada");
+  }
+
+  const [historias, setHistorias] = useState([
+    { id: "", nome: "", emAberto: null },
+  ]);
+
+  const { usuario, sala } = useRoomsContext();
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!usuario.nome) {
+      history.push("/");
+    }
+  }, []);
+
+  useEffect(async () => {
+    const res = await buscarHistoriaAberta();
+
+    setHistorias(res);
+  }, []);
+
+  const buttonContent = (
+    <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
+      Convide os seus colegas
+    </Heading>
+  );
+
   return (
     <div className="grid">
       <Grid
@@ -115,306 +157,18 @@ export default function CardRoom() {
         gap={2}
         className="gridCustom"
       >
-        <Box
-          marginTop="2rem"
-          w="100%"
-          h="750px"
-          className="box"
-          marginRight="2rem"
-          d="flex"
-          justifyContent="center"
-        >
-          <Grid templateRows="0.4fr 1.5fr 0.5fr" gap={8} className="gridOne">
-            <Box w="100%">
-              <Text
-                className="text"
-                d="flex"
-                alignItems="center"
-                fontSize="4xl"
-                fontFamily="Poppins"
-                justifyContent="center"
-              >
-                {historias.length > 0 ? (
-                  historias[0].nome
-                ) : (
-                  <Text>Loading...</Text>
-                )}
-              </Text>
-            </Box>
-
-            <Box className="boxCard" w="100%">
-              {sala && sala.metodologias
-                ? sala.metodologias.cartas.map((card) => (
-                    <Box className="cardBox">
-                      <Box className="card">
-                        <Heading>{card.valor}</Heading>
-                        <span className="numCardR">{card.valor}</span>
-                        <span className="numCardL">{card.valor}</span>
-                      </Box>
-                    </Box>
-                  ))
-                : "Heyheyhey"}
-            </Box>
-            <Box
-              h="200px"
-              w="100%"
-              justifyContent="center"
-              alignItems="center"
-              marginBottom="3rem"
-              className="tabBox"
-            >
-              <Tabs
-                className="tab"
-                size="md"
-                variant="line"
-                position="relative"
-                width="1000px"
-              >
-                {storyModal}
-                <TabList>
-                  <Tab>
-                    Histórias Abertas
-                    <Box marginLeft="10px">
-                      <EuiNotificationBadge className="tabBadge">
-                        {historias.length}
-                      </EuiNotificationBadge>
-                    </Box>
-                  </Tab>
-                  <Tab>
-                    Histórias Fechadas
-                    <Box marginLeft="10px">
-                      <EuiNotificationBadge color="subdued">
-                        0
-                      </EuiNotificationBadge>
-                    </Box>
-                  </Tab>
-
-                  <Button
-                    className="btnTab"
-                    variant="outline"
-                    colorScheme="red"
-                    leftIcon={<AddIcon />}
-                    style={{
-                      position: "absolute",
-                      display: "flex",
-                      textAlign: "center",
-                      justifyContent: "center",
-                      right: 0,
-                      marginRight: "1rem",
-                      marginTop: "0.4rem",
-                    }}
-                    onClick={() => {
-                      showStoryModal();
-                    }}
-                  >
-                    Nova
-                  </Button>
-                  <ToastContainer />
-                </TabList>
-
-                <TabPanels>
-                  <TabPanel>
-                    <Table
-                      variant="striped"
-                      colorScheme="red"
-                      className="tableGrid"
-                    >
-                      <Thead>
-                        <Th></Th>
-                        <Th isNumeric></Th>
-                      </Thead>
-                      <Tbody>
-                        {historias.map((history) => (
-                          <Tr>
-                            <Td>{history.nome}</Td>
-                            <Td isNumeric>
-                              <i onClick={clickSvg}>
-                                <DeleteIcon marginRight="15px" />
-                              </i>
-                              <i
-                                onClick={() =>
-                                  console.log(
-                                    `Você irá alterar a história ${history.id}`
-                                  )
-                                }
-                              >
-                                <EditIcon />
-                              </i>
-                            </Td>
-                          </Tr>
-                        ))}
-                      </Tbody>
-                    </Table>
-                  </TabPanel>
-                  <TabPanel>
-                    {" "}
-                    <Table
-                      variant="striped"
-                      colorScheme="red"
-                      className="tableGrid"
-                    >
-                      <Thead>
-                        <Th></Th>
-                        <Th isNumeric></Th>
-                      </Thead>
-                    </Table>
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
-            </Box>
-          </Grid>
+        <Box>
+          <GridOne
+            sala={sala}
+            historias={historias}
+            storyModal={storyModal}
+            deleteModal={deleteModal}
+            editModal={editModal}
+            showDeleteModal={showDeleteModal}
+            showEditModal={showEditModal}
+          />
         </Box>
-        <Box
-          marginTop="1rem"
-          w="500px"
-          d="flex"
-          justifyContent="center"
-          alignItems="center"
-          borderRadius="3px"
-          marginLeft="8rem"
-        >
-          <Grid
-            templateColumns="1fr"
-            templateRows=" 1fr 1fr 1fr"
-            w="100%"
-            gap={0}
-            borderRadius="5px"
-            className="gridTwo"
-          >
-            <Box
-              w="100%"
-              d="flex"
-              justifyContent="center"
-              alignItems="center"
-              h="200px"
-            >
-              <Box width="100%" marginTop="2rem">
-                <Heading
-                  top="0"
-                  className="headerGrid"
-                  color="white"
-                  fontFamily="Poppins"
-                  fontWeight="700"
-                >
-                  Jogadores
-                </Heading>
-
-                <Flex
-                  justifyContent="flex-start"
-                  alignItems="center"
-                  className="playerBox"
-                >
-                  <ul
-                    style={{
-                      marginTop: "3rem",
-                    }}
-                  >
-                    <li>
-                      <cite>
-                        <Avatar
-                          name="Dan Abrahmov"
-                          size="lg"
-                          src="https://bit.ly/dan-abramov"
-                          marginLeft="1rem"
-                        />
-                        <Text
-                          fontSize="md"
-                          fontFamily="Poppins"
-                          fontWeight="700"
-                          ml="0.5rem"
-                        >
-                          Dan Abrahmov
-                        </Text>
-                        <Text
-                          right="0"
-                          fontWeight="700"
-                          fontSize="3xl"
-                          position="absolute"
-                          mr="2rem"
-                        >
-                          3
-                        </Text>
-                      </cite>
-                    </li>
-                    <li>
-                      <cite>
-                        <Avatar
-                          name="Dan Abrahmov"
-                          size="lg"
-                          src="https://bit.ly/dan-abramov"
-                          marginLeft="1rem"
-                        />
-                        <Text
-                          fontSize="md"
-                          fontFamily="Poppins"
-                          fontWeight="700"
-                          ml="0.5rem"
-                        >
-                          Dan Abrahmov
-                        </Text>
-                        <Text
-                          right="0"
-                          fontWeight="700"
-                          fontSize="3xl"
-                          position="absolute"
-                          mr="2rem"
-                        >
-                          3
-                        </Text>
-                      </cite>
-                    </li>
-                  </ul>
-                </Flex>
-              </Box>
-            </Box>
-
-            <ButtonGroup
-              className="btnGroup"
-              colorScheme="red"
-              variant="outline"
-              size="lg"
-              marginBottom="1rem"
-              d="flex"
-              spacing="6rem"
-              justifyContent="center"
-              alignItems="center"
-              padding="10px"
-              minWidth="100%"
-            >
-              <Button className="btnGrid">Resetar Votação</Button>
-              <Button className="btnGrid">Virar Cartas</Button>
-            </ButtonGroup>
-
-            <Box
-              w="100%"
-              d="flex"
-              justifyContent="center"
-              alignItems="center"
-              className="boxAccordion"
-            >
-              <EuiAccordion
-                className="accordion"
-                id="accordion1"
-                buttonContent={buttonContent}
-                arrowDisplay="right"
-              >
-                <EuiPanel color="none">
-                  <Box
-                    marginBottom="10px"
-                    marginTop="10px"
-                    background="transparent"
-                    className="boxInput"
-                  >
-                    <Input
-                      placeholder="https://github.com/juangarciadelima"
-                      w="300px"
-                    />
-                  </Box>
-                </EuiPanel>
-              </EuiAccordion>
-            </Box>
-          </Grid>
-        </Box>
+        <GridTwo buttonContent={buttonContent} />
       </Grid>
     </div>
   );

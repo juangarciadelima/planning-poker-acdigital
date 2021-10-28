@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { getRooms } from "../services/rooms";
+import { buscarSalas } from "../services/rooms";
 
 export const PokerContext = createContext();
 
@@ -16,7 +16,7 @@ const RoomsProvider = ({ children }) => {
   });
 
   useEffect(async () => {
-    const res = await getRooms();
+    const res = await buscarSalas();
     setSalas(res);
   }, []);
   console.log(sala);

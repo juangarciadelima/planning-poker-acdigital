@@ -15,11 +15,11 @@ historiasFechadas : [] -> Votada
 
 TODO
 
-[] -> Alterar Toast Alert de deletar a história
-[] -> Adicionar Modal de alteração de história
+[X] -> ~~Alterar Toast Alert de deletar a história~~
+[X] -> ~~Adicionar Modal de alteração de história~~
 [] -> Lógica de histórias fechadas
-[] -> Condicional para alterar a card "Café"
-[] -> Estudar sobre possibilidades de adicionar um _Event_ para quando selecionar uma carta
+[X] -> ~~Condicional para alterar a card "Café"~~ (Em partes)
+[] -> Estudar sobre possibilidades de adicionar um _Event_ para quando selecionar uma carta  -> {index }
 [] -> Finalizar a integração
 
 **_FUTURO_**
