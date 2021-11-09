@@ -12,16 +12,21 @@ import { ToastContainer, toast } from "react-toastify";
 import TableComponent from "../../components/table/";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useRoomsContext } from "../../contexts";
+import { buscarSalas } from "../../services/rooms";
 
 export default function TableTop() {
   const history = useHistory();
-  const { usuario } = useRoomsContext();
+  const { usuario, setSalas, salas } = useRoomsContext();
 
-  useEffect(() => {
+  useEffect(async () => {
     if (!usuario.nome) {
       history.push("/");
+    } else {
+      const res = await buscarSalas(usuario.email);
+      setSalas(res);
     }
   }, []);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const closeModal = () => setIsModalVisible(false);
@@ -54,6 +59,8 @@ export default function TableTop() {
 
     toast("Sala Deletada");
   }
+
+  function handleChangeNome(e) {}
 
   let modal;
   let deleteModal;
@@ -138,6 +145,7 @@ export default function TableTop() {
         />
       </div>
       <TableComponent
+        salas={salas}
         deleteModal={deleteModal}
         editModal={editModal}
         funcDel={showDeleteModal}

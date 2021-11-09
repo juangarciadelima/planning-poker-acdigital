@@ -24,6 +24,7 @@ import { ToastContainer } from "react-toastify";
 import { TiCoffee } from "react-icons/ti";
 
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { Metodologia } from "./metodologia";
 export default function GridOne({
   sala,
   historias,
@@ -63,60 +64,7 @@ export default function GridOne({
           </Box>
 
           <Box className="boxCard" w="100%">
-            {sala && sala.metodologias
-              ? sala.metodologias.cartas.map((card, index, { valor }) => (
-                  <>
-                    <Box className="cardBox">
-                      <Box
-                        className={
-                          card.selected == true ? "cardSelected" : "card"
-                        }
-                        onClick={() =>
-                          (card["selected"] = true) && console.log(card)
-                        }
-                      >
-                        {card.tipo == "cafe" ? (
-                          <>
-                            <Heading
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                              textAlign="center"
-                              fontWeight="light"
-                              fontSize="30px"
-                              fontFamily="Poppins"
-                            >
-                              <TiCoffee />
-                            </Heading>
-                            <span className="numCardR">
-                              <TiCoffee />
-                            </span>
-                            <span className="numCardL">
-                              <TiCoffee />
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <Heading
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                              textAlign="center"
-                              fontWeight="light"
-                              fontSize="30px"
-                              fontFamily="Poppins"
-                            >
-                              {card.valor}
-                            </Heading>
-                            <span className="numCardR">{card.valor}</span>
-                            <span className="numCardL">{card.valor}</span>
-                          </>
-                        )}
-                      </Box>
-                    </Box>
-                  </>
-                ))
-              : "Heyheyhey"}
+            <Metodologia />
           </Box>
           <Box
             h="200px"

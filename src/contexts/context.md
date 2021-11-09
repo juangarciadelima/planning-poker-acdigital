@@ -10,12 +10,12 @@ Tendo esse contexto das salas, em mãos, os poderei acessar de forma mais fácil
 
 //const historias = {
 historiasAbertas : [], -> Aberta para ser Votada
-historiasFechadas : [] -> Votada
+historiasFechadas : [] -> **Votada**
 }
+****
+**TODO**
 
-TODO
-
-[X] -> ~~Alterar Toast Alert de deletar a história~~
+[X] -> ~~Alterar Toast Alert de deletar a história~~k
 [X] -> ~~Adicionar Modal de alteração de história~~
 [] -> Lógica de histórias fechadas
 [X] -> ~~Condicional para alterar a card "Café"~~ (Em partes)

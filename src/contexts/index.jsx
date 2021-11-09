@@ -15,13 +15,9 @@ const RoomsProvider = ({ children }) => {
     historias: [],
   });
 
-  useEffect(async () => {
-    const res = await buscarSalas();
-    setSalas(res);
-  }, []);
   console.log(sala);
 
-  const crudSala = { salas };
+  const crudSala = { salas, setSalas };
 
   const administrador = { usuario, setUsuario };
 

@@ -23,8 +23,8 @@ import {
 import FormSample from "../../components/forms/formSample";
 import { useRoomsContext } from "../../contexts";
 import { buscarHistoriaAberta } from "../../services/histories";
-import GridOne from "./grids/grid1";
-import GridTwo from "./grids/grid2";
+import GridOne from "./grids/gridOne";
+import GridTwo from "./grids/gridTwo";
 
 export default function CardRoom() {
   const [isStoryModalVisible, setStoryModal] = useState(false);
@@ -138,7 +138,7 @@ export default function CardRoom() {
   }, []);
 
   useEffect(async () => {
-    const res = await buscarHistoriaAberta();
+    const res = await buscarHistoriaAberta(sala.id, "true");
 
     setHistorias(res);
   }, []);

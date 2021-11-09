@@ -19,19 +19,18 @@ import { useRoomsContext } from "../../contexts";
 import { entrarSala } from "../../services/rooms";
 
 export default function TableComponent({
-  array,
+  salas,
   deleteModal,
   editModal,
   funcDel,
   funcEdit,
 }) {
-  const { salas, sala, setSala } = useRoomsContext();
+  const { sala, setSala } = useRoomsContext();
 
   const history = useHistory();
   async function enterCardRoom(id) {
     const res = await entrarSala(id);
     setSala(res);
-    console.log(sala);
     history.push("/room");
   }
   return (

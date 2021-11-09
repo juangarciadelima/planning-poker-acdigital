@@ -1,15 +1,13 @@
 import { api } from "../../api";
 
-export async function createHistory(req) {
+export async function criarHistoria(req) {
   const res = await api.post("/api/historia/nova", req);
 
   return res.data;
 }
 
-export async function buscarHistoriaAberta() {
-  const res = await api.get(
-    "/api/sala/16ece314-9ee1-4c88-96e5-c696c9a346dd/historia/true"
-  );
+export async function buscarHistoriaAberta(id, state) {
+  const res = await api.get(`/api/sala/${id}/historia/${state}`);
   return res.data;
 }
 
