@@ -1,15 +1,15 @@
+import React from "react";
 import Footer from "./components/footer";
 import Header from "./components/header";
-import Home from "./pages/home";
+import Salas from "./pages/salas";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   useHistory,
 } from "react-router-dom";
-import CardRoom from "./pages/cardRoom";
-import React, { useEffect, useContext } from "react";
-import LoginScreen from "./pages/loginScreen/loginScreen";
+import Sala from "./pages/sala";
+import Login from "./pages/login";
 
 export default function App() {
   return (
@@ -17,15 +17,13 @@ export default function App() {
       <Header />
       <Switch>
         <Route exact path="/">
-          <LoginScreen />
+          <Login />
         </Route>
-        <Route exact path="/home">
-          <div>
-            <Home />
-          </div>
+        <Route exact path="/salas">
+          <Salas />
         </Route>
-        <Route exact path="/room">
-          <CardRoom />
+        <Route exact path="/sala/:id">
+          <Sala />
         </Route>
       </Switch>
       <Footer />

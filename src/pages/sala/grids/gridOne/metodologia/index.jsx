@@ -1,6 +1,6 @@
-import { Box, Heading } from "@chakra-ui/layout";
 import React, { useState, useEffect } from "react";
-import { buscarCartas } from "../../../../../services/cards";
+import { Box, Heading } from "@chakra-ui/layout";
+import { buscarCartas } from "../../../../../services/metodologia";
 
 export function Metodologia() {
   const [metodologia, setMetodologia] = useState({});
@@ -8,10 +8,8 @@ export function Metodologia() {
   useEffect(async () => {
     const res = await buscarCartas();
     setMetodologia(res);
-    console.log(metodologia);
   }, []);
 
-  console.log(metodologia);
   return (
     <Box className="boxCard">
       {metodologia && metodologia.cartas ? (

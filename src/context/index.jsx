@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { buscarSalas } from "../services/rooms";
+import { buscarSalas } from "../services/salas";
 
 export const PokerContext = createContext();
 
@@ -14,8 +14,6 @@ const RoomsProvider = ({ children }) => {
     jogadores: [],
     historias: [],
   });
-
-  console.log(sala);
 
   const crudSala = { salas, setSalas };
 

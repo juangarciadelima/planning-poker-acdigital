@@ -1,77 +1,101 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { editFormSample } from "../../components/forms/editForm";
 import { Button } from "@chakra-ui/react";
-import FormSample from "../../components/forms/formSample.js";
+import FormEdit from "../../components/forms/formEdit";
+import FormCreate from "../../components/forms/formCreate";
 import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
 import "react-toastify/dist/ReactToastify.css";
 import { AiOutlinePlus } from "react-icons/ai";
 import { EuiConfirmModal } from "@elastic/eui";
-import "./home.css";
+import "./salas.css";
 import { ToastContainer, toast } from "react-toastify";
-import TableComponent from "../../components/table/";
+import TableComponent from "../../components/table";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { useRoomsContext } from "../../contexts";
-import { buscarSalas } from "../../services/rooms";
+import { useRoomsContext } from "../../context";
+import { serviceBuscarSalas, serviceAlterarSala, serviceCriarSala } from "../../services/salas";
 
-export default function TableTop() {
+export default function Salas() {
   const history = useHistory();
   const { usuario, setSalas, salas } = useRoomsContext();
+
+  const [salaSelecionada, setSalaSelecionada] = useState()
+  const [novaSala, setNovaSala] = useState()
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const closeModal = () => { setIsModalVisible(false); setNovaSala(null)};
+  const showModal = () => { setIsModalVisible(true); setNovaSala(criarSala()) };
+
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const closeEditModal = () => { setEditModalVisible(false); setSalaSelecionada(null)};
+  const showEditModal = (sala) => { setEditModalVisible(true); setSalaSelecionada(sala)};
+
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const closeDeleteModal = () => setIsDeleteModalVisible(false);
+  const showDeleteModal = () => setIsDeleteModalVisible(true);
+
+  async function handleClick() {
+    const response = await serviceCriarSala(novaSala)
+    if(response){
+      closeModal();
+      toast("Sala Criada");
+      await atualizarSalas()
+    }else{
+      toast("Houve um problema ao cadastrar a sala!");
+    }
+  }
+
+  async function handleEditClick() {
+    const response = await serviceAlterarSala(salaSelecionada)
+    if(response){
+      closeEditModal();
+      toast("Sala Editada");
+      await atualizarSalas()
+    }else{
+      toast("Houve um problema ao editar!");
+    }
+  }
+
+  function handleDeleteClick() {
+    closeDeleteModal();
+    toast("Sala Deletada");
+  }
 
   useEffect(async () => {
     if (!usuario.nome) {
       history.push("/");
     } else {
-      const res = await buscarSalas(usuario.email);
-      setSalas(res);
+      await atualizarSalas()
     }
   }, []);
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const closeModal = () => setIsModalVisible(false);
-  const showModal = () => setIsModalVisible(true);
-
-  const [editModalVisible, setEditModalVisible] = useState(false);
-
-  const closeEditModal = () => setEditModalVisible(false);
-  const showEditModal = () => setEditModalVisible(true);
-
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-
-  const closeDeleteModal = () => setIsDeleteModalVisible(false);
-  const showDeleteModal = () => setIsDeleteModalVisible(true);
-
-  function handleClick() {
-    closeModal();
-
-    toast("Sala Criada");
+  async function atualizarSalas(){
+    const response = await serviceBuscarSalas(usuario.email);
+    setSalas(response);
   }
 
-  function handleEditClick() {
-    closeEditModal();
-
-    toast("Sala Editada");
+  function criarSala(){
+    return {
+      nome: "",
+      jogadores: [],
+      administrador: {
+          "id": "01a98112-27b2-425f-97aa-7148da3e8644",
+          "email": "jaderson.chefe@acdigital.com.br",
+          "nome": "Jaderson Rosa"
+      }
+    }
   }
-
-  function handleDeleteClick() {
-    closeDeleteModal();
-
-    toast("Sala Deletada");
-  }
-
-  function handleChangeNome(e) {}
-
-  let modal;
+  
+  let createModal;
   let deleteModal;
   let editModal;
 
   if (editModalVisible) {
     editModal = (
-      <FormSample
+      <FormEdit
+        salaSelecionada={salaSelecionada}
+        setSalaSelecionada={setSalaSelecionada}
         onClose={closeEditModal}
         modalHeader="Editar a Sala"
-        modalBody={editFormSample}
         onClick={closeEditModal}
         onClickBtn={handleEditClick}
         lBtnText="Sair"
@@ -98,16 +122,12 @@ export default function TableTop() {
   }
 
   if (isModalVisible) {
-    modal = (
-      <FormSample
+    createModal = (
+      <FormCreate
+        novaSala={novaSala}
+        setNovaSala={setNovaSala}
         onClose={closeModal}
         modalHeader="Criar a Sala"
-        modalBody={
-          <FormControl id="room-name " isRequired>
-            <FormLabel>Nome da Sala</FormLabel>
-            <Input placeholder="Nome da Sala" />
-          </FormControl>
-        }
         onClick={closeModal}
         onClickBtn={handleClick}
         lBtnText="Cancelar"
@@ -125,7 +145,7 @@ export default function TableTop() {
         }}
       >
         <Button
-          title="Create Room"
+          title="Criar Sala"
           leftIcon={<AiOutlinePlus />}
           size="md"
           bg="#be282c"
@@ -137,7 +157,7 @@ export default function TableTop() {
         >
           Criar Sala
         </Button>
-        {modal}
+        {createModal}
         <ToastContainer
           position="top-center"
           autoClose={2000}

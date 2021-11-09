@@ -20,9 +20,9 @@ import {
   EuiPanel,
   EuiConfirmModal,
 } from "@elastic/eui";
-import FormSample from "../../components/forms/formSample";
-import { useRoomsContext } from "../../contexts";
-import { buscarHistoriaAberta } from "../../services/histories";
+import FormEdit from "../../components/forms/formEdit";
+import { useRoomsContext } from "../../context";
+import { buscarHistoriaAberta } from "../../services/historias";
 import GridOne from "./grids/gridOne";
 import GridTwo from "./grids/gridTwo";
 
@@ -41,7 +41,7 @@ export default function CardRoom() {
 
   if (isStoryModalVisible) {
     storyModal = (
-      <FormSample
+      <FormEdit
         onClose={closeStoryModal}
         modalHeader="Criar a História"
         modalBody={
