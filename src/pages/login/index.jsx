@@ -13,21 +13,19 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
-import { login } from "../../services/auth/login";
+import { login } from "../../services/administrador";
 import { useHistory } from "react-router-dom";
-import { useRoomsContext } from "../../contexts";
-import "./loginScreen.css";
+import { useRoomsContext } from "../../context";
+import "./login.css";
 
-export default function LoginScreen() {
+export default function Login() {
   const [user, setUser] = useState({ nome: "", email: "" });
   const { usuario, setUsuario } = useRoomsContext();
 
   async function signIn() {
     const response = await login(user);
-
     setUsuario(response);
-
-    history.push("/home");
+    history.push("/salas");
   }
 
   function handleChangeNome(e) {
@@ -37,7 +35,6 @@ export default function LoginScreen() {
     });
   }
 
-  console.log(usuario);
   function handleChangeEmail(e) {
     setUser((oldUser) => {
       oldUser.email = e.target.value;

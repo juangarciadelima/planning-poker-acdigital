@@ -15,8 +15,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { EditIcon, CloseIcon } from "@chakra-ui/icons";
-import { useRoomsContext } from "../../contexts";
-import { entrarSala } from "../../services/rooms";
+import { useRoomsContext } from "../../context";
+import { serviceBuscarSala } from "../../services/salas";
 
 export default function TableComponent({
   salas,
@@ -29,7 +29,7 @@ export default function TableComponent({
 
   const history = useHistory();
   async function enterCardRoom(id) {
-    const res = await entrarSala(id);
+    const res = await serviceBuscarSala(id);
     setSala(res);
     history.push("/room");
   }
@@ -90,7 +90,7 @@ export default function TableComponent({
                     aria-label="Edit Room"
                     icon={<EditIcon />}
                     colorScheme="gray"
-                    onClick={funcEdit}
+                    onClick={() => funcEdit(sala)}
                   />
                   {editModal}
                 </ButtonGroup>

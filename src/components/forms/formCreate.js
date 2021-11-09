@@ -8,22 +8,35 @@ import {
   EuiModalFooter,
   EuiButton,
 } from "@elastic/eui";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-export default function FormSample({
+export default function FormCreate({
   onClose,
   modalHeader,
-  modalBody,
   onClick,
   onClickBtn,
   lBtnText,
   rBtnText,
+  novaSala,
+  setNovaSala
 }) {
   return (
     <EuiModal onClose={onClose}>
       <EuiModalHeader>
         <EuiModalHeaderTitle>{modalHeader}</EuiModalHeaderTitle>
       </EuiModalHeader>
-      <EuiModalBody>{modalBody}</EuiModalBody>
+      <EuiModalBody>
+        <FormControl id="room-name " isRequired>
+          <FormLabel>Nome da Sala</FormLabel>
+          <Input 
+           placeholder="Nome"
+           value={novaSala?.nome}
+           onChange={(e) => {
+              setNovaSala({...novaSala,...{nome: e.target?.value} })
+           }}
+          />
+        </FormControl>
+      </EuiModalBody>
       <EuiModalFooter>
         <EuiButton onClick={onClick} color="danger">
           {lBtnText}

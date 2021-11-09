@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Flex,
   Box,
@@ -8,12 +9,11 @@ import {
   MenuItem,
   Button,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
-import "./Header.css";
-import { logout } from "../../services/auth/login";
-import ACLogo from "../../images/ACLogo.png";
+import "./header.css";
+import { logout } from "../../services/administrador";
+import ACLogo from "../../assets/ACLogo.png";
 import { useHistory } from "react-router-dom";
-import { useRoomsContext } from "../../contexts";
+import { useRoomsContext } from "../../context";
 
 export default function Header() {
   const { usuario, setUsuario } = useRoomsContext();
@@ -61,8 +61,7 @@ export default function Header() {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  history.push("/home");
-                  console.log(usuario.nome);
+                  history.push("/salas");
                 }}
               >
                 Voltar para Salas
