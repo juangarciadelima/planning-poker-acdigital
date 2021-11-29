@@ -16,9 +16,9 @@ import {
 import { login } from "../../services/administrador";
 import { useHistory } from "react-router-dom";
 import { useRoomsContext } from "../../context";
-import "./login.css";
+import "./cadastro.css";
 
-export default function Login() {
+export default function Cadastrar() {
   const [user, setUser] = useState({ nome: "", email: "" });
   const { usuario, setUsuario } = useRoomsContext();
 
@@ -76,7 +76,7 @@ export default function Login() {
                 _hover={{
                   bg: "red.500",
                 }}
-                onClick={() => signIn()}
+                onClick={signIn}
               >
                 Logar
               </Button>

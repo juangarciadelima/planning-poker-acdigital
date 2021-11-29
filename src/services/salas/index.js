@@ -12,15 +12,15 @@ export async function serviceBuscarSala(id) {
 
 export async function serviceCriarSala(sala) {
   const { status } = await api.post("/api/sala", sala);
-  return status === 200
+  return status === 200;
 }
 
 export async function serviceAlterarSala(sala) {
-  const { status }  = await api.put("/api/sala", sala);
-  return status === 200
+  const { status } = await api.put("/api/sala", sala);
+  return status === 200;
 }
 
 export async function serviceDeletarSala(id) {
   const { status } = await api.delete("/api/sala", { id: id });
-  return status === 200
+  return status === 200;
 }

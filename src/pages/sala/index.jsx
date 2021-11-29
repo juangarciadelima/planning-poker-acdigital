@@ -27,40 +27,6 @@ import GridOne from "./grids/gridOne";
 import GridTwo from "./grids/gridTwo";
 
 export default function CardRoom() {
-  const [isStoryModalVisible, setStoryModal] = useState(false);
-  const closeStoryModal = () => setStoryModal(false);
-  const showStoryModal = () => setStoryModal(true);
-
-  let storyModal;
-
-  async function toastStory() {
-    closeStoryModal();
-
-    toast("História criada");
-  }
-
-  if (isStoryModalVisible) {
-    storyModal = (
-      <FormEdit
-        onClose={closeStoryModal}
-        modalHeader="Criar a História"
-        modalBody={
-          <FormControl id="room-name " isRequired>
-            <FormLabel>Nome da História</FormLabel>
-            <Input
-              placeholder="Nome da História"
-              onChange={(e) => console.log(e.target.value)}
-            />
-          </FormControl>
-        }
-        onClick={closeStoryModal}
-        onClickBtn={toastStory}
-        lBtnText="Sair"
-        rBtnText="Criar"
-      />
-    );
-  }
-
   const [isEditModalVisible, setEditModal] = useState(false);
   const closeEditModal = () => setEditModal(false);
   const showEditModal = () => setEditModal(true);
@@ -159,9 +125,8 @@ export default function CardRoom() {
       >
         <Box>
           <GridOne
-            sala={sala}
+            id={sala.id}
             historias={historias}
-            storyModal={storyModal}
             deleteModal={deleteModal}
             editModal={editModal}
             showDeleteModal={showDeleteModal}

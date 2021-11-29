@@ -10,17 +10,17 @@ import {
 } from "@elastic/eui";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-export default function FormEdit({
+export default function FormEditHistory({
   onClose,
   modalHeader,
   onClick,
   onClickBtn,
   lBtnText,
   rBtnText,
-  salaSelecionada,
-  setSalaSelecionada,
+  historiaSelecionada,
+  setHistoriaSelecionada,
 }) {
-  console.log(salaSelecionada);
+  console.log(historiaSelecionada);
   return (
     <EuiModal onClose={onClose}>
       <EuiModalHeader>
@@ -31,10 +31,10 @@ export default function FormEdit({
           <FormLabel>Nome da Sala</FormLabel>
           <Input
             placeholder="Nome"
-            value={salaSelecionada?.nome}
+            value={historiaSelecionada?.nome}
             onChange={(e) => {
-              setSalaSelecionada({
-                ...salaSelecionada,
+              setHistoriaSelecionada({
+                ...historiaSelecionada,
                 ...{ nome: e.target?.value },
               });
             }}
