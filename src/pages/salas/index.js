@@ -40,6 +40,8 @@ export default function Salas() {
     setNovaSala(criarSala());
   };
 
+  const usuarioLogado = localStorage.getItem("user");
+
   const [editModalVisible, setEditModalVisible] = useState(false);
   const closeEditModal = () => {
     setEditModalVisible(false);
@@ -70,6 +72,7 @@ export default function Salas() {
       await atualizarSalas();
     } else {
       toast("Houve um problema ao cadastrar a sala!");
+      await atualizarSalas();
     }
   }
 
@@ -116,9 +119,9 @@ export default function Salas() {
       nome: "",
       jogadores: [],
       administrador: {
-        id: "01a98112-27b2-425f-97aa-7148da3e8644",
-        email: "jaderson.chefe@acdigital.com.br",
-        nome: "Jaderson Rosa",
+        email: usuario.email,
+        nome: usuario.nome,
+        id: usuario.id,
       },
     };
   }
