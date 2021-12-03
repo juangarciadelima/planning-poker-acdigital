@@ -70,7 +70,7 @@ export default function GridOne({
     const response = await serviceCriarHistoria(id, novaHistoria);
     if (response) {
       closeCreateModal();
-      toast("Sala Criada");
+      toast("História Criada");
     } else {
       toast("Houve um problema ao cadastrar a história!");
     }

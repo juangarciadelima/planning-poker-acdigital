@@ -11,6 +11,7 @@ import {
 import Sala from "./pages/sala";
 import Cadastrar from "./pages/cadastro";
 import SalaJogador from "./pages/jogador";
+import { Login } from "./pages/login";
 
 export default function App() {
   return (
@@ -19,6 +20,9 @@ export default function App() {
       <Switch>
         <Route exact path="/">
           <Cadastrar />
+        </Route>
+        <Route exact path="/login">
+          <Login />
         </Route>
         <Route exact path="/salas">
           <Salas />

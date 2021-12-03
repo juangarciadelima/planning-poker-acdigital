@@ -1,13 +1,13 @@
 import { api } from "../../api";
 
 export async function serviceCriarHistoria(id, req) {
-  const res = await api.post(`/api/sala/${id}/historia`, req);
+  const res = await api.post(`/historia`, req);
 
   return res.data;
 }
 
 export async function buscarHistoriaAberta(id, state) {
-  const res = await api.get(`/api/sala/${id}/historia/${state}`);
+  const res = await api.get(`/sala/${id}/historia/${state}`);
   return res.data;
 }
 

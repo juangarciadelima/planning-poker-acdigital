@@ -31,7 +31,7 @@ export default function TableComponent({
   async function enterCardRoom(id) {
     const res = await serviceBuscarSala(id);
     setSala(res);
-    await history.push(`/sala/${sala.id}`);
+    history.push(`/sala/${sala.id}`);
   }
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRoomsContext } from "../../context";
 import {
   Box,
   Grid,
@@ -13,35 +14,27 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
-import { cadastrar } from "../../services/administrador";
+import { serviceLogin } from "../../services/administrador";
 import { useHistory } from "react-router-dom";
-import { useRoomsContext } from "../../context";
-import "./cadastro.css";
 
-export default function Cadastrar() {
-  const [user, setUser] = useState({ nome: "", email: "" });
+function Login() {
+  const [user, setUser] = useState({ email: "" });
   const { usuario, setUsuario } = useRoomsContext();
 
+  const history = useHistory();
+
   async function signIn() {
-    const response = await cadastrar(user);
+    const response = await serviceLogin(user.email);
     setUsuario(response);
     history.push("/salas");
   }
-
-  function handleChangeNome(e) {
-    setUser((oldUser) => {
-      oldUser.nome = e.target.value;
-      return { ...oldUser };
-    });
-  }
-
   function handleChangeEmail(e) {
     setUser((oldUser) => {
       oldUser.email = e.target.value;
+      console.log(user.email);
       return { ...oldUser };
     });
   }
-  const history = useHistory();
   return (
     <Flex alignItems="center" justify="center" minH="90vh" marginBottom="3rem">
       <Stack spacing="8" py="12" px={6}>
@@ -50,15 +43,6 @@ export default function Cadastrar() {
         </Stack>
         <Box rounded="lg" bg="gray.200" boxShadow="lg" p={8}>
           <Stack spacing={4}>
-            <FormControl id="nome" onSubmit={(e) => e.preventDefault()}>
-              <FormLabel>Nome</FormLabel>
-              <Input
-                type="name"
-                placeholder="Nome"
-                size="lg"
-                onChange={handleChangeNome}
-              />
-            </FormControl>
             <FormControl id="email">
               <FormLabel>Email</FormLabel>
               <Input
@@ -88,4 +72,4 @@ export default function Cadastrar() {
   );
 }
 
-// ANCHOR Trocar uma ideia sobre como funcionará para saber se o usuário acertou o seu login, ou não
+export { Login };
