@@ -9,7 +9,8 @@ import {
   useHistory,
 } from "react-router-dom";
 import Sala from "./pages/sala";
-import Login from "./pages/login";
+import Cadastrar from "./pages/cadastro";
+import SalaJogador from "./pages/jogador";
 
 export default function App() {
   return (
@@ -17,13 +18,16 @@ export default function App() {
       <Header />
       <Switch>
         <Route exact path="/">
-          <Login />
+          <Cadastrar />
         </Route>
         <Route exact path="/salas">
           <Salas />
         </Route>
         <Route exact path="/sala/:id">
           <Sala />
+        </Route>
+        <Route exact path="/jogador">
+          <SalaJogador />
         </Route>
       </Switch>
       <Footer />

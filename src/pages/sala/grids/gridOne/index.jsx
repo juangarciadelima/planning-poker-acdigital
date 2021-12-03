@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../cardRoom.css";
 import {
   Box,
@@ -22,21 +22,113 @@ import {
 import { EuiNotificationBadge } from "@elastic/eui";
 import { ToastContainer } from "react-toastify";
 import { TiCoffee } from "react-icons/ti";
+import { toast } from "react-toastify";
 
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { Metodologia } from "./metodologia";
+import FormCreateHistory from "../../../../components/forms/formCreateHistory";
+import {
+  serviceAtualizarHistoria,
+  serviceCriarHistoria,
+} from "../../../../services/historias";
+import FormEditHistory from "../../../../components/forms/formEditHistory";
 export default function GridOne({
-  sala,
+  id,
   historias,
-  storyModal,
-  editModal,
+
   deleteModal,
   showDeleteModal,
-  showEditModal,
 }) {
+  const [historiaSelecionada, setHistoriaSelecionada] = useState(null);
+
+  const [novaHistoria, setNovaHistoria] = useState();
+
+  const [createModal, setCreateModal] = useState(false);
+  const closeCreateModal = () => {
+    setCreateModal(false);
+    setNovaHistoria(null);
+  };
+  const showCreateModal = () => {
+    setCreateModal(true);
+    setNovaHistoria(criarHistoria());
+  };
+
+  let createHistoryModal;
+  let editHistoryModal;
+
+  const [editModal, setEditModal] = useState(false);
+  const closeEditModal = () => {
+    setEditModal(false);
+    setHistoriaSelecionada(null);
+  };
+
+  const showEditModal = (historia) => {
+    setEditModal(true);
+    setHistoriaSelecionada(historia);
+  };
+  async function toastStory() {
+    const response = await serviceCriarHistoria(id, novaHistoria);
+    if (response) {
+      closeCreateModal();
+      toast("Sala Criada");
+    } else {
+      toast("Houve um problema ao cadastrar a história!");
+    }
+  }
+
+  async function handleEditClick() {
+    const response = await serviceAtualizarHistoria(id, historiaSelecionada);
+    if (response) {
+      closeEditModal();
+      toast("Sala Editada");
+    } else {
+      toast("Houve um problema ao editar!");
+    }
+  }
+
+  if (createModal) {
+    createHistoryModal = (
+      <FormCreateHistory
+        onClose={closeCreateModal}
+        modalHeader="Criar a História"
+        onClick={closeCreateModal}
+        onClickBtn={toastStory}
+        lBtnText="Cancelar"
+        rBtnText="Criar"
+        novaHistoria={novaHistoria}
+        setNovaHistoria={setNovaHistoria}
+      />
+    );
+  }
+
+  if (editModal) {
+    editHistoryModal = (
+      <FormEditHistory
+        historiaSelecionada={historiaSelecionada}
+        setHistoriaSelecionada={setHistoriaSelecionada}
+        onClose={closeEditModal}
+        modalHeader="Editar a Sala"
+        onClick={closeEditModal}
+        onClickBtn={handleEditClick}
+        lBtnText="Sair"
+        rBtnText="Editar"
+      />
+    );
+  }
+
+  function criarHistoria() {
+    return {
+      id: "2342334s-9c53-46e2-9f6a-e12sds33f6194",
+      idsala: "16ece314-9ee1-4c88-96e5-c696c9a346dd",
+      nome: "",
+      votos: [],
+      emAberto: true,
+    };
+  }
   return (
     <>
       <Box
+        background="transparent"
         marginTop="2rem"
         w="100%"
         h="750px"
@@ -81,7 +173,7 @@ export default function GridOne({
               position="relative"
               width="1000px"
             >
-              {storyModal}
+              {createHistoryModal}
               <TabList>
                 <Tab>
                   Histórias Abertas
@@ -115,7 +207,7 @@ export default function GridOne({
                     marginTop: "0.4rem",
                   }}
                   onClick={() => {
-                    showStoryModal();
+                    showCreateModal();
                   }}
                 >
                   Nova
@@ -144,7 +236,7 @@ export default function GridOne({
                               <DeleteIcon marginRight="15px" />
                             </i>
                             {deleteModal}
-                            {editModal}
+                            {editHistoryModal}
                             <i onClick={showEditModal}>
                               <EditIcon />
                             </i>

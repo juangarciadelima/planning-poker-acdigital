@@ -1,7 +1,7 @@
 import { api } from "../../api";
 
-export async function criarHistoria(req) {
-  const res = await api.post("/api/historia/nova", req);
+export async function serviceCriarHistoria(id, req) {
+  const res = await api.post(`/api/sala/${id}/historia`, req);
 
   return res.data;
 }
@@ -20,7 +20,7 @@ export function deletarHistoria(id) {
   api.delete("/api/historia", id);
 }
 
-export function atualizarHistoria(req) {
+export function serviceAtualizarHistoria(req) {
   const res = api.patch("/api/historia", req);
   return res.data;
 }

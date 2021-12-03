@@ -66,6 +66,13 @@ export default function Header() {
               >
                 Voltar para Salas
               </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  history.push("/jogador");
+                }}
+              >
+                Jogador
+              </MenuItem>
             </MenuList>
           </Menu>
         </Box>

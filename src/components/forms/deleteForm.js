@@ -10,17 +10,17 @@ import {
 } from "@elastic/eui";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-export default function FormEdit({
+export default function DeleteForm({
   onClose,
   modalHeader,
   onClick,
   onClickBtn,
   lBtnText,
   rBtnText,
-  salaSelecionada,
+  salaDeletar,
   setSalaSelecionada,
 }) {
- 
+  console.log(salaDeletar);
   return (
     <EuiModal onClose={onClose}>
       <EuiModalHeader>
@@ -28,17 +28,7 @@ export default function FormEdit({
       </EuiModalHeader>
       <EuiModalBody>
         <FormControl id="room-name " isRequired>
-          <FormLabel>Nome da Sala</FormLabel>
-          <Input
-            placeholder="Nome"
-            value={salaSelecionada?.nome}
-            onChange={(e) => {
-              setSalaSelecionada({
-                ...salaSelecionada,
-                ...{ nome: e.target?.value },
-              });
-            }}
-          />
+          <FormLabel>Você deseja mesmo deletar a sala?</FormLabel>
         </FormControl>
       </EuiModalBody>
       <EuiModalFooter>
