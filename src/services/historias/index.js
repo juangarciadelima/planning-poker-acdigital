@@ -1,6 +1,6 @@
 import { api } from "../../api";
 
-export async function serviceCriarHistoria(id, req) {
+export async function serviceCriarHistoria(req) {
   const res = await api.post(`/historia`, req);
 
   return res.data;
@@ -21,8 +21,8 @@ export function deletarHistoria(id) {
 }
 
 export function serviceAtualizarHistoria(req) {
-  const res = api.patch("/api/historia", req);
-  return res.data;
+  const { status } = api.put("/historia", req);
+  return status === 200;
 }
 
 export function fecharHistoria(id) {

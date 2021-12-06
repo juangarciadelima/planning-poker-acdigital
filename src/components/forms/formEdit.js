@@ -20,7 +20,6 @@ export default function FormEdit({
   salaSelecionada,
   setSalaSelecionada,
 }) {
-  console.log(salaSelecionada);
   return (
     <EuiModal onClose={onClose}>
       <EuiModalHeader>

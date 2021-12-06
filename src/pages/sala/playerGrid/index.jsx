@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 import { EuiAccordion, EuiPanel } from "@elastic/eui";
-export default function GridTwo({ buttonContent }) {
+export default function PlayerGrid({ buttonContent }) {
   return (
     <>
       <Box

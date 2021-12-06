@@ -82,7 +82,7 @@ export default function TableComponent({
                     aria-label="Delete"
                     icon={<CloseIcon />}
                     colorScheme="red"
-                    onClick={funcDel}
+                    onClick={() => funcDel(sala.id)}
                     title="Delete Room"
                   />
                   {deleteModal}
