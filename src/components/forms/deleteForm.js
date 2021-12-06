@@ -20,7 +20,6 @@ export default function DeleteForm({
   salaDeletar,
   setSalaSelecionada,
 }) {
-  console.log(salaDeletar);
   return (
     <EuiModal onClose={onClose}>
       <EuiModalHeader>

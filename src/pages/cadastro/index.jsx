@@ -44,9 +44,9 @@ export default function Cadastrar() {
   const history = useHistory();
   return (
     <Flex alignItems="center" justify="center" minH="90vh" marginBottom="3rem">
-      <Stack spacing="8" py="12" px={6}>
+      <Stack spacing="10" py="12" px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Faça Login em sua conta</Heading>
+          <Heading fontSize={"4xl"}>Faça o cadastro da sua conta</Heading>
         </Stack>
         <Box rounded="lg" bg="gray.200" boxShadow="lg" p={8}>
           <Stack spacing={4}>

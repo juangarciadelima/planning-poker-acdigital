@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Heading } from "@chakra-ui/layout";
-import { buscarCartas } from "../../../../../services/metodologia";
+import { buscarCartas } from "../../../../services/metodologia";
 
 export function Metodologia() {
   const [metodologia, setMetodologia] = useState({});

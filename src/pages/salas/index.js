@@ -40,8 +40,6 @@ export default function Salas() {
     setNovaSala(criarSala());
   };
 
-  const usuarioLogado = localStorage.getItem("user");
-
   const [editModalVisible, setEditModalVisible] = useState(false);
   const closeEditModal = () => {
     setEditModalVisible(false);
@@ -57,11 +55,10 @@ export default function Salas() {
     setIsDeleteModalVisible(false);
     setSalaDeletar(null);
   };
-  const showDeleteModal = (sala) => {
+  const showDeleteModal = (id) => {
     setIsDeleteModalVisible(true);
+    setSalaDeletar(id);
     //Pick the room to delete from the table  and set it to the state to be deleted in the modal  and show the modal  to confirm
-
-    setSalaDeletar(sala.id);
   };
 
   async function handleClick() {
@@ -88,13 +85,13 @@ export default function Salas() {
   }
 
   async function handleDeleteClick() {
-    const response = await serviceDeletarSala();
+    const response = await serviceDeletarSala(salaDeletar);
     //Pick the id of the room to delete from the state and delete it from the table
 
     if (response) {
-      closeEditModal();
-      toast(`${sala} foi deletada com sucesso`);
-      console.log(sala);
+      closeDeleteModal();
+      toast(`Sala foi deletada com sucesso`);
+
       await atualizarSalas();
     } else {
       toast.warn("Houve um problema ao deletar!");

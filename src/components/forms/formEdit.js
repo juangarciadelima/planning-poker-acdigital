@@ -20,7 +20,6 @@ export default function FormEdit({
   salaSelecionada,
   setSalaSelecionada,
 }) {
- 
   return (
     <EuiModal onClose={onClose}>
       <EuiModalHeader>

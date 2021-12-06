@@ -31,7 +31,7 @@ function Login() {
   function handleChangeEmail(e) {
     setUser((oldUser) => {
       oldUser.email = e.target.value;
-      console.log(user.email);
+
       return { ...oldUser };
     });
   }
