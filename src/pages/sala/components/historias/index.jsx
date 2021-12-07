@@ -33,11 +33,14 @@ import {
   buscarHistoriaAberta,
   serviceAtualizarHistoria,
   serviceCriarHistoria,
+  serviceDeletarHistoria,
 } from "../../../../services/historias";
 import FormEditHistory from "../../../../components/forms/formEditHistory";
+import FormDeleteHistory from "../../../../components/forms/deleteFormHistory";
 export default function Historias({ id }) {
   const [historias, setHistorias] = useState([]);
   const [historiaSelecionada, setHistoriaSelecionada] = useState(null);
+  const [historiaDeletar, setHistoriaDeletar] = useState(null);
 
   const [novaHistoria, setNovaHistoria] = useState();
 
@@ -57,8 +60,16 @@ export default function Historias({ id }) {
     setNovaHistoria(criarHistoria());
   };
 
-  let createHistoryModal;
-  let editHistoryModal;
+  async function handleClick() {
+    const response = await serviceCriarHistoria(novaHistoria);
+    if (response) {
+      closeCreateModal();
+      toast("História Criada");
+      await AtualizaHistorias();
+    } else {
+      toast("Houve um problema ao cadastrar a história!");
+    }
+  }
 
   const [editModal, setEditModal] = useState(false);
   const closeEditModal = () => {
@@ -70,16 +81,6 @@ export default function Historias({ id }) {
     setEditModal(true);
     setHistoriaSelecionada(historia);
   };
-  async function toastStory() {
-    const response = await serviceCriarHistoria(novaHistoria);
-    if (response) {
-      closeCreateModal();
-      toast("História Criada");
-      await AtualizaHistorias();
-    } else {
-      toast("Houve um problema ao cadastrar a história!");
-    }
-  }
 
   async function handleEditClick() {
     const response = await serviceAtualizarHistoria(historiaSelecionada);
@@ -92,13 +93,38 @@ export default function Historias({ id }) {
     }
   }
 
+  const [deleteModal, setDeleteModal] = useState(false);
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+    setHistoriaDeletar(null);
+  };
+  const showDeleteModal = (historia) => {
+    setDeleteModal(true);
+    setHistoriaDeletar(historia);
+  };
+
+  let createHistoryModal;
+  let editHistoryModal;
+  let deleteHistoryModal;
+
+  async function handleDeleteClick() {
+    const response = await serviceDeletarHistoria(historiaDeletar);
+    if (response) {
+      closeDeleteModal();
+      toast("História Deletada");
+      await AtualizaHistorias();
+    } else {
+      toast("Houve um problema ao deletar!");
+    }
+  }
+
   if (createModal) {
     createHistoryModal = (
       <FormCreateHistory
         onClose={closeCreateModal}
         modalHeader="Criar a História"
         onClick={closeCreateModal}
-        onClickBtn={toastStory}
+        onClickBtn={handleClick}
         lBtnText="Cancelar"
         rBtnText="Criar"
         novaHistoria={novaHistoria}
@@ -122,6 +148,18 @@ export default function Historias({ id }) {
     );
   }
 
+  if (deleteModal) {
+    deleteHistoryModal = (
+      <FormDeleteHistory
+        onClose={closeDeleteModal}
+        modalHeader="Deletar a Sala"
+        lBtnText="Sair"
+        rBtnText="Deletar"
+        onClick={closeDeleteModal}
+        onClickBtn={handleDeleteClick}
+      />
+    );
+  }
   function criarHistoria() {
     return {
       idSala: id,
@@ -198,7 +236,13 @@ export default function Historias({ id }) {
                     <Td isNumeric>
                       <ToastContainer />
                       <ButtonGroup>
-                        <IconButton icon={<DeleteIcon />} />
+                        <IconButton
+                          onClick={() => {
+                            showDeleteModal(history.id);
+                          }}
+                          icon={<DeleteIcon />}
+                        />
+                        {deleteHistoryModal}
                         <IconButton
                           onClick={() => showEditModal(history)}
                           icon={<EditIcon />}

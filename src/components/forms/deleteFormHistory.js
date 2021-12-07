@@ -10,7 +10,7 @@ import {
 } from "@elastic/eui";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-export default function DeleteForm({
+export default function FormDeleteHistory({
   onClose,
   modalHeader,
   onClick,

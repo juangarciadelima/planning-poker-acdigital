@@ -11,25 +11,13 @@ export async function buscarHistoriaAberta(id, state) {
   return res.data;
 }
 
-export async function buscarHistoriaFechada() {
-  const res = await api.get("/api/historia/fechado");
-  return res.data;
-}
-
-export function deletarHistoria(id) {
-  api.delete("/api/historia", id);
-}
-
-export function serviceAtualizarHistoria(req) {
-  const { status } = api.put("/historia", req);
+export async function serviceDeletarHistoria(id) {
+  const { status } = await api.delete(`/historia/${id}`, { id: id });
   return status === 200;
 }
 
-export function fecharHistoria(id) {
-  api.get(`/api/historia/finalizar/${id}`);
-}
+export async function serviceAtualizarHistoria(req) {
+  const { status } = await api.put("/historia", req);
 
-export function votar(req) {
-  const res = api.post("/api/historia/votar", req);
-  return res.data;
+  return status === 200;
 }
