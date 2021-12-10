@@ -22,8 +22,9 @@ import DeleteForm from "../../components/forms/deleteForm";
 
 //State that picks the room when click on deleteModal
 export default function Salas() {
+  const { setSalas, salas, administrador } = useRoomsContext();
+
   const history = useHistory();
-  const { usuario, setSalas, salas } = useRoomsContext();
 
   const [salaSelecionada, setSalaSelecionada] = useState();
   const [salaDeletar, setSalaDeletar] = useState();
@@ -60,6 +61,11 @@ export default function Salas() {
     setSalaDeletar(id);
     //Pick the room to delete from the table  and set it to the state to be deleted in the modal  and show the modal  to confirm
   };
+
+  useEffect(async () => {
+    const response = await serviceBuscarSalas(administrador.email);
+    setSalas(response);
+  }, []);
 
   async function handleClick() {
     const response = await serviceCriarSala(novaSala);
@@ -98,16 +104,8 @@ export default function Salas() {
     }
   }
 
-  useEffect(async () => {
-    if (!usuario.nome) {
-      history.push("/");
-    } else {
-      await atualizarSalas();
-    }
-  }, []);
-
   async function atualizarSalas() {
-    const response = await serviceBuscarSalas(usuario.email);
+    const response = await serviceBuscarSalas(administrador.email);
     setSalas(response);
   }
 
@@ -116,9 +114,9 @@ export default function Salas() {
       nome: "",
       jogadores: [],
       administrador: {
-        email: usuario.email,
-        nome: usuario.nome,
-        id: usuario.id,
+        email: administrador.email,
+        nome: administrador.nome,
+        id: administrador.id,
       },
     };
   }

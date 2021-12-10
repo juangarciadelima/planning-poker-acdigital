@@ -20,11 +20,11 @@ import "./cadastro.css";
 
 export default function Cadastrar() {
   const [user, setUser] = useState({ nome: "", email: "" });
-  const { usuario, setUsuario } = useRoomsContext();
+  const { administrador, setAdministrador } = useRoomsContext();
 
   async function signIn() {
     const response = await cadastrar(user);
-    setUsuario(response);
+    setAdministrador(response);
     history.push("/salas");
   }
 

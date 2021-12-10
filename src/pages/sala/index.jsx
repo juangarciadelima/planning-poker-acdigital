@@ -12,12 +12,12 @@ import Historias from "./components/historias";
 import PlayerGrid from "./playerGrid";
 
 export default function CardRoom() {
-  const { usuario, sala } = useRoomsContext();
+  const { administrador, sala } = useRoomsContext();
 
   const history = useHistory();
 
   useEffect(() => {
-    if (!usuario.nome) {
+    if (!administrador.nome) {
       history.push("/");
     }
   }, []);

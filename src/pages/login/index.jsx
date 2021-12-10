@@ -19,13 +19,13 @@ import { useHistory } from "react-router-dom";
 
 function Login() {
   const [user, setUser] = useState({ email: "" });
-  const { usuario, setUsuario } = useRoomsContext();
+  const { administrador, setAdministrador } = useRoomsContext();
 
   const history = useHistory();
 
   async function signIn() {
     const response = await serviceLogin(user.email);
-    setUsuario(response);
+    setAdministrador(response);
     history.push("/salas");
   }
   function handleChangeEmail(e) {

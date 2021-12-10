@@ -9,12 +9,12 @@ export async function cadastrar(req) {
 
 export async function serviceLogin(administrador) {
   const response = await api.get(`/administrador/${administrador}`);
-  localStorage.setItem("user", JSON.stringify(response.data));
+  localStorage.setItem("administrador", JSON.stringify(response.data));
 
   return response.data;
 }
 
-export async function logout(setUsuario) {
-  localStorage.removeItem("user");
-  setUsuario({ nome: "", email: "" });
+export async function logout(setAdministrador) {
+  localStorage.removeItem("administrador");
+  setAdministrador({ nome: "", email: "" });
 }

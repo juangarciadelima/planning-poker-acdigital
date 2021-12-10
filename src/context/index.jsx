@@ -1,5 +1,6 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { buscarSalas } from "../services/salas";
+import { useHistory } from "react-router-dom";
 
 export const PokerContext = createContext();
 
@@ -7,7 +8,9 @@ export const PokerContext = createContext();
 
 const RoomsProvider = ({ children }) => {
   const [salas, setSalas] = useState([]);
-  const [usuario, setUsuario] = useState({ nome: "", email: "" });
+  const [administrador, setAdministrador] = useState({ nome: "", email: "" });
+  const [jogador, setJogador] = useState({ nome: "", email: "" });
+  const history = useHistory();
   const [sala, setSala] = useState({
     nome: "",
     metodologias: { cartas: [] },
@@ -15,16 +18,26 @@ const RoomsProvider = ({ children }) => {
     historias: [],
   });
 
+  useEffect(async () => {
+    if (!localStorage.getItem("administrador")) {
+      history.push("/login");
+    } else {
+      setAdministrador(JSON.parse(localStorage.getItem("administrador")));
+    }
+  }, []);
+
   const crudSala = { salas, setSalas };
 
-  const administrador = { usuario, setUsuario };
+  const admin = { administrador, setAdministrador };
+
+  const player = { jogador, setJogador };
 
   const voteSala = { sala, setSala };
 
   return (
     <>
       <PokerContext.Provider
-        value={{ ...crudSala, ...administrador, ...voteSala }}
+        value={{ ...crudSala, ...admin, ...voteSala, ...player }}
       >
         {children}
       </PokerContext.Provider>

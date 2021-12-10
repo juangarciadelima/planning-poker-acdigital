@@ -7,11 +7,9 @@ import RoomsProvider from "./context/index";
 
 ReactDOM.render(
   <React.StrictMode>
-    <RoomsProvider>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </RoomsProvider>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
