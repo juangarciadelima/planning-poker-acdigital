@@ -16,12 +16,6 @@ export default function CardRoom() {
 
   const history = useHistory();
 
-  useEffect(() => {
-    if (!administrador.nome) {
-      history.push("/");
-    }
-  }, []);
-
   const buttonContent = (
     <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
       Convide os seus colegas

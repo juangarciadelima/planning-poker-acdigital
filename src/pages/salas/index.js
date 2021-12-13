@@ -22,7 +22,9 @@ import DeleteForm from "../../components/forms/deleteForm";
 
 //State that picks the room when click on deleteModal
 export default function Salas() {
-  const { setSalas, salas, administrador } = useRoomsContext();
+  const { setSalas, salas } = useRoomsContext();
+
+  const administrador = JSON.parse(localStorage.getItem("administrador"));
 
   const history = useHistory();
 
