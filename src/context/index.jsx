@@ -28,16 +28,16 @@ const RoomsProvider = ({ children }) => {
 
   const crudSala = { salas, setSalas };
 
-  const admin = { administrador, setAdministrador };
+  const states = { administrador, jogador };
 
-  const player = { jogador, setJogador };
+  const action  = { setAdministrador, setJogador };
 
   const voteSala = { sala, setSala };
 
   return (
     <>
       <PokerContext.Provider
-        value={{ ...crudSala, ...admin, ...voteSala, ...player }}
+        value={{ ...crudSala, ...states, ...voteSala, ...actions }}
       >
         {children}
       </PokerContext.Provider>
