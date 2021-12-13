@@ -26,19 +26,13 @@ const RoomsProvider = ({ children }) => {
     }
   }, []);
 
-  const crudSala = { salas, setSalas };
+  const states = { administrador, jogador, salas, sala };
 
-  const states = { administrador, jogador };
-
-  const action  = { setAdministrador, setJogador };
-
-  const voteSala = { sala, setSala };
+  const actions = { setAdministrador, setJogador, setSala, setSalas };
 
   return (
     <>
-      <PokerContext.Provider
-        value={{ ...crudSala, ...states, ...voteSala, ...actions }}
-      >
+      <PokerContext.Provider value={{ ...states, ...actions }}>
         {children}
       </PokerContext.Provider>
     </>
