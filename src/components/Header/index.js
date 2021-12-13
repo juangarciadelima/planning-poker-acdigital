@@ -16,7 +16,7 @@ import { useHistory } from "react-router-dom";
 import { useRoomsContext } from "../../context";
 
 export default function Header() {
-  const { usuario, setUsuario } = useRoomsContext();
+  const { administrador, setAdministrador } = useRoomsContext();
   const history = useHistory();
 
   //Condicional se estiver no contexto -> Tal ação (a se decidir) -> Senão, outra ação
@@ -41,19 +41,19 @@ export default function Header() {
 
       <Spacer />
       <Spacer />
-      {usuario && usuario.nome ? (
+      {administrador && administrador.nome ? (
         <Box d="flex" mr="7rem" className="imgBox">
           <Menu>
             <MenuButton as={Button}>
               <div>
                 Seja Bem Vindo
-                <strong>,{usuario.nome}</strong>
+                <strong>,{administrador.nome}</strong>
               </div>
             </MenuButton>
             <MenuList>
               <MenuItem
                 onClick={() => {
-                  logout(setUsuario);
+                  logout(setAdministrador);
                   history.push("/");
                 }}
               >
