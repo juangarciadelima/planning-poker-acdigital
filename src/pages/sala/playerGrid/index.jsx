@@ -13,7 +13,10 @@ import {
 } from "@chakra-ui/react";
 
 import { EuiAccordion, EuiPanel } from "@elastic/eui";
-export default function PlayerGrid({ buttonContent }) {
+export default function PlayerGrid({ buttonContent, sala }) {
+  const urlGuardada = window.location.href + "/jogador";
+
+  console.log(sala);
   return (
     <>
       <Box
@@ -61,60 +64,29 @@ export default function PlayerGrid({ buttonContent }) {
                     marginTop: "3rem",
                   }}
                 >
-                  <li>
-                    <cite>
-                      <Avatar
-                        name="Dan Abrahmov"
-                        size="lg"
-                        src="https://bit.ly/dan-abramov"
-                        marginLeft="1rem"
-                      />
-                      <Text
-                        fontSize="md"
-                        fontFamily="Poppins"
-                        fontWeight="700"
-                        ml="0.5rem"
-                      >
-                        Dan Abrahmov
-                      </Text>
-                      <Text
-                        right="0"
-                        fontWeight="700"
-                        fontSize="3xl"
-                        position="absolute"
-                        mr="2rem"
-                      >
-                        3
-                      </Text>
-                    </cite>
-                  </li>
-                  <li>
-                    <cite>
-                      <Avatar
-                        name="Dan Abrahmov"
-                        size="lg"
-                        src="https://bit.ly/dan-abramov"
-                        marginLeft="1rem"
-                      />
-                      <Text
-                        fontSize="md"
-                        fontFamily="Poppins"
-                        fontWeight="700"
-                        ml="0.5rem"
-                      >
-                        Dan Abrahmov
-                      </Text>
-                      <Text
-                        right="0"
-                        fontWeight="700"
-                        fontSize="3xl"
-                        position="absolute"
-                        mr="2rem"
-                      >
-                        3
-                      </Text>
-                    </cite>
-                  </li>
+                  {sala.jogadores.map((jogador) => (
+                    <li>
+                      <cite>
+                        <Text
+                          fontSize="md"
+                          fontFamily="Poppins"
+                          fontWeight="700"
+                          ml="0.5rem"
+                        >
+                          {jogador.nome}
+                        </Text>
+                        <Text
+                          right="0"
+                          fontWeight="700"
+                          fontSize="3xl"
+                          position="absolute"
+                          mr="2rem"
+                        >
+                          3
+                        </Text>
+                      </cite>
+                    </li>
+                  ))}
                 </ul>
               </Flex>
             </Box>
@@ -135,6 +107,7 @@ export default function PlayerGrid({ buttonContent }) {
           >
             <Button className="btnGrid">Resetar Votação</Button>
             <Button className="btnGrid">Virar Cartas</Button>
+            <Button className="btnGrid">Finalizar Votação</Button>
           </ButtonGroup>
 
           <Box
@@ -157,10 +130,7 @@ export default function PlayerGrid({ buttonContent }) {
                   background="transparent"
                   className="boxInput"
                 >
-                  <Input
-                    placeholder="https://github.com/juangarciadelima"
-                    w="300px"
-                  />
+                  <Input value={urlGuardada} w="300px" />
                 </Box>
               </EuiPanel>
             </EuiAccordion>

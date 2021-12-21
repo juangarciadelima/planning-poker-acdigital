@@ -32,7 +32,7 @@ export default function App() {
           <Route exact path="/sala/:id">
             <Sala />
           </Route>
-          <Route exact path="/jogador">
+          <Route exact path="/sala/:id/jogador">
             <SalaJogador />
           </Route>
         </RoomsProvider>

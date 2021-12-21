@@ -16,9 +16,12 @@ import { useHistory } from "react-router-dom";
 import { useRoomsContext } from "../../context";
 
 export default function Header() {
-  const { administrador, setAdministrador } = useRoomsContext();
+  const { tipoUsuario, limparContexto, usuario } = useRoomsContext();
+
   const history = useHistory();
 
+  console.log(tipoUsuario);
+  console.log(usuario);
   //Condicional se estiver no contexto -> Tal ação (a se decidir) -> Senão, outra ação
 
   return (
@@ -41,20 +44,20 @@ export default function Header() {
 
       <Spacer />
       <Spacer />
-      {administrador && administrador.nome ? (
+      {usuario && usuario.nome ? (
         <Box d="flex" mr="7rem" className="imgBox">
           <Menu>
             <MenuButton as={Button}>
               <div>
                 Seja Bem Vindo
-                <strong>,{administrador.nome}</strong>
+                <strong>,{usuario.nome}</strong>
               </div>
             </MenuButton>
             <MenuList>
               <MenuItem
                 onClick={() => {
-                  logout(setAdministrador);
-                  history.push("/");
+                  logout(limparContexto);
+                  history.push("/login");
                 }}
               >
                 Deslogar
@@ -89,3 +92,4 @@ export default function Header() {
     </Flex>
   );
 }
+//Se tiver logado como administrador, mostrar o nome do administrador, o mesmo para o jogador, e se estiver deslogado, mostrar o botão de login.

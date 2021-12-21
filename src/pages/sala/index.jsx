@@ -58,7 +58,7 @@ export default function CardRoom() {
             </Box>
           </Grid>
         </Box>
-        <PlayerGrid buttonContent={buttonContent} />
+        <PlayerGrid buttonContent={buttonContent} sala={sala} />
       </Grid>
     </div>
   );
