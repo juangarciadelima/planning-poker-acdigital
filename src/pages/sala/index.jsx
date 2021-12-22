@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./cardRoom.css";
 
-import { Grid, Box, Heading } from "@chakra-ui/react";
+import { Grid, Box, Heading, Text } from "@chakra-ui/react";
 
 import { useHistory } from "react-router-dom";
 
@@ -10,17 +10,28 @@ import { useRoomsContext } from "../../context";
 import { Metodologia } from "./components/metodologia";
 import Historias from "./components/historias";
 import PlayerGrid from "./playerGrid";
+import { buscarHistoriaAberta } from "../../services/historias";
 
 export default function CardRoom() {
   const { administrador, sala } = useRoomsContext();
 
   const history = useHistory();
+  const [historias, setHistorias] = useState([]);
+  const [classCarta, setClassCarta] = useState("cartaVirada");
 
   const buttonContent = (
     <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
       Convide os seus colegas
     </Heading>
   );
+
+  useEffect(async () => {
+    const res = await buscarHistoriaAberta(sala.id, "true");
+
+    console.log(historias[0]);
+
+    setHistorias(res);
+  }, []);
 
   return (
     <div className="grid">
@@ -41,10 +52,14 @@ export default function CardRoom() {
           justifyContent="center"
         >
           <Grid templateRows="0.4fr 1.5fr 0.5fr" gap={8} className="gridOne">
-            <Box w="100%"></Box>
+            <Box w="100%">
+              <Heading>
+                {historias[0] ? historias[0].nome : "Ainda não há historias"}
+              </Heading>
+            </Box>
 
             <Box className="boxCard" w="100%">
-              <Metodologia />
+              <Metodologia className={classCarta} />
             </Box>
             <Box
               h="200px"
@@ -54,11 +69,20 @@ export default function CardRoom() {
               marginBottom="3rem"
               className="tabBox"
             >
-              <Historias id={sala.id} />
+              <Historias
+                id={sala.id}
+                historias={historias}
+                setHistorias={setHistorias}
+              />
             </Box>
           </Grid>
         </Box>
-        <PlayerGrid buttonContent={buttonContent} sala={sala} />
+        <PlayerGrid
+          buttonContent={buttonContent}
+          sala={sala}
+          setClassCarta={setClassCarta}
+          historias={historias}
+        />
       </Grid>
     </div>
   );

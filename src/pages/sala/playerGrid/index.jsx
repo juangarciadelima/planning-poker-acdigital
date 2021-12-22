@@ -13,10 +13,21 @@ import {
 } from "@chakra-ui/react";
 
 import { EuiAccordion, EuiPanel } from "@elastic/eui";
-export default function PlayerGrid({ buttonContent, sala }) {
+import {
+  serviceReiniciarVotacao,
+  serviceFinalizarVotacao,
+} from "../../../services/historias";
+import { toast, ToastContainer } from "react-toastify";
+import { BiCopy } from "react-icons/bi";
+export default function PlayerGrid({
+  buttonContent,
+  sala,
+  setClassCarta,
+  historias,
+}) {
   const urlGuardada = window.location.href + "/jogador";
 
-  console.log(sala);
+  console.log(historias[0]);
   return (
     <>
       <Box
@@ -99,15 +110,37 @@ export default function PlayerGrid({ buttonContent, sala }) {
             size="lg"
             marginBottom="1rem"
             d="flex"
-            spacing="6rem"
+            spacing="2rem"
             justifyContent="center"
             alignItems="center"
             padding="10px"
             minWidth="100%"
           >
-            <Button className="btnGrid">Resetar Votação</Button>
-            <Button className="btnGrid">Virar Cartas</Button>
-            <Button className="btnGrid">Finalizar Votação</Button>
+            <Button
+              className="btnGrid"
+              onClick={() =>
+                serviceReiniciarVotacao(historias[0].id) &&
+                toast.success("Votação reiniciada com sucesso")
+              }
+            >
+              Resetar Votação
+            </Button>
+            <ToastContainer limit={1} />
+            <Button
+              className="btnGrid"
+              isDisabled={
+                historias[0] &&
+                historias[0].votos.length === sala.jogadores.length
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                serviceFinalizarVotacao(historias[0].id) &&
+                toast.success("Votação finalizada com sucesso")
+              }
+            >
+              Finalizar Votação
+            </Button>
           </ButtonGroup>
 
           <Box
@@ -130,7 +163,21 @@ export default function PlayerGrid({ buttonContent, sala }) {
                   background="transparent"
                   className="boxInput"
                 >
-                  <Input value={urlGuardada} w="300px" />
+                  <Input
+                    value={urlGuardada}
+                    isReadOnly={true}
+                    className="inputURL"
+                  />
+                  <Button
+                    d="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    colorScheme="red"
+                    float="right"
+                    onClick={() => navigator.clipboard.writeText(urlGuardada)}
+                  >
+                    <BiCopy />
+                  </Button>
                 </Box>
               </EuiPanel>
             </EuiAccordion>

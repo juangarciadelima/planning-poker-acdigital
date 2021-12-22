@@ -310,9 +310,39 @@ cite span {
 }
 
 .accordion {
-  width: 90%;
+  width: 95%;
 }
 
 .btnGroup {
   margin-top: 9rem;
+}
+
+.cartaVirada {
+  position: relative;
+  background-color: #e84a4a;
+  display: flex;
+  justify-content: center;
+  font-family: "Oswald", sans-serif;
+  border: 1px #e84a4a solid;
+  border-radius: 10px;
+  margin: 15px;
+  flex-wrap: wrap;
+  padding: 0;
+  width: 75px;
+  height: 125px;
+  text-align: center;
+  transition: 0.3s ease;
+  cursor: auto;
+}
+
+.cartaVirada h2 i {
+  font-size: 15px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+.inputURL {
+  width: 88% !important;
+  text-overflow: ellipsis;
 }

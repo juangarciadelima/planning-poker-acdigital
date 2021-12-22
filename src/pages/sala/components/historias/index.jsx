@@ -37,18 +37,11 @@ import {
 } from "../../../../services/historias";
 import FormEditHistory from "../../../../components/forms/formEditHistory";
 import FormDeleteHistory from "../../../../components/forms/deleteFormHistory";
-export default function Historias({ id }) {
-  const [historias, setHistorias] = useState([]);
+export default function Historias({ id, historias, setHistorias }) {
   const [historiaSelecionada, setHistoriaSelecionada] = useState(null);
   const [historiaDeletar, setHistoriaDeletar] = useState(null);
 
   const [novaHistoria, setNovaHistoria] = useState();
-
-  useEffect(async () => {
-    const res = await buscarHistoriaAberta(id, "true");
-
-    setHistorias(res);
-  }, []);
 
   const [createModal, setCreateModal] = useState(false);
   const closeCreateModal = () => {
@@ -237,6 +230,7 @@ export default function Historias({ id }) {
                       <ToastContainer />
                       <ButtonGroup>
                         <IconButton
+                          colorScheme="red"
                           onClick={() => {
                             showDeleteModal(history.id);
                           }}
@@ -262,6 +256,7 @@ export default function Historias({ id }) {
                 <Th></Th>
                 <Th isNumeric></Th>
               </Thead>
+              <Tbody></Tbody>
             </Table>
           </TabPanel>
         </TabPanels>
