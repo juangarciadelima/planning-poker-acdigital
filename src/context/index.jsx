@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { buscarSalas } from "../services/salas";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 export const PokerContext = createContext();
 
@@ -10,7 +10,11 @@ const RoomsProvider = ({ children }) => {
   const [salas, setSalas] = useState([]);
   const [administrador, setAdministrador] = useState({ nome: "", email: "" });
   const [jogador, setJogador] = useState({ nome: "", email: "" });
+  const [tipoUsuario, setTipoUsuario] = useState("");
+  const [usuario, setUsuario] = useState({ nome: "", email: "" });
   const history = useHistory();
+  const location = useLocation();
+
   const [sala, setSala] = useState({
     nome: "",
     metodologias: { cartas: [] },
@@ -18,17 +22,57 @@ const RoomsProvider = ({ children }) => {
     historias: [],
   });
 
-  useEffect(async () => {
-    if (!localStorage.getItem("administrador")) {
-      history.push("/login");
+  function limparContexto() {
+    setSala({
+      nome: "",
+      metodologias: { cartas: [] },
+      jogadores: [],
+      historias: [],
+    });
+    setSalas([])
+    setTipoUsuario("");
+    setJogador({ nome: "", email: "" });
+    setAdministrador({ nome: "", email: "" });
+    setUsuario({ nome: "", email: "" });
+  }
+
+  function setLoginInContext(usuario, tipoUsuario){
+    setTipoUsuario(tipoUsuario);
+    setAdministrador(usuario);
+    setUsuario(usuario);
+  }
+
+  function verificaTipoUsuarioNoStorage(){
+    if (localStorage.getItem("tipoUsuario") == "administrador") {
+      setLoginInContext(JSON.parse(localStorage.getItem("administrador")), "administrador");
     } else {
-      setAdministrador(JSON.parse(localStorage.getItem("administrador")));
+      setLoginInContext(JSON.parse(localStorage.getItem("jogador")), "jogador");
+    }
+  }
+
+  useEffect(() => {
+    if (!location.pathname.includes("/jogador")) {
+      if (!localStorage.getItem("tipoUsuario")) {
+        history.push("/login");
+      } else {
+        verificaTipoUsuarioNoStorage()
+      }
     }
   }, []);
 
-  const states = { administrador, jogador, salas, sala };
+  const states = { administrador, jogador, salas, sala, tipoUsuario, usuario };
 
-  const actions = { setAdministrador, setJogador, setSala, setSalas };
+  console.log("store", states)
+
+  const actions = {
+    setAdministrador,
+    setJogador,
+    setSala,
+    setSalas,
+    setTipoUsuario,
+    limparContexto,
+    setLoginInContext
+  };
 
   return (
     <>

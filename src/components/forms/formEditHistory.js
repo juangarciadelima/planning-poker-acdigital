@@ -20,7 +20,6 @@ export default function FormEditHistory({
   historiaSelecionada,
   setHistoriaSelecionada,
 }) {
-  console.log(historiaSelecionada);
   return (
     <EuiModal onClose={onClose}>
       <EuiModalHeader>

@@ -13,7 +13,20 @@ import {
 } from "@chakra-ui/react";
 
 import { EuiAccordion, EuiPanel } from "@elastic/eui";
-export default function PlayerGrid({ buttonContent }) {
+import {
+  serviceReiniciarVotacao,
+  serviceFinalizarVotacao,
+} from "../../../services/historias";
+import { toast, ToastContainer } from "react-toastify";
+import { BiCopy } from "react-icons/bi";
+export default function PlayerGrid({
+  buttonContent,
+  sala,
+  setClassCarta,
+  historias,
+}) {
+  const urlGuardada = window.location.href + "/jogador";
+
   return (
     <>
       <Box
@@ -61,60 +74,29 @@ export default function PlayerGrid({ buttonContent }) {
                     marginTop: "3rem",
                   }}
                 >
-                  <li>
-                    <cite>
-                      <Avatar
-                        name="Dan Abrahmov"
-                        size="lg"
-                        src="https://bit.ly/dan-abramov"
-                        marginLeft="1rem"
-                      />
-                      <Text
-                        fontSize="md"
-                        fontFamily="Poppins"
-                        fontWeight="700"
-                        ml="0.5rem"
-                      >
-                        Dan Abrahmov
-                      </Text>
-                      <Text
-                        right="0"
-                        fontWeight="700"
-                        fontSize="3xl"
-                        position="absolute"
-                        mr="2rem"
-                      >
-                        3
-                      </Text>
-                    </cite>
-                  </li>
-                  <li>
-                    <cite>
-                      <Avatar
-                        name="Dan Abrahmov"
-                        size="lg"
-                        src="https://bit.ly/dan-abramov"
-                        marginLeft="1rem"
-                      />
-                      <Text
-                        fontSize="md"
-                        fontFamily="Poppins"
-                        fontWeight="700"
-                        ml="0.5rem"
-                      >
-                        Dan Abrahmov
-                      </Text>
-                      <Text
-                        right="0"
-                        fontWeight="700"
-                        fontSize="3xl"
-                        position="absolute"
-                        mr="2rem"
-                      >
-                        3
-                      </Text>
-                    </cite>
-                  </li>
+                  {sala.jogadores.map((jogador) => (
+                    <li>
+                      <cite>
+                        <Text
+                          fontSize="md"
+                          fontFamily="Poppins"
+                          fontWeight="700"
+                          ml="0.5rem"
+                        >
+                          {jogador.nome}
+                        </Text>
+                        <Text
+                          right="0"
+                          fontWeight="700"
+                          fontSize="3xl"
+                          position="absolute"
+                          mr="2rem"
+                        >
+                          3
+                        </Text>
+                      </cite>
+                    </li>
+                  ))}
                 </ul>
               </Flex>
             </Box>
@@ -127,14 +109,37 @@ export default function PlayerGrid({ buttonContent }) {
             size="lg"
             marginBottom="1rem"
             d="flex"
-            spacing="6rem"
+            spacing="2rem"
             justifyContent="center"
             alignItems="center"
             padding="10px"
             minWidth="100%"
           >
-            <Button className="btnGrid">Resetar Votação</Button>
-            <Button className="btnGrid">Virar Cartas</Button>
+            <Button
+              className="btnGrid"
+              onClick={() =>
+                serviceReiniciarVotacao(historias[0].id) &&
+                toast.success("Votação reiniciada com sucesso")
+              }
+            >
+              Resetar Votação
+            </Button>
+            <ToastContainer limit={1} />
+            <Button
+              className="btnGrid"
+              isDisabled={
+                historias[0] &&
+                historias[0].votos.length === sala.jogadores.length
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                serviceFinalizarVotacao(historias[0].id) &&
+                toast.success("Votação finalizada com sucesso")
+              }
+            >
+              Finalizar Votação
+            </Button>
           </ButtonGroup>
 
           <Box
@@ -158,9 +163,20 @@ export default function PlayerGrid({ buttonContent }) {
                   className="boxInput"
                 >
                   <Input
-                    placeholder="https://github.com/juangarciadelima"
-                    w="300px"
+                    value={urlGuardada}
+                    isReadOnly={true}
+                    className="inputURL"
                   />
+                  <Button
+                    d="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    colorScheme="red"
+                    float="right"
+                    onClick={() => navigator.clipboard.writeText(urlGuardada)}
+                  >
+                    <BiCopy />
+                  </Button>
                 </Box>
               </EuiPanel>
             </EuiAccordion>

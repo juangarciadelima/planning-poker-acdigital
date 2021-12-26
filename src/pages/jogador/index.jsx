@@ -11,12 +11,34 @@ import {
   Box,
 } from "@chakra-ui/react";
 
-import { useHistory } from "react-router";
-import "./jogador.css";
+import { useHistory, useParams } from "react-router-dom";
+import { useRoomsContext } from "../../context";
+import { serviceCadastrarJogador } from "../../services/jogador";
 export default function SalaJogador() {
-  const [jogador, setJogador] = useState({ nome: "", email: "" });
+  const [novoJogador, setNovoJogador] = useState({ nome: "", email: "" });
+  const { jogador, setJogador } = useRoomsContext();
   const history = useHistory();
+  const { id } = useParams();
 
+  async function logar() {
+    const response = await serviceCadastrarJogador(id, novoJogador);
+    setJogador(response);
+    history.push(`/sala/${id}`);
+  }
+
+  function handleChangeNome(e) {
+    setNovoJogador((oldUser) => {
+      oldUser.nome = e.target.value;
+      return { ...oldUser };
+    });
+  }
+
+  function handleChangeEmail(e) {
+    setNovoJogador((oldUser) => {
+      oldUser.email = e.target.value;
+      return { ...oldUser };
+    });
+  }
   return (
     <>
       <Box marginTop="2rem">
@@ -44,25 +66,21 @@ export default function SalaJogador() {
             p={5}
             my={12}
           >
-            <FormControl id="email" isRequired>
-              <FormLabel>Email</FormLabel>
-              <Input
-                onChange={(e) =>
-                  setJogador({ ...jogador, email: e.target.value })
-                }
-                placeholder="teste@teste.com"
-                _placeholder={{ color: "gray.500" }}
-                type="email"
-              />
-            </FormControl>
             <FormControl isRequired>
               <FormLabel>Nome</FormLabel>
               <Input
                 type="name"
                 placeholder="JuanGarcia"
-                onChange={(e) =>
-                  setJogador({ ...jogador, nome: e.target.value })
-                }
+                onChange={handleChangeNome}
+              />
+            </FormControl>
+            <FormControl id="email" isRequired>
+              <FormLabel>Email</FormLabel>
+              <Input
+                onChange={handleChangeEmail}
+                placeholder="teste@teste.com"
+                _placeholder={{ color: "gray.500" }}
+                type="email"
               />
             </FormControl>
             <Stack spacing={6}>
@@ -72,7 +90,7 @@ export default function SalaJogador() {
                 _hover={{
                   bg: "red.500",
                 }}
-                onClick={() => console.log(jogador)}
+                onClick={() => logar()}
               >
                 Entrar
               </Button>

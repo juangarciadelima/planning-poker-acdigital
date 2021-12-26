@@ -21,3 +21,24 @@ export async function serviceAtualizarHistoria(req) {
 
   return status === 200;
 }
+
+export async function serviceReiniciarVotacao(id) {
+  const { status } = await api.put(`/historia/${id}/reiniciar`);
+
+  return status === 200;
+}
+
+export async function serviceFinalizarVotacao(id) {
+  const { status } = await api.put(`/historia/${id}/finalizar`);
+
+  return status === 200;
+}
+
+export async function votar(req) {
+  const { status } = await api.put(
+    "/historia/61c2217e1eef78866fc1926b/votar",
+    req
+  );
+
+  return status === 200;
+}
