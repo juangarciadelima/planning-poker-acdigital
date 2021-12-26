@@ -27,7 +27,6 @@ export default function PlayerGrid({
 }) {
   const urlGuardada = window.location.href + "/jogador";
 
-  console.log(historias[0]);
   return (
     <>
       <Box

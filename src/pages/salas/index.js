@@ -176,7 +176,7 @@ export default function Salas() {
       <div
         style={{
           textAlign: "right",
-          margin: "3rem",
+          margin: "3rem 120px",
         }}
       >
         <Button

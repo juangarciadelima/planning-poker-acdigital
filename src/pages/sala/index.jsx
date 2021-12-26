@@ -27,9 +27,6 @@ export default function CardRoom() {
 
   useEffect(async () => {
     const res = await buscarHistoriaAberta(sala.id, "true");
-
-    console.log(historias[0]);
-
     setHistorias(res);
   }, []);
 

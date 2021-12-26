@@ -14,6 +14,7 @@ const RoomsProvider = ({ children }) => {
   const [usuario, setUsuario] = useState({ nome: "", email: "" });
   const history = useHistory();
   const location = useLocation();
+
   const [sala, setSala] = useState({
     nome: "",
     metodologias: { cartas: [] },
@@ -28,31 +29,40 @@ const RoomsProvider = ({ children }) => {
       jogadores: [],
       historias: [],
     });
-    setTipoUsuario();
+    setSalas([])
+    setTipoUsuario("");
     setJogador({ nome: "", email: "" });
     setAdministrador({ nome: "", email: "" });
     setUsuario({ nome: "", email: "" });
   }
 
-  useEffect(async () => {
+  function setLoginInContext(usuario, tipoUsuario){
+    setTipoUsuario(tipoUsuario);
+    setAdministrador(usuario);
+    setUsuario(usuario);
+  }
+
+  function verificaTipoUsuarioNoStorage(){
+    if (localStorage.getItem("tipoUsuario") == "administrador") {
+      setLoginInContext(JSON.parse(localStorage.getItem("administrador")), "administrador");
+    } else {
+      setLoginInContext(JSON.parse(localStorage.getItem("jogador")), "jogador");
+    }
+  }
+
+  useEffect(() => {
     if (!location.pathname.includes("/jogador")) {
       if (!localStorage.getItem("tipoUsuario")) {
         history.push("/login");
       } else {
-        if (localStorage.getItem("tipoUsuario") == "administrador") {
-          setTipoUsuario("administrador");
-          setAdministrador(JSON.parse(localStorage.getItem("administrador")));
-          setUsuario(JSON.parse(localStorage.getItem("administrador")));
-        } else {
-          setTipoUsuario("jogador");
-          setJogador(JSON.parse(localStorage.getItem("jogador")));
-          setUsuario(JSON.parse(localStorage.getItem("jogador")));
-        }
+        verificaTipoUsuarioNoStorage()
       }
     }
   }, []);
 
   const states = { administrador, jogador, salas, sala, tipoUsuario, usuario };
+
+  console.log("store", states)
 
   const actions = {
     setAdministrador,
@@ -61,6 +71,7 @@ const RoomsProvider = ({ children }) => {
     setSalas,
     setTipoUsuario,
     limparContexto,
+    setLoginInContext
   };
 
   return (

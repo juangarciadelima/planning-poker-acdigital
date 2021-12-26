@@ -1,13 +1,12 @@
 import { api } from "../../api";
 
-export async function serviceCadastrarJogador(id, request) {
-  const response = await api.put(`/sala/${id}/jogador`, request);
-  localStorage.setItem("jogador", JSON.stringify(response.data.jogadores));
+export async function serviceCadastrarJogador(id, jogador) {
+  const response = await api.put(`/sala/${id}/jogador`, jogador);
+  localStorage.setItem("jogador", JSON.stringify(jogador));
   localStorage.setItem("tipoUsuario", "jogador");
   return response.data;
 }
 
-export async function serviceDeslogarJogador(setJogador) {
+export async function serviceDeslogarJogador() {
   localStorage.clear();
-  setJogador({ nome: "", email: "" });
 }

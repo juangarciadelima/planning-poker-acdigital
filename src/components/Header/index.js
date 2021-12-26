@@ -20,8 +20,6 @@ export default function Header() {
 
   const history = useHistory();
 
-  console.log(tipoUsuario);
-  console.log(usuario);
   //Condicional se estiver no contexto -> Tal ação (a se decidir) -> Senão, outra ação
 
   return (
@@ -50,24 +48,16 @@ export default function Header() {
             <MenuButton as={Button}>
               <div>
                 Seja Bem Vindo
-                <strong>,{usuario.nome}</strong>
+                <strong>, {usuario.nome}</strong>
               </div>
             </MenuButton>
             <MenuList>
               <MenuItem
                 onClick={() => {
-                  logout(limparContexto);
-                  history.push("/login");
-                }}
-              >
-                Deslogar
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
                   history.push("/salas");
                 }}
               >
-                Voltar para Salas
+                Salas
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -75,6 +65,14 @@ export default function Header() {
                 }}
               >
                 Jogador
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  logout(limparContexto);
+                  history.push("/login");
+                }}
+              >
+                Deslogar
               </MenuItem>
             </MenuList>
           </Menu>

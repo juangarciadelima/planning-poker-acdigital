@@ -24,7 +24,6 @@ export default function SalaJogador() {
     const response = await serviceCadastrarJogador(id, novoJogador);
     setJogador(response);
     history.push(`/sala/${id}`);
-    console.log(jogador);
   }
 
   function handleChangeNome(e) {
