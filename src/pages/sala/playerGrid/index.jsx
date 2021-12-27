@@ -127,7 +127,6 @@ export default function PlayerGrid({
                 >
                   Resetar Votação
                 </Button>
-                <ToastContainer limit={1} />
                 <Button
                   className="btnGrid"
                   isDisabled={
