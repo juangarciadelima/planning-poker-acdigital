@@ -17,15 +17,24 @@ import { cadastrar } from "../../services/administrador";
 import { useHistory } from "react-router-dom";
 import { useRoomsContext } from "../../context";
 import "./cadastro.css";
+import { toast } from "react-toastify";
 
 export default function Cadastrar() {
   const [user, setUser] = useState({ nome: "", email: "" });
-  const { administrador, setAdministrador } = useRoomsContext();
+  const { administrador, setLoginInContext } = useRoomsContext();
 
   async function signIn() {
-    const response = await cadastrar(user);
-    setAdministrador(response);
-    history.push("/salas");
+    if(user && user.email && user.nome){
+      const response = await cadastrar(user);
+      if (response) {
+        setLoginInContext(response, "administrador");
+        history.push("/");
+      } else {
+        toast("Entre em contato com o Desenvolvedor");
+      }
+    }else{
+      toast("Preencha os campos")
+    }
   }
 
   function handleChangeNome(e) {

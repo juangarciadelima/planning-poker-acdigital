@@ -109,8 +109,10 @@ export default function Salas() {
   }
 
   async function atualizarSalas() {
-    const response = await serviceBuscarSalas(administrador.email);
-    setSalas(response);
+    if(administrador){
+      const response = await serviceBuscarSalas(administrador?.email);
+      setSalas(response);
+    }
   }
 
   function criarSala() {
@@ -118,9 +120,9 @@ export default function Salas() {
       nome: "",
       jogadores: [],
       administrador: {
-        email: administrador.email,
-        nome: administrador.nome,
-        id: administrador.id,
+        email: administrador?.email,
+        nome: administrador?.nome,
+        id: administrador?.id,
       },
     };
   }
