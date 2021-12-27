@@ -50,32 +50,37 @@ function Login() {
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Faça Login em sua conta</Heading>
         </Stack>
-        <Box rounded="lg" bg="gray.200" boxShadow="lg" p={8}>
-          <Stack spacing={4}>
-            <FormControl id="email">
-              <FormLabel>Email</FormLabel>
-              <Input
-                type="email"
-                placeholder="Email"
-                size="lg"
-                onChange={handleChangeEmail}
-              />
-            </FormControl>
-            <Stack spacing={10}>
-              <Button
-                marginTop="3rem"
-                bg="red.600"
-                color="white"
-                _hover={{
-                  bg: "red.500",
-                }}
-                onClick={signIn}
-              >
-                Logar
-              </Button>
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          signIn()
+        }} href="#">
+          <Box rounded="lg" bg="gray.200" boxShadow="lg" p={8}>
+            <Stack spacing={4}>
+              <FormControl id="email">
+                <FormLabel>Email</FormLabel>
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  size="lg"
+                  onChange={handleChangeEmail}
+                />
+              </FormControl>
+              <Stack spacing={10}>
+                <Button
+                  marginTop="3rem"
+                  bg="red.600"
+                  color="white"
+                  _hover={{
+                    bg: "red.500",
+                  }}
+                  type="submit"
+                >
+                  Logar
+                </Button>
+              </Stack>
             </Stack>
-          </Stack>
-        </Box>
+          </Box>
+        </form>
       </Stack>
     </Flex>
   );
