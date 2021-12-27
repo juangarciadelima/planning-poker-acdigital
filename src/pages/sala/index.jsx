@@ -43,7 +43,7 @@ export default function CardRoom() {
           background="transparent"
           marginTop="2rem"
           w="100%"
-          h="750px"
+          h="auto"
           className="box"
           marginRight="2rem"
           d="flex"

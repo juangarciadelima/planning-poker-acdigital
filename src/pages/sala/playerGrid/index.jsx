@@ -127,7 +127,6 @@ export default function PlayerGrid({
                 >
                   Resetar Votação
                 </Button>
-
                 <Button
                   className="btnGrid"
                   isDisabled={
