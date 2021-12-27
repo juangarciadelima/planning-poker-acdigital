@@ -35,8 +35,14 @@ import FormDeleteHistory from "../../../../components/forms/deleteFormHistory";
 export default function Historias({ id, historias, setHistorias }) {
   const [historiaSelecionada, setHistoriaSelecionada] = useState(null);
   const [historiaDeletar, setHistoriaDeletar] = useState(null);
-
+  const [historiasFechadas, setHistoriasFechadas] = useState([]);
   const [novaHistoria, setNovaHistoria] = useState();
+
+  useEffect(async () => {
+    const res = await buscarHistoriaAberta(id, "false");
+    setHistoriasFechadas(res);
+    console.log(historiasFechadas);
+  }, []);
 
   const [createModal, setCreateModal] = useState(false);
   const closeCreateModal = () => {
@@ -183,10 +189,39 @@ export default function Historias({ id, historias, setHistorias }) {
           <Tab>
             Histórias Fechadas
             <Box marginLeft="10px">
-              <EuiNotificationBadge color="subdued">0</EuiNotificationBadge>
+              <EuiNotificationBadge>
+                {historiasFechadas.length}
+              </EuiNotificationBadge>
             </Box>
           </Tab>
+          {localStorage.getItem("tipoUsuario") == "jogador" ? (
+            ""
+          ) : (
+            <Button
+              className="btnTab"
+              variant="outline"
+              colorScheme="red"
+              leftIcon={<AddIcon />}
+              style={{
+                position: "absolute",
+                display: "flex",
+                textAlign: "center",
+                justifyContent: "center",
+                right: 0,
+                marginRight: "1rem",
+                marginTop: "0.4rem",
+              }}
+              onClick={() => {
+                showCreateModal();
+              }}
+            >
+              Nova
+            </Button>
+          )}
 
+<<<<<<< HEAD
+          <ToastContainer />
+=======
           <Button
             className="btnTab"
             variant="outline"
@@ -207,6 +242,7 @@ export default function Historias({ id, historias, setHistorias }) {
           >
             Nova
           </Button>
+>>>>>>> f65d3b7a3260f7f7fd66110ee4fd565a0d6345a2
         </TabList>
 
         <TabPanels>
@@ -221,6 +257,28 @@ export default function Historias({ id, historias, setHistorias }) {
                   <Tr>
                     <Td>{history.nome}</Td>
                     <Td isNumeric>
+<<<<<<< HEAD
+                      <ToastContainer />
+                      {localStorage.getItem("tipoUsuario") == "jogador" ? (
+                        ""
+                      ) : (
+                        <ButtonGroup>
+                          <IconButton
+                            colorScheme="red"
+                            onClick={() => {
+                              showDeleteModal(history.id);
+                            }}
+                            icon={<DeleteIcon />}
+                          />
+                          {deleteHistoryModal}
+                          <IconButton
+                            onClick={() => showEditModal(history)}
+                            icon={<EditIcon />}
+                          />
+                          {editHistoryModal}
+                        </ButtonGroup>
+                      )}
+=======
                       <ButtonGroup>
                         <IconButton
                           colorScheme="red"
@@ -236,6 +294,7 @@ export default function Historias({ id, historias, setHistorias }) {
                         />
                         {editHistoryModal}
                       </ButtonGroup>
+>>>>>>> f65d3b7a3260f7f7fd66110ee4fd565a0d6345a2
                     </Td>
                   </Tr>
                 ))}
@@ -249,7 +308,14 @@ export default function Historias({ id, historias, setHistorias }) {
                 <Th></Th>
                 <Th isNumeric></Th>
               </Thead>
-              <Tbody></Tbody>
+              <Tbody>
+                {historiasFechadas.map((history) => (
+                  <Tr>
+                    <Td>{history.nome}</Td>
+                    <Td isNumeric></Td>
+                  </Tr>
+                ))}
+              </Tbody>
             </Table>
           </TabPanel>
         </TabPanels>

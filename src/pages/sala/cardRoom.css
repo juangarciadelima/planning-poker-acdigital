@@ -46,6 +46,7 @@
   text-align: center;
   transition: 0.3s ease;
   cursor: pointer;
+  color: #f6443d;
 }
 
 .numCardR {
@@ -125,19 +126,9 @@ cite span {
   box-shadow: inherit;
 }
 
-.tab i svg {
-  transition: 0.3s ease;
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-}
-
-.tab svg :hover {
-  color: red;
-}
-
 .tab {
   font-family: "Poppins", sans-serif;
+  height: 100%;
 }
 
 .tabBadge svg {
@@ -168,9 +159,6 @@ cite span {
     justify-content: center;
     margin-right: 4.5rem;
     margin-bottom: 4rem !important;
-  }
-
-  .gridOne {
   }
 
   .tableGridTwo {
@@ -211,6 +199,7 @@ cite span {
 
   .tab {
     width: 100% !important;
+    height: 100% !important;
   }
 
   .tabBox {
@@ -226,11 +215,6 @@ cite span {
     width: 80%;
   }
 
-  .btnTab {
-    margin-top: 5px !important;
-    margin-right: 10px !important;
-  }
-
   .playerBox ul {
     width: 80% !important;
     margin-top: 5rem !important;
@@ -242,6 +226,10 @@ cite span {
   .boxAccordion {
     margin-bottom: 10rem;
   }
+}
+
+tbody {
+  padding: 14px 21px !important;
 }
 
 .box {

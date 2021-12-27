@@ -22,7 +22,7 @@ export function Metodologia({ className }) {
   async function executarVoto(card) {
     setVoto({
       carta: { tipo: card.tipo, valor: card.valor },
-      jogador: { nome: jogador[0].nome, email: jogador[0].email },
+      jogador: { nome: jogador.nome, email: jogador.email },
     });
     await votar(voto);
   }
