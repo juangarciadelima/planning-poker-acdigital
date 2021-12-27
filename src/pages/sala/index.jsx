@@ -3,7 +3,7 @@ import "./cardRoom.css";
 
 import { Grid, Box, Heading, Text } from "@chakra-ui/react";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { useRoomsContext } from "../../context";
 
@@ -18,6 +18,7 @@ export default function CardRoom() {
   const history = useHistory();
   const [historias, setHistorias] = useState([]);
   const [classCarta, setClassCarta] = useState("cartaVirada");
+  const { id } = useParams();
 
   const buttonContent = (
     <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
@@ -26,7 +27,7 @@ export default function CardRoom() {
   );
 
   useEffect(async () => {
-    const res = await buscarHistoriaAberta(sala.id, "true");
+    const res = await buscarHistoriaAberta(id, "true");
     setHistorias(res);
   }, []);
 

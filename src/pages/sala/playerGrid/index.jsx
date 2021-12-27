@@ -101,86 +101,93 @@ export default function PlayerGrid({
               </Flex>
             </Box>
           </Box>
-
-          <ButtonGroup
-            className="btnGroup"
-            colorScheme="red"
-            variant="outline"
-            size="lg"
-            marginBottom="1rem"
-            d="flex"
-            spacing="2rem"
-            justifyContent="center"
-            alignItems="center"
-            padding="10px"
-            minWidth="100%"
-          >
-            <Button
-              className="btnGrid"
-              onClick={() =>
-                serviceReiniciarVotacao(historias[0].id) &&
-                toast.success("Votação reiniciada com sucesso")
-              }
-            >
-              Resetar Votação
-            </Button>
-            <ToastContainer limit={1} />
-            <Button
-              className="btnGrid"
-              isDisabled={
-                historias[0] &&
-                historias[0].votos.length === sala.jogadores.length
-                  ? false
-                  : true
-              }
-              onClick={() =>
-                serviceFinalizarVotacao(historias[0].id) &&
-                toast.success("Votação finalizada com sucesso")
-              }
-            >
-              Finalizar Votação
-            </Button>
-          </ButtonGroup>
-
-          <Box
-            w="100%"
-            d="flex"
-            justifyContent="center"
-            alignItems="center"
-            className="boxAccordion"
-          >
-            <EuiAccordion
-              className="accordion"
-              id="accordion1"
-              buttonContent={buttonContent}
-              arrowDisplay="right"
-            >
-              <EuiPanel color="none">
-                <Box
-                  marginBottom="10px"
-                  marginTop="10px"
-                  background="transparent"
-                  className="boxInput"
+          {localStorage.getItem("tipoUsuario") == "jogador" ? (
+            ""
+          ) : (
+            <>
+              <ButtonGroup
+                className="btnGroup"
+                colorScheme="red"
+                variant="outline"
+                size="lg"
+                marginBottom="1rem"
+                d="flex"
+                spacing="2rem"
+                justifyContent="center"
+                alignItems="center"
+                padding="10px"
+                minWidth="100%"
+              >
+                <Button
+                  className="btnGrid"
+                  onClick={() =>
+                    serviceReiniciarVotacao(historias[0].id) &&
+                    toast.success("Votação reiniciada com sucesso")
+                  }
                 >
-                  <Input
-                    value={urlGuardada}
-                    isReadOnly={true}
-                    className="inputURL"
-                  />
-                  <Button
-                    d="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    colorScheme="red"
-                    float="right"
-                    onClick={() => navigator.clipboard.writeText(urlGuardada)}
-                  >
-                    <BiCopy />
-                  </Button>
-                </Box>
-              </EuiPanel>
-            </EuiAccordion>
-          </Box>
+                  Resetar Votação
+                </Button>
+                <ToastContainer limit={1} />
+                <Button
+                  className="btnGrid"
+                  isDisabled={
+                    historias[0] &&
+                    historias[0].votos.length === sala.jogadores.length
+                      ? false
+                      : true
+                  }
+                  onClick={() =>
+                    serviceFinalizarVotacao(historias[0].id) &&
+                    toast.success("Votação finalizada com sucesso")
+                  }
+                >
+                  Finalizar Votação
+                </Button>
+              </ButtonGroup>
+              <Box
+                w="100%"
+                d="flex"
+                justifyContent="center"
+                alignItems="center"
+                className="boxAccordion"
+              >
+                <EuiAccordion
+                  className="accordion"
+                  id="accordion1"
+                  buttonContent={buttonContent}
+                  arrowDisplay="right"
+                >
+                  <EuiPanel color="none">
+                    <Box
+                      marginBottom="10px"
+                      marginTop="10px"
+                      background="transparent"
+                      className="boxInput"
+                    >
+                      <Input
+                        value={urlGuardada}
+                        isReadOnly={true}
+                        className="inputURL"
+                      />
+                      <Button
+                        d="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        colorScheme="red"
+                        float="right"
+                        onClick={() =>
+                          navigator.clipboard.writeText(urlGuardada) &&
+                          toast.success("URL copiada com sucesso")
+                        }
+                      >
+                        <BiCopy />
+                      </Button>
+                    </Box>
+                  </EuiPanel>
+                </EuiAccordion>
+              </Box>
+            </>
+          )}
         </Grid>
       </Box>
     </>
