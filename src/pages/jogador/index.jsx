@@ -24,9 +24,11 @@ export default function SalaJogador() {
   async function logar() {
     if (novoJogador && novoJogador.nome && novoJogador.email) {
       const response = await serviceCadastrarJogador(id, novoJogador);
-      setJogador(response);
-      setLoginInContext(response, "jogador");
-      history.push(`/sala/${id}`);
+      if(response){
+        setJogador(novoJogador);
+        setLoginInContext(novoJogador, "jogador");
+        history.push(`/sala/${id}`);
+      }
     } else {
       toast("Preencha o campo");
     }

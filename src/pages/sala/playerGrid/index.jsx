@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   Box,
   Grid,
@@ -11,7 +10,6 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
-
 import { EuiAccordion, EuiPanel } from "@elastic/eui";
 import {
   serviceReiniciarVotacao,
@@ -19,7 +17,7 @@ import {
 } from "../../../services/historias";
 import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
-import { useEffect } from "react";
+
 export default function PlayerGrid({
   buttonContent,
   sala,
@@ -31,22 +29,9 @@ export default function PlayerGrid({
   return (
     <>
       <Box
-        marginTop="1rem"
-        d="flex"
-        justifyContent="center"
-        alignItems="center"
-        borderRadius="3px"
-        paddingRight="94px"
+        className="list-jogadores-style"
       >
-        <Grid
-          templateColumns="1fr"
-          templateRows=" 1fr 1fr 1fr"
-          w="100%"
-          gap={0}
-          borderRadius="5px"
-          className="gridTwo"
-        >
-          <Box w="100%" d="flex" justifyContent="center" alignItems="center">
+          <Box>
             <Box width="100%" marginTop="2rem">
               <Heading
                 top="0"
@@ -57,22 +42,13 @@ export default function PlayerGrid({
               >
                 Jogadores
               </Heading>
-
-              <Flex
-                justifyContent="flex-start"
-                alignItems="center"
-                className="playerBox"
-              >
-                <ul
-                  style={{
-                    marginTop: "3rem",
-                  }}
-                >
+              <Box>
+                <ul>
                   {sala.jogadores?.map((jogador) => (
                     <li>
                       <cite>
                         <Text
-                          fontSize="md"
+                          fontSize="xl"
                           fontFamily="Poppins"
                           fontWeight="700"
                           ml="0.5rem"
@@ -83,7 +59,7 @@ export default function PlayerGrid({
                           right="0"
                           fontWeight="700"
                           fontSize="3xl"
-                          position="absolute"
+                          position="relative"
                           mr="2rem"
                         >
                           ?
@@ -92,7 +68,7 @@ export default function PlayerGrid({
                     </li>
                   ))}
                 </ul>
-              </Flex>
+              </Box>
             </Box>
           </Box>
           {localStorage.getItem("tipoUsuario") == "jogador" ? (
@@ -107,7 +83,7 @@ export default function PlayerGrid({
                 marginBottom="1rem"
                 d="flex"
                 spacing="2rem"
-                justifyContent="center"
+                justifyContent="space-between"
                 alignItems="center"
                 padding="10px"
                 minWidth="100%"
@@ -181,7 +157,6 @@ export default function PlayerGrid({
               </Box>
             </>
           )}
-        </Grid>
       </Box>
     </>
   );

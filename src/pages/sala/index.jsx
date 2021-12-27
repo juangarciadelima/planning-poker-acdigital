@@ -47,7 +47,7 @@ export default function CardRoom() {
         marginRight="2rem"
         d="flex"
       >
-        <Grid className="gridOne">
+        <Box className="gridOne">
           <Box w="100%">
             <Heading>
               {historias[0] ? historias[0].nome : "Ainda não há historias"}
@@ -70,7 +70,7 @@ export default function CardRoom() {
               setHistorias={setHistorias}
             />
           </Box>
-        </Grid>
+        </Box>
       </Box>
       <PlayerGrid
         buttonContent={buttonContent}

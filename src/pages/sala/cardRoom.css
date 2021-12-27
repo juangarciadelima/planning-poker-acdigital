@@ -89,7 +89,7 @@
   width: 100%;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   color: white;
@@ -101,6 +101,7 @@ cite {
   font-style: normal;
   padding: 15px;
   width: 100%;
+  justify-content: space-between
 }
 
 li {
@@ -288,13 +289,11 @@ tbody {
 }
 
 .playerBox {
-  margin-top: 2rem;
   padding: 10px;
 }
 
 .playerBox ul {
   width: 100%;
-  margin-top: 3rem;
 }
 
 .accordion {
@@ -302,7 +301,7 @@ tbody {
 }
 
 .btnGroup {
-  margin-top: 9rem;
+  margin: 15px;
 }
 
 .cartaVirada {
@@ -344,4 +343,8 @@ tbody {
   width: 90% !important;
   display: block;
   margin: auto;
+}
+
+.list-jogadores-style {
+  margin-right: 81px;
 }
