@@ -37,7 +37,7 @@ export default function CardRoom() {
     setSala(response);
   }, []);
   return (
-    <Grid padding="15px" templateColumns="2fr 1fr" className="gridCustom">
+    <Grid padding="15px" paddingBottom="60px" templateColumns="2fr 1fr" className="gridCustom">
       <Box
         background="transparent"
         marginTop="2rem"
