@@ -85,7 +85,7 @@ export default function Header() {
           <Button
             fontWeight="700"
             onClick={() => {
-              history.push("/");
+              history.push("/login");
             }}
           >
             Faça seu Login
