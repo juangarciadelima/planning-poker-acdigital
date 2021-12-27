@@ -25,16 +25,16 @@ function Login() {
   const history = useHistory();
 
   async function signIn() {
-    if(user && user.email){
+    if (user && user.email) {
       const response = await serviceLogin(user.email);
-      if(response){
+      if (response) {
         setLoginInContext(response, "administrador");
         history.push("/");
-      }else{
-        toast("Dados inexistentes")
+      } else {
+        toast("Dados inexistentes");
       }
-    }else{
-      toast("Preencha o campo")
+    } else {
+      toast("Preencha o campo");
     }
   }
 
@@ -50,10 +50,12 @@ function Login() {
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Faça Login em sua conta</Heading>
         </Stack>
-        <form onSubmit={(e) => {
-          e.preventDefault()
-          signIn()
-        }} href="#">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            signIn();
+          }}
+        >
           <Box rounded="lg" bg="gray.200" boxShadow="lg" p={8}>
             <Stack spacing={4}>
               <FormControl id="email">
