@@ -13,6 +13,7 @@ import Cadastrar from "./pages/cadastro";
 import SalaJogador from "./pages/jogador";
 import { Login } from "./pages/login";
 import RoomsProvider from "./context";
+import { ToastContainer } from "react-toastify";
 
 export default function App() {
   return (
@@ -20,13 +21,13 @@ export default function App() {
       <Switch>
         <RoomsProvider>
           <Header />
-          <Route exact path="/">
+          <Route exact path="/cadastrar">
             <Cadastrar />
           </Route>
           <Route exact path="/login">
             <Login />
           </Route>
-          <Route exact path="/salas">
+          <Route exact path="/">
             <Salas />
           </Route>
           <Route exact path="/sala/:id">
@@ -38,6 +39,7 @@ export default function App() {
         </RoomsProvider>
       </Switch>
       <Footer />
+      <ToastContainer />
     </Router>
   );
 }

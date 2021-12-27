@@ -20,14 +20,9 @@ import {
   IconButton,
   ButtonGroup,
 } from "@chakra-ui/react";
-
 import { EuiNotificationBadge } from "@elastic/eui";
-import { ToastContainer } from "react-toastify";
-
 import { toast } from "react-toastify";
-
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-
 import FormCreateHistory from "../../../../components/forms/formCreateHistory";
 import {
   buscarHistoriaAberta,
@@ -212,7 +207,6 @@ export default function Historias({ id, historias, setHistorias }) {
           >
             Nova
           </Button>
-          <ToastContainer />
         </TabList>
 
         <TabPanels>
@@ -227,7 +221,6 @@ export default function Historias({ id, historias, setHistorias }) {
                   <Tr>
                     <Td>{history.nome}</Td>
                     <Td isNumeric>
-                      <ToastContainer />
                       <ButtonGroup>
                         <IconButton
                           colorScheme="red"

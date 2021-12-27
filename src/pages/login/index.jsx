@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { serviceLogin } from "../../services/administrador";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Login() {
   const [user, setUser] = useState({ email: "" });
@@ -24,10 +25,19 @@ function Login() {
   const history = useHistory();
 
   async function signIn() {
-    const response = await serviceLogin(user.email);
-    setLoginInContext(response, "administrador");
-    history.push("/salas");
+    if(user && user.email){
+      const response = await serviceLogin(user.email);
+      if(response){
+        setLoginInContext(response, "administrador");
+        history.push("/");
+      }else{
+        toast("Dados inexistentes")
+      }
+    }else{
+      toast("Preencha o campo")
+    }
   }
+
   function handleChangeEmail(e) {
     setUser((oldUser) => {
       oldUser.email = e.target.value;

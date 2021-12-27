@@ -38,7 +38,7 @@ export default function TableComponent({
   return (
     <Box
       w="100%"
-      marginTop="4rem"
+      marginTop="0rem"
       alignItems="center"
       justifyContent="center"
       p={5}
@@ -53,7 +53,6 @@ export default function TableComponent({
         }}
         className="table"
       >
-        <TableCaption>Salas</TableCaption>
         <Thead>
           <Tr className="headerTableColor">
             <Th>Nome</Th>
@@ -86,7 +85,6 @@ export default function TableComponent({
                     onClick={() => funcDel(sala.id)}
                     title="Delete Room"
                   />
-                  {deleteModal}
                   <IconButton
                     title="Edit Room"
                     aria-label="Edit Room"
@@ -94,7 +92,6 @@ export default function TableComponent({
                     colorScheme="gray"
                     onClick={() => funcEdit(sala)}
                   />
-                  {editModal}
                 </ButtonGroup>
               </Td>
             </Tr>
@@ -109,6 +106,8 @@ export default function TableComponent({
           </Tr>
         </Tfoot>
       </Table>
+      {deleteModal}
+      {editModal}
     </Box>
   );
 }

@@ -17,7 +17,7 @@ import {
   serviceReiniciarVotacao,
   serviceFinalizarVotacao,
 } from "../../../services/historias";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
 export default function PlayerGrid({
   buttonContent,
@@ -124,7 +124,6 @@ export default function PlayerGrid({
             >
               Resetar Votação
             </Button>
-            <ToastContainer limit={1} />
             <Button
               className="btnGrid"
               isDisabled={
