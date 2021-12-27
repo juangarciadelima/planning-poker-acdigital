@@ -20,14 +20,9 @@ import {
   IconButton,
   ButtonGroup,
 } from "@chakra-ui/react";
-
 import { EuiNotificationBadge } from "@elastic/eui";
-import { ToastContainer } from "react-toastify";
-
 import { toast } from "react-toastify";
-
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-
 import FormCreateHistory from "../../../../components/forms/formCreateHistory";
 import {
   buscarHistoriaAberta,
@@ -224,7 +219,30 @@ export default function Historias({ id, historias, setHistorias }) {
             </Button>
           )}
 
+<<<<<<< HEAD
           <ToastContainer />
+=======
+          <Button
+            className="btnTab"
+            variant="outline"
+            colorScheme="red"
+            leftIcon={<AddIcon />}
+            style={{
+              position: "absolute",
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+              right: 0,
+              marginRight: "1rem",
+              marginTop: "0.4rem",
+            }}
+            onClick={() => {
+              showCreateModal();
+            }}
+          >
+            Nova
+          </Button>
+>>>>>>> f65d3b7a3260f7f7fd66110ee4fd565a0d6345a2
         </TabList>
 
         <TabPanels>
@@ -239,6 +257,7 @@ export default function Historias({ id, historias, setHistorias }) {
                   <Tr>
                     <Td>{history.nome}</Td>
                     <Td isNumeric>
+<<<<<<< HEAD
                       <ToastContainer />
                       {localStorage.getItem("tipoUsuario") == "jogador" ? (
                         ""
@@ -259,6 +278,23 @@ export default function Historias({ id, historias, setHistorias }) {
                           {editHistoryModal}
                         </ButtonGroup>
                       )}
+=======
+                      <ButtonGroup>
+                        <IconButton
+                          colorScheme="red"
+                          onClick={() => {
+                            showDeleteModal(history.id);
+                          }}
+                          icon={<DeleteIcon />}
+                        />
+                        {deleteHistoryModal}
+                        <IconButton
+                          onClick={() => showEditModal(history)}
+                          icon={<EditIcon />}
+                        />
+                        {editHistoryModal}
+                      </ButtonGroup>
+>>>>>>> f65d3b7a3260f7f7fd66110ee4fd565a0d6345a2
                     </Td>
                   </Tr>
                 ))}

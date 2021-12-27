@@ -54,17 +54,10 @@ export default function Header() {
             <MenuList>
               <MenuItem
                 onClick={() => {
-                  history.push("/salas");
+                  history.push("/");
                 }}
               >
                 Salas
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  history.push("/jogador");
-                }}
-              >
-                Jogador
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -72,7 +65,7 @@ export default function Header() {
                   history.push("/login");
                 }}
               >
-                Deslogar
+                Sair
               </MenuItem>
             </MenuList>
           </Menu>

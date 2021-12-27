@@ -17,7 +17,7 @@ import {
   serviceReiniciarVotacao,
   serviceFinalizarVotacao,
 } from "../../../services/historias";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
 export default function PlayerGrid({
   buttonContent,
@@ -101,6 +101,7 @@ export default function PlayerGrid({
               </Flex>
             </Box>
           </Box>
+<<<<<<< HEAD
           {localStorage.getItem("tipoUsuario") == "jogador" ? (
             ""
           ) : (
@@ -124,6 +125,67 @@ export default function PlayerGrid({
                     serviceReiniciarVotacao(historias[0].id) &&
                     toast.success("Votação reiniciada com sucesso")
                   }
+=======
+
+          <ButtonGroup
+            className="btnGroup"
+            colorScheme="red"
+            variant="outline"
+            size="lg"
+            marginBottom="1rem"
+            d="flex"
+            spacing="2rem"
+            justifyContent="center"
+            alignItems="center"
+            padding="10px"
+            minWidth="100%"
+          >
+            <Button
+              className="btnGrid"
+              onClick={() =>
+                serviceReiniciarVotacao(historias[0].id) &&
+                toast.success("Votação reiniciada com sucesso")
+              }
+            >
+              Resetar Votação
+            </Button>
+            <Button
+              className="btnGrid"
+              isDisabled={
+                historias[0] &&
+                historias[0].votos.length === sala.jogadores.length
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                serviceFinalizarVotacao(historias[0].id) &&
+                toast.success("Votação finalizada com sucesso")
+              }
+            >
+              Finalizar Votação
+            </Button>
+          </ButtonGroup>
+
+          <Box
+            w="100%"
+            d="flex"
+            justifyContent="center"
+            alignItems="center"
+            className="boxAccordion"
+          >
+            <EuiAccordion
+              className="accordion"
+              id="accordion1"
+              buttonContent={buttonContent}
+              arrowDisplay="right"
+            >
+              <EuiPanel color="none">
+                <Box
+                  marginBottom="10px"
+                  marginTop="10px"
+                  background="transparent"
+                  className="boxInput"
+>>>>>>> f65d3b7a3260f7f7fd66110ee4fd565a0d6345a2
                 >
                   Resetar Votação
                 </Button>

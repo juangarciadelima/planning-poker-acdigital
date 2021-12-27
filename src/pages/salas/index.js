@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AiOutlinePlus } from "react-icons/ai";
 import { EuiConfirmModal } from "@elastic/eui";
 import "./salas.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import TableComponent from "../../components/table";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useRoomsContext } from "../../context";
@@ -65,8 +65,10 @@ export default function Salas() {
   };
 
   useEffect(async () => {
-    const response = await serviceBuscarSalas(administrador.email);
-    setSalas(response);
+    if(administrador){
+      const response = await serviceBuscarSalas(administrador?.email);
+      setSalas(response);
+    }
   }, []);
 
   async function handleClick() {
@@ -176,7 +178,7 @@ export default function Salas() {
       <div
         style={{
           textAlign: "right",
-          margin: "3rem 120px",
+          margin: "3rem 120px 0px",
         }}
       >
         <Button
@@ -193,11 +195,6 @@ export default function Salas() {
           Criar Sala
         </Button>
         {createModal}
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-        />
       </div>
       <TableComponent
         salas={salas}
