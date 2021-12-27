@@ -8,6 +8,7 @@ import {
   MenuList,
   MenuItem,
   Button,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import "./header.css";
 import { logout } from "../../services/administrador";
@@ -71,14 +72,25 @@ export default function Header() {
           </Menu>
         </Box>
       ) : (
-        <Button
-          fontWeight="700"
-          onClick={() => {
-            history.push("/");
-          }}
-        >
-          Faça seu Login
-        </Button>
+        <ButtonGroup spacing={3}>
+          <Button
+            colorScheme="red"
+            fontWeight="700"
+            onClick={() => {
+              history.push("/cadastrar");
+            }}
+          >
+            Cadastrar
+          </Button>
+          <Button
+            fontWeight="700"
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            Faça seu Login
+          </Button>
+        </ButtonGroup>
       )}
     </Flex>
   );
