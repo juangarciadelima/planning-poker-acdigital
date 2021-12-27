@@ -38,7 +38,7 @@ export default function App() {
           </Route>
         </RoomsProvider>
       </Switch>
-      <Footer />
+      {/* <Footer /> */}
       <ToastContainer />
     </Router>
   );
