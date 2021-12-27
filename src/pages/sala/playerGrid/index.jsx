@@ -31,12 +31,11 @@ export default function PlayerGrid({
     <>
       <Box
         marginTop="1rem"
-        w="500px"
         d="flex"
         justifyContent="center"
         alignItems="center"
         borderRadius="3px"
-        marginLeft="8rem"
+        paddingRight="94px"
       >
         <Grid
           templateColumns="1fr"
@@ -51,7 +50,6 @@ export default function PlayerGrid({
             d="flex"
             justifyContent="center"
             alignItems="center"
-            h="200px"
           >
             <Box width="100%" marginTop="2rem">
               <Heading

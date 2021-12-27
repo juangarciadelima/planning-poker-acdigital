@@ -245,7 +245,7 @@ tbody {
   width: 100%;
   justify-content: center;
   align-items: center;
-  height: 400px;
+  height: 200px;
 }
 
 .cardSelected {
@@ -333,4 +333,15 @@ tbody {
 .inputURL {
   width: 88% !important;
   text-overflow: ellipsis;
+}
+
+.gridOne{
+  width: 100%;
+  text-align: center;
+}
+
+.tabBox {
+  width: 90% !important;
+  display: block;
+  margin: auto;
 }

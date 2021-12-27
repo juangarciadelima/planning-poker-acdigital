@@ -174,7 +174,6 @@ export default function Historias({ id, historias, setHistorias }) {
         size="md"
         variant="line"
         position="relative"
-        width="1000px"
       >
         {createHistoryModal}
         <TabList>
