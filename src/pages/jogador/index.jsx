@@ -71,7 +71,7 @@ export default function SalaJogador() {
               <FormLabel>Nome</FormLabel>
               <Input
                 type="name"
-                placeholder="JuanGarcia"
+                placeholder="Escreva seu nome"
                 onChange={handleChangeNome}
               />
             </FormControl>
@@ -79,7 +79,7 @@ export default function SalaJogador() {
               <FormLabel>Email</FormLabel>
               <Input
                 onChange={handleChangeEmail}
-                placeholder="teste@teste.com"
+                placeholder="Escreva seu email"
                 _placeholder={{ color: "gray.500" }}
                 type="email"
               />
