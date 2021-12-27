@@ -219,9 +219,6 @@ export default function Historias({ id, historias, setHistorias }) {
             </Button>
           )}
 
-<<<<<<< HEAD
-          <ToastContainer />
-=======
           <Button
             className="btnTab"
             variant="outline"
@@ -242,7 +239,6 @@ export default function Historias({ id, historias, setHistorias }) {
           >
             Nova
           </Button>
->>>>>>> f65d3b7a3260f7f7fd66110ee4fd565a0d6345a2
         </TabList>
 
         <TabPanels>
@@ -257,28 +253,6 @@ export default function Historias({ id, historias, setHistorias }) {
                   <Tr>
                     <Td>{history.nome}</Td>
                     <Td isNumeric>
-<<<<<<< HEAD
-                      <ToastContainer />
-                      {localStorage.getItem("tipoUsuario") == "jogador" ? (
-                        ""
-                      ) : (
-                        <ButtonGroup>
-                          <IconButton
-                            colorScheme="red"
-                            onClick={() => {
-                              showDeleteModal(history.id);
-                            }}
-                            icon={<DeleteIcon />}
-                          />
-                          {deleteHistoryModal}
-                          <IconButton
-                            onClick={() => showEditModal(history)}
-                            icon={<EditIcon />}
-                          />
-                          {editHistoryModal}
-                        </ButtonGroup>
-                      )}
-=======
                       <ButtonGroup>
                         <IconButton
                           colorScheme="red"
@@ -294,7 +268,6 @@ export default function Historias({ id, historias, setHistorias }) {
                         />
                         {editHistoryModal}
                       </ButtonGroup>
->>>>>>> f65d3b7a3260f7f7fd66110ee4fd565a0d6345a2
                     </Td>
                   </Tr>
                 ))}

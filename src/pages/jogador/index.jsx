@@ -14,16 +14,22 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import { useRoomsContext } from "../../context";
 import { serviceCadastrarJogador } from "../../services/jogador";
+import { toast } from "react-toastify";
 export default function SalaJogador() {
   const [novoJogador, setNovoJogador] = useState({ nome: "", email: "" });
-  const { jogador, setJogador } = useRoomsContext();
+  const { jogador, setJogador, setLoginInContext } = useRoomsContext();
   const history = useHistory();
   const { id } = useParams();
 
   async function logar() {
-    const response = await serviceCadastrarJogador(id, novoJogador);
-    setJogador(response);
-    history.push(`/sala/${id}`);
+    if (novoJogador && novoJogador.nome && novoJogador.email) {
+      const response = await serviceCadastrarJogador(id, novoJogador);
+      setJogador(response);
+      setLoginInContext(response, "jogador");
+      history.push(`/sala/${id}`);
+    } else {
+      toast("Preencha o campo");
+    }
   }
 
   function handleChangeNome(e) {
@@ -51,12 +57,7 @@ export default function SalaJogador() {
         >
           Entrar na Sala
         </Heading>
-        <Flex
-          minH={"20vh"}
-          align={"center"}
-          justify={"center"}
-          bg={useColorModeValue("gray.50", "gray.800")}
-        >
+        <Flex minH={"20vh"} align={"center"} justify={"center"}>
           <Stack
             spacing={4}
             w={"xl"}
@@ -98,7 +99,6 @@ export default function SalaJogador() {
           </Stack>
         </Flex>
       </Box>
-      );
     </>
   );
 }
