@@ -11,9 +11,10 @@ import { Metodologia } from "./components/metodologia";
 import Historias from "./components/historias";
 import PlayerGrid from "./playerGrid";
 import { buscarHistoriaAberta } from "../../services/historias";
+import { serviceBuscarSala } from "../../services/salas";
 
 export default function CardRoom() {
-  const { administrador, sala } = useRoomsContext();
+  const { administrador, sala, setSala } = useRoomsContext();
 
   const history = useHistory();
   const [historias, setHistorias] = useState([]);
@@ -31,12 +32,12 @@ export default function CardRoom() {
     setHistorias(res);
   }, []);
 
+  useEffect(async () => {
+    const response = await serviceBuscarSala(id);
+    setSala(response);
+  }, []);
   return (
-    <Grid
-      padding="15px"
-      templateColumns="2fr 1fr"
-      className="gridCustom"
-    >
+    <Grid padding="15px" templateColumns="2fr 1fr" className="gridCustom">
       <Box
         background="transparent"
         marginTop="2rem"

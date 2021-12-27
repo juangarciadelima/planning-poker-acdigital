@@ -19,6 +19,7 @@ import {
 } from "../../../services/historias";
 import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
+import { useEffect } from "react";
 export default function PlayerGrid({
   buttonContent,
   sala,
@@ -45,12 +46,7 @@ export default function PlayerGrid({
           borderRadius="5px"
           className="gridTwo"
         >
-          <Box
-            w="100%"
-            d="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
+          <Box w="100%" d="flex" justifyContent="center" alignItems="center">
             <Box width="100%" marginTop="2rem">
               <Heading
                 top="0"
@@ -72,7 +68,7 @@ export default function PlayerGrid({
                     marginTop: "3rem",
                   }}
                 >
-                  {sala.jogadores.map((jogador) => (
+                  {sala.jogadores?.map((jogador) => (
                     <li>
                       <cite>
                         <Text
@@ -90,7 +86,7 @@ export default function PlayerGrid({
                           position="absolute"
                           mr="2rem"
                         >
-                          3
+                          ?
                         </Text>
                       </cite>
                     </li>
@@ -129,7 +125,7 @@ export default function PlayerGrid({
                   className="btnGrid"
                   isDisabled={
                     historias[0] &&
-                    historias[0].votos.length === sala.jogadores.length
+                    historias[0]?.votos.length === sala.jogadores?.length
                       ? false
                       : true
                   }
