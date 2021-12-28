@@ -84,10 +84,9 @@ const RoomsProvider = ({ children }) => {
     poll(
       async() => await atualizarTodaSala(id),
       () => {
-        console.log("parar polling", polling.parar)
         return polling.parar
       },
-      5000, 
+      1000, 
       600000000000
     );
   };
@@ -109,7 +108,7 @@ const RoomsProvider = ({ children }) => {
   }
 
   const resetarVotacaoHistoriaSelecionada = async () => {
-    setSala({ revelarVotos: false })
+    setSala({ ...sala, ...{ revelarVotos: false }})
     let _sala = { ...sala, ...{ revelarVotos: false }}
     await serviceAlterarSala(_sala)
     await serviceReiniciarVotacao(historiaSelecionada.id);
@@ -117,7 +116,7 @@ const RoomsProvider = ({ children }) => {
   };
 
   const revelarVotacaoHistoriaSelecionada = async () => {
-    setSala({ revelarVotos: true })
+    setSala({ ...sala, ...{ revelarVotos: true }})
     let _sala = { ...sala, ...{ revelarVotos: true }}
     await serviceAlterarSala(_sala)
     toast.success("Votos revelados");
