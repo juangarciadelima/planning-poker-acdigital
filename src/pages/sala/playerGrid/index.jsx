@@ -13,16 +13,11 @@ import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
 import { useRoomsContext } from "../../../context";
 
-export default function PlayerGrid({ buttonContent, jogadores }) {
-  const {
-    reiniciarVotacaoHistoriaSelecionada,
-    finalizarVotacaoHistoriaSelecionada,
-    tipoUsuario,
-    historiaSelecionada,
-    setListaJogadoresVotos,
-    listaJogadoresVotos,
-  } = useRoomsContext();
-
+export default function PlayerGrid({
+  buttonContent,
+  jogadores
+}) {
+  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario, historiaSelecionada } = useRoomsContext()
   const urlConviteJogador = window.location.href + "/jogador";
 
   return (
@@ -41,38 +36,30 @@ export default function PlayerGrid({ buttonContent, jogadores }) {
             </Heading>
             <Box>
               <ul>
-                {jogadores.length &&
-                  jogadores.map((jogador) => {
-                    return (
-                      <li>
-                        <cite>
-                          <Text
-                            fontSize="xl"
-                            fontFamily="Poppins"
-                            fontWeight="700"
-                            ml="0.5rem"
-                          >
-                            {jogador.nome}
-                          </Text>
-                          <Text
-                            right="0"
-                            fontWeight="700"
-                            fontSize="3xl"
-                            position="relative"
-                            mr="2rem"
-                          >
-                            {historiaSelecionada?.votos.filter(
-                              (voto) => voto.jogador.email === jogador.email
-                            )[0]?.carta ? (
-                              <AiOutlineCheck />
-                            ) : (
-                              <AiOutlineQuestion />
-                            )}
-                          </Text>
-                        </cite>
-                      </li>
-                    );
-                  })}
+                {jogadores && jogadores.length > 0 && jogadores.map((jogador) => {
+                  return(
+                  <li>
+                    <cite>
+                      <Text
+                        fontSize="xl"
+                        fontFamily="Poppins"
+                        fontWeight="700"
+                        ml="0.5rem"
+                      >
+                        {jogador.nome}
+                      </Text>
+                      <Text
+                        right="0"
+                        fontWeight="700"
+                        fontSize="3xl"
+                        position="relative"
+                        mr="2rem"
+                      >
+                        {historiaSelecionada?.votos.filter(voto => voto.jogador.email === jogador.email)[0]?.carta? <AiOutlineCheck /> : <AiOutlineQuestion />}
+                      </Text>
+                    </cite>
+                  </li>
+                )})}
               </ul>
             </Box>
           </Box>

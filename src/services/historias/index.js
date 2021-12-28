@@ -10,8 +10,8 @@ export async function serviceBuscarHistoria(id) {
   return res.data;
 }
 
-export async function buscarHistoriaAberta(idSala, state) {
-  const res = await api.get(`/sala/${idSala}/historia/${state}`);
+export async function buscarHistorias(idSala, emAberto) {
+  const res = await api.get(`/sala/${idSala}/historia/${emAberto}`);
   return res.data;
 }
 
@@ -20,8 +20,8 @@ export async function serviceDeletarHistoria(id) {
   return status === 200;
 }
 
-export async function serviceAtualizarHistoria(req) {
-  const { status } = await api.put("/historia", req);
+export async function serviceAtualizarHistoria(historia) {
+  const { status } = await api.put("/historia", historia);
   return status === 200;
 }
 
