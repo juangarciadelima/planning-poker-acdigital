@@ -14,7 +14,7 @@ import {
   IconButton,
   Button,
 } from "@chakra-ui/react";
-import { EditIcon, CloseIcon } from "@chakra-ui/icons";
+import { EditIcon, CloseIcon, CopyIcon } from "@chakra-ui/icons";
 import { useRoomsContext } from "../../context";
 import { serviceBuscarSala } from "../../services/salas";
 
@@ -27,7 +27,13 @@ export default function TableComponent({
 }) {
   const { sala, setSala } = useRoomsContext();
 
+  function copiarLink(id) {
+    const urlConviteJogador = `${window.location.href}sala/${id}/jogador`;
+    navigator.clipboard.writeText(urlConviteJogador);
+  }
+
   const history = useHistory();
+
   async function enterCardRoom(id) {
     const res = await serviceBuscarSala(id);
     setSala(res);
@@ -78,6 +84,13 @@ export default function TableComponent({
               </Td>
               <Td isNumeric>
                 <ButtonGroup spacing="3">
+                  <IconButton
+                    title="Edit Room"
+                    aria-label="Edit Room"
+                    icon={<CopyIcon />}
+                    colorScheme="red"
+                    onClick={() => copiarLink(sala.id)}
+                  />
                   <IconButton
                     aria-label="Delete"
                     icon={<CloseIcon />}
