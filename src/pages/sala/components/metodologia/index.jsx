@@ -4,6 +4,7 @@ import { buscarCartas } from "../../../../services/metodologia";
 import { FiCoffee } from "react-icons/fi";
 import { useRoomsContext } from "../../../../context";
 import { votar } from "../../../../services/historias";
+import { toast } from "react-toastify";
 
 export function Metodologia() {
   const [metodologia, setMetodologia] = useState({});
@@ -14,8 +15,11 @@ export function Metodologia() {
     tipoUsuario,
     sala,
     atualizarTodaSala,
+    historiasAbertas,
+    cartaSelecionada,
+    setCartaSelecionada
   } = useRoomsContext();
-  const [cartaSelecionada, setCartaSelecionada] = useState();
+  
 
   useEffect(async () => {
     const metodolodia = await buscarCartas();
@@ -23,22 +27,41 @@ export function Metodologia() {
   }, []);
 
   async function executarVoto(carta) {
-    let usuario = jogador;
-    if (tipoUsuario === "administrador") {
-      usuario = administrador;
+    if(historiaSelecionada && historiasAbertas.length > 0){
+      let usuario = jogador;
+      if (tipoUsuario === "administrador") {
+        usuario = administrador;
+      }
+      let voto = {
+        carta: { tipo: carta.tipo, valor: carta.valor },
+        jogador: { nome: usuario.nome, email: usuario.email },
+      };
+      await votar(historiaSelecionada.id, voto);
+      setCartaSelecionada(carta);
+      await atualizarTodaSala(sala.id);
+    }else{
+      toast("Para votar o Administrador precisa cadastrar uma história")
     }
-    let voto = {
-      carta: { tipo: carta.tipo, valor: carta.valor },
-      jogador: { nome: usuario.nome, email: usuario.email },
-    };
-    await votar(historiaSelecionada?.id, voto);
-    setCartaSelecionada(carta);
-    await atualizarTodaSala(sala.id);
+  }
+
+  const MediaPontos = () => {
+    const votos = historiaSelecionada.votos;
+    let mediaVotos = 0;
+    votos.map((voto) => {
+      if (voto.carta.tipo !== "cafe") {
+        let votoJogador = voto.carta.valor;
+        mediaVotos += votoJogador;
+        mediaVotos = mediaVotos / votos.length;
+
+        mediaVotos = Math.round(mediaVotos * 10) / 10;
+      }
+    });
+    return <Heading>Média de pontos: {mediaVotos}</Heading>
   }
 
   return (
     <Box className="boxCard">
-      {metodologia && metodologia.cartas ? (
+      {(metodologia && metodologia.cartas) && (sala && !sala.revelarVotos) ? (
         metodologia.cartas.map((carta) => (
           <Box className="cardBox">
             <Box
@@ -87,9 +110,7 @@ export function Metodologia() {
             </Box>
           </Box>
         ))
-      ) : (
-        <Heading>Loading...</Heading>
-      )}
+      ) : <MediaPontos />}
     </Box>
   );
 }

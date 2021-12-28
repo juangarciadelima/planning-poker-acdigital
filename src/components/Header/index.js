@@ -67,7 +67,7 @@ export default function Header() {
               )}
               <MenuItem
                 onClick={() => {
-                  if(tipoUsuario === "jogador"){
+                  if(tipoUsuario === "jogador" && sala){
                     let novaSala = sala
                     novaSala.jogadores = novaSala.jogadores.filter(_jogador => _jogador.email !== jogador.email)
                     serviceAlterarSala(novaSala).then(response => toast("Operação bem sucedida"))

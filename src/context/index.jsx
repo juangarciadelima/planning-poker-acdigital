@@ -23,6 +23,7 @@ const RoomsProvider = ({ children }) => {
   const [historiasFechadas, setHistoriasFechadas] = useState([]);
   const [historiaSelecionada, setHistoriaSelecionada] = useState()
   const [listaJogadoresVotos, setListaJogadoresVotos] = useState([])
+  const [cartaSelecionada, setCartaSelecionada] = useState();
 
   const history = useHistory();
   const location = useLocation();
@@ -66,27 +67,14 @@ const RoomsProvider = ({ children }) => {
     }
   }, []);
 
-  const states = { 
-    administrador, 
-    jogador, 
-    salas, 
-    sala, 
-    tipoUsuario, 
-    usuario, 
-    historiasAbertas, 
-    historiasFechadas, 
-    historiaSelecionada,
-    listaJogadoresVotos,
-    polling
-  };
-
+ 
   const executarPollingAtualizarSala = async (id) => {
     poll(
       async() => await atualizarTodaSala(id),
       () => {
         return polling.parar
       },
-      1000, 
+      5000, 
       600000000000
     );
   };
@@ -108,29 +96,57 @@ const RoomsProvider = ({ children }) => {
   }
 
   const resetarVotacaoHistoriaSelecionada = async () => {
-    setSala({ ...sala, ...{ revelarVotos: false }})
-    let _sala = { ...sala, ...{ revelarVotos: false }}
-    await serviceAlterarSala(_sala)
-    await serviceReiniciarVotacao(historiaSelecionada.id);
-    toast.success("Votação reiniciada com sucesso");
+    if(historiaSelecionada && historiasAbertas.length > 0){
+      setCartaSelecionada()
+      setSala({ ...sala, ...{ revelarVotos: false }})
+      let _sala = { ...sala, ...{ revelarVotos: false }}
+      await serviceAlterarSala(_sala)
+      await serviceReiniciarVotacao(historiaSelecionada.id);
+      toast.success("Votação reiniciada com sucesso");
+    }else{
+      toast("Para votar o Administrador precisa cadastrar uma história")
+    }
   };
 
   const revelarVotacaoHistoriaSelecionada = async () => {
-    setSala({ ...sala, ...{ revelarVotos: true }})
-    let _sala = { ...sala, ...{ revelarVotos: true }}
-    await serviceAlterarSala(_sala)
-    toast.success("Votos revelados");
+    if(historiaSelecionada && historiasAbertas.length > 0){
+      setCartaSelecionada()
+      setSala({ ...sala, ...{ revelarVotos: true }})
+      let _sala = { ...sala, ...{ revelarVotos: true }}
+      await serviceAlterarSala(_sala)
+      toast.success("Votos revelados");
+    }else{
+      toast("Para votar o Administrador precisa cadastrar uma história")
+    }
   };
 
   const proximaHistoriaSelecionada = async (idSala) => {
-    setSala({ revelarVotos: false })
-    let _sala = { ...sala, ...{ revelarVotos: false }}
-    await serviceAlterarSala(_sala)
-    await serviceFinalizarVotacao(historiaSelecionada.id);
-    await atualizarTodaSala(idSala)
+    if(historiaSelecionada && historiasAbertas.length > 0){
+      setSala({ ...sala, ...{ revelarVotos: true }})
+      let _sala = { ...sala, ...{ revelarVotos: false }}
+      await serviceAlterarSala(_sala)
+      await serviceFinalizarVotacao(historiaSelecionada.id);
+      await atualizarTodaSala(idSala)
+    }else{
+      toast("Para votar o Administrador precisa cadastrar uma história")
+    }
   };
 
- 
+  const states = { 
+    administrador, 
+    jogador, 
+    salas, 
+    sala, 
+    tipoUsuario, 
+    usuario, 
+    historiasAbertas, 
+    historiasFechadas, 
+    historiaSelecionada,
+    listaJogadoresVotos,
+    polling,
+    cartaSelecionada
+  };
+
 
   const actions = {
     setAdministrador,
@@ -148,7 +164,8 @@ const RoomsProvider = ({ children }) => {
     resetarVotacaoHistoriaSelecionada,
     revelarVotacaoHistoriaSelecionada,
     setListaJogadoresVotos,
-    proximaHistoriaSelecionada
+    proximaHistoriaSelecionada,
+    setCartaSelecionada
   };
 
   return (

@@ -118,7 +118,12 @@ export default function Salas() {
   function criarSala() {
     return {
       nome: "",
-      jogadores: [],
+      jogadores: [
+        {
+          email: administrador?.email,
+          nome: administrador?.nome,
+        }
+      ],
       administrador: {
         email: administrador?.email,
         nome: administrador?.nome,
