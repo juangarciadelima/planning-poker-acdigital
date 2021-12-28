@@ -52,11 +52,6 @@ const RoomsProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if(salas && salas.jogadores)
-     setListaJogadoresVotos(salas.jogadores)
-  }, [sala])
-
-  useEffect(() => {
     if (!location.pathname.includes("/jogador")) {
       if (!localStorage.getItem("tipoUsuario")) {
         history.push("/login");
@@ -68,24 +63,17 @@ const RoomsProvider = ({ children }) => {
 
   const executarPollingAtualizarSala = async(id) => {
     poll(
-      async() => await serviceBuscarSala(id),
-      (novaSala) => {
-        setSala(novaSala)
-        return !sala
+      async() => {
+        const _sala = await serviceBuscarSala(id)
+        await atualizarHistorias(id)
+        return _sala
       },
-      2000, 
-      600000
-    )
-  }
-
-  const executarPollingAtualizarHistoriaSelecionada = async(idHistoria) => {
-    poll(
-      async() => await serviceBuscarHistoria(idHistoria),
-      (historiaSelecionada) => {
-        setHistoriaSelecionada(historiaSelecionada)
-        return !sala
+      (_sala) => {
+        setSala(_sala)
+        setListaJogadoresVotos(_sala.jogadores)
+        return sala
       },
-      2000, 
+      5000, 
       600000
     )
   }
@@ -98,8 +86,6 @@ const RoomsProvider = ({ children }) => {
         setHistoriasAbertas(_historiasAbertas);
         setHistoriasFechadas(_historiasFechadas);
         setHistoriaSelecionada(_historiasAbertas[0])
-        debugger
-        // await executarPollingAtualizarHistoriaSelecionada(_historiasAbertas[0].id)
       }
     }
   }
@@ -139,7 +125,6 @@ const RoomsProvider = ({ children }) => {
     setHistoriasAbertas,
     setHistoriasFechadas,
     executarPollingAtualizarSala,
-    executarPollingAtualizarHistoriaSelecionada,
     atualizarHistorias,
     reiniciarVotacaoHistoriaSelecionada,
     finalizarVotacaoHistoriaSelecionada,

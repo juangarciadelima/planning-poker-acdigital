@@ -22,7 +22,6 @@ import { toast } from "react-toastify";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import FormCreateHistory from "../../../../components/forms/formCreateHistory";
 import {
-  buscarHistorias,
   serviceAtualizarHistoria,
   serviceCriarHistoria,
   serviceDeletarHistoria,
@@ -33,14 +32,19 @@ import { useRoomsContext } from "../../../../context";
 
 export default function Historias({ idSala }) {
 
-  const { 
-     historiaSelecionada,
-     setHistoriaSelecionada, 
+  const {
      historiasAbertas, 
      historiasFechadas,
      atualizarHistorias
   } = useRoomsContext()
+
   const [novaHistoria, setNovaHistoria] = useState();
+  const [historiaDeletar, setHistoriaDeletar] = useState();
+  const [historiaEditar, setHistoriaEditar] = useState();
+
+  useEffect(async() => {
+    await atualizarHistorias(idSala)
+  }, [])
 
   const [createModal, setCreateModal] = useState(false);
   const closeCreateModal = () => {
@@ -66,16 +70,16 @@ export default function Historias({ idSala }) {
   const [editModal, setEditModal] = useState(false);
   const closeEditModal = () => {
     setEditModal(false);
-    setHistoriaSelecionada(null);
+    setHistoriaEditar(null);
   };
 
   const showEditModal = (historia) => {
     setEditModal(true);
-    setHistoriaSelecionada(historia);
+    setHistoriaEditar(historia);
   };
 
   async function handleEditClick() {
-    const response = await serviceAtualizarHistoria();
+    const response = await serviceAtualizarHistoria(historiaEditar);
     if (response) {
       closeEditModal();
       toast("História Editada");
@@ -128,8 +132,8 @@ export default function Historias({ idSala }) {
   if (editModal) {
     editHistoryModal = (
       <FormEditHistory
-        historiaSelecionada={historiaSelecionada}
-        setHistoriaSelecionada={setHistoriaSelecionada}
+        historiaEditar={historiaEditar}
+        setHistoriaEditar={setHistoriaEditar}
         onClose={closeEditModal}
         modalHeader="Editar a Sala"
         onClick={closeEditModal}
@@ -152,6 +156,7 @@ export default function Historias({ idSala }) {
       />
     );
   }
+
   function criarHistoria() {
     return {
       idSala: idSala,
@@ -214,27 +219,23 @@ export default function Historias({ idSala }) {
                 <Th isNumeric></Th>
               </Thead>
               <Tbody>
-                {historiasAbertas.length > 0 && historiasAbertas.map((history) => (
+                {historiasAbertas.length > 0 && historiasAbertas.map((historia) => (
                   <Tr>
-                    <Td>{history.nome}</Td>
+                    <Td>{historia.nome}</Td>
                     <Td isNumeric>
-                      {localStorage.getItem("tipoUsuario") == "jogador" ? (
-                        ""
-                      ) : (
+                      {localStorage.getItem("tipoUsuario") === "administrador" && (
                         <ButtonGroup>
                           <IconButton
                             colorScheme="red"
                             onClick={() => {
-                              showDeleteModal(history.id);
+                              showDeleteModal(historia.id);
                             }}
                             icon={<DeleteIcon />}
                           />
-                          {deleteHistoryModal}
                           <IconButton
-                            onClick={() => showEditModal(history)}
+                            onClick={() => showEditModal(historia)}
                             icon={<EditIcon />}
                           />
-                          {editHistoryModal}
                         </ButtonGroup>
                       )}
                     </Td>
@@ -244,16 +245,15 @@ export default function Historias({ idSala }) {
             </Table>
           </TabPanel>
           <TabPanel>
-            {" "}
             <Table variant="striped" colorScheme="red" className="tableGrid">
               <Thead>
                 <Th></Th>
                 <Th isNumeric></Th>
               </Thead>
               <Tbody>
-                {historiasFechadas.length > 0 && historiasFechadas.map((history) => (
+                {historiasFechadas.length > 0 && historiasFechadas.map((historia) => (
                   <Tr>
-                    <Td>{history.nome}</Td>
+                    <Td>{historia.nome}</Td>
                     <Td isNumeric></Td>
                   </Tr>
                 ))}
@@ -262,6 +262,8 @@ export default function Historias({ idSala }) {
           </TabPanel>
         </TabPanels>
       </Tabs>
+      {deleteHistoryModal}
+      {editHistoryModal}
     </>
   );
 }

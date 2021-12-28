@@ -20,8 +20,8 @@ export async function serviceDeletarHistoria(id) {
   return status === 200;
 }
 
-export async function serviceAtualizarHistoria(req) {
-  const { status } = await api.put("/historia", req);
+export async function serviceAtualizarHistoria(historia) {
+  const { status } = await api.put("/historia", historia);
   return status === 200;
 }
 

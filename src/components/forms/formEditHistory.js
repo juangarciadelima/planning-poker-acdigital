@@ -17,8 +17,8 @@ export default function FormEditHistory({
   onClickBtn,
   lBtnText,
   rBtnText,
-  historiaSelecionada,
-  setHistoriaSelecionada,
+  historiaEditar,
+  setHistoriaEditar,
 }) {
   return (
     <EuiModal onClose={onClose}>
@@ -30,10 +30,10 @@ export default function FormEditHistory({
           <FormLabel>Nome da História</FormLabel>
           <Input
             placeholder="Nome"
-            value={historiaSelecionada?.nome}
+            value={historiaEditar?.nome}
             onChange={(e) => {
-              setHistoriaSelecionada({
-                ...historiaSelecionada,
+              setHistoriaEditar({
+                ...historiaEditar,
                 ...{ nome: e.target?.value },
               });
             }}
