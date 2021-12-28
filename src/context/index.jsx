@@ -75,7 +75,7 @@ const RoomsProvider = ({ children }) => {
         setSala(sala)
       },
       2000, 
-      9000000000000
+      600000
     )
   }
 
@@ -86,12 +86,12 @@ const RoomsProvider = ({ children }) => {
   }
 
   const reiniciarVotacaoHistoriaSelecionada = async() => {
-    await serviceReiniciarVotacao(historiaSelecionada.id) &&
+    await serviceReiniciarVotacao(historiaSelecionada.id) 
     toast.success("Votação reiniciada com sucesso")
   }
 
-  const finalizarVotacaoHistoriaSelecionada = () => {
-    serviceFinalizarVotacao(historiaSelecionada.id) &&
+  const finalizarVotacaoHistoriaSelecionada = async() => {
+    await serviceFinalizarVotacao(historiaSelecionada.id)
     toast.success("Votação finalizada com sucesso")
   }
 

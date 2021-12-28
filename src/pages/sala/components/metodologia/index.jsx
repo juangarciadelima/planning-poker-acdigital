@@ -24,10 +24,11 @@ export function Metodologia({ className }) {
     if(tipoUsuario === "administrador"){
        usuario = administrador
     }
-    setVoto({
+    let voto = {
       carta: { tipo: card.tipo, valor: card.valor },
       jogador: { nome: usuario.nome, email: usuario.email },
-    });
+    }
+    setVoto(voto);
     await votar(historiaSelecionada?.id, voto);
   }
   return (

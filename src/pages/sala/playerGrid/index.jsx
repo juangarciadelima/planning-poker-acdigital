@@ -1,32 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
-  Grid,
   Heading,
-  Flex,
   Text,
-  Avatar,
   ButtonGroup,
   Button,
   Input,
 } from "@chakra-ui/react";
+import { AiOutlineCheck, AiOutlineQuestion } from "react-icons/ai"
 import { EuiAccordion, EuiPanel } from "@elastic/eui";
-import {
-  serviceReiniciarVotacao,
-  serviceFinalizarVotacao,
-} from "../../../services/historias";
 import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
 import { useRoomsContext } from "../../../context";
 
 export default function PlayerGrid({
   buttonContent,
-  sala,
-  setClassCarta,
-  historias,
 }) {
-  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario } = useRoomsContext()
+  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario, sala, historiaSelecionada } = useRoomsContext()
+  const [listaJogadoresVotos, setListaJogadoresVotos] = useState(sala.jogadores)
   const urlConviteJogador = window.location.href + "/jogador";
+
+  useEffect(() => {
+      if(historiaSelecionada && historiaSelecionada.votos.length){
+        setListaJogadoresVotos((listaJogadores) => {
+          let jogadores = sala.jogadores
+          jogadores.map(jogador => {
+            const voto = historiaSelecionada?.votos.filter(voto => voto.jogador.email === jogador.email)[0]
+            if(voto?.carta)
+              jogador.voto = voto.carta
+            return { ...jogador }
+          })
+          return jogadores
+        })
+      }
+  }, [sala, historiaSelecionada])
 
   return (
     <>
@@ -44,7 +51,7 @@ export default function PlayerGrid({
             </Heading>
             <Box>
               <ul>
-                {sala.jogadores?.map((jogador) => (
+                {listaJogadoresVotos.length > 0 && listaJogadoresVotos.map((jogador) => (
                   <li>
                     <cite>
                       <Text
@@ -62,7 +69,7 @@ export default function PlayerGrid({
                         position="relative"
                         mr="2rem"
                       >
-                        ?
+                        {jogador.voto? <AiOutlineCheck /> : <AiOutlineQuestion />}
                       </Text>
                     </cite>
                   </li>

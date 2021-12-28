@@ -16,15 +16,6 @@ export default function CardRoom() {
     await atualizarHistorias(id)
   }, []);
   
-  const [classCarta, setClassCarta] = useState("cartaVirada");
- 
-
-  const buttonContent = (
-    <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
-      Convide os seus colegas
-    </Heading>
-  );
-
   return (
     <Grid padding="15px" paddingBottom="60px" templateColumns="2fr 1fr" className="gridCustom">
       <Box
@@ -44,7 +35,7 @@ export default function CardRoom() {
           </Box>
 
           <Box className="boxCard" w="100%">
-            <Metodologia className={classCarta} />
+            <Metodologia/>
           </Box>
           <Box
             w="100%"
@@ -62,10 +53,9 @@ export default function CardRoom() {
         </Box>
       </Box>
       <PlayerGrid
-        buttonContent={buttonContent}
-        sala={sala}
-        setClassCarta={setClassCarta}
-        historias={historias}
+        buttonContent={<Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
+                        Convide os seus colegas
+                      </Heading>}
       />
     </Grid>
   );
