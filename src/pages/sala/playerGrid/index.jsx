@@ -15,25 +15,11 @@ import { useRoomsContext } from "../../../context";
 
 export default function PlayerGrid({
   buttonContent,
+  jogadores
 }) {
-  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario, sala, historiaSelecionada } = useRoomsContext()
-  const [listaJogadoresVotos, setListaJogadoresVotos] = useState(sala.jogadores)
+  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario, historiaSelecionada, setListaJogadoresVotos, listaJogadoresVotos } = useRoomsContext()
+  
   const urlConviteJogador = window.location.href + "/jogador";
-
-  useEffect(() => {
-      if(historiaSelecionada && historiaSelecionada.votos.length){
-        setListaJogadoresVotos((listaJogadores) => {
-          let jogadores = sala.jogadores
-          jogadores.map(jogador => {
-            const voto = historiaSelecionada?.votos.filter(voto => voto.jogador.email === jogador.email)[0]
-            if(voto?.carta)
-              jogador.voto = voto.carta
-            return { ...jogador }
-          })
-          return jogadores
-        })
-      }
-  }, [sala, historiaSelecionada])
 
   return (
     <>
@@ -51,7 +37,8 @@ export default function PlayerGrid({
             </Heading>
             <Box>
               <ul>
-                {listaJogadoresVotos.length > 0 && listaJogadoresVotos.map((jogador) => (
+                {jogadores.length && jogadores.map((jogador) => {
+                  return(
                   <li>
                     <cite>
                       <Text
@@ -69,11 +56,11 @@ export default function PlayerGrid({
                         position="relative"
                         mr="2rem"
                       >
-                        {jogador.voto? <AiOutlineCheck /> : <AiOutlineQuestion />}
+                        {historiaSelecionada?.votos.filter(voto => voto.jogador.email === jogador.email)[0]?.carta? <AiOutlineCheck /> : <AiOutlineQuestion />}
                       </Text>
                     </cite>
                   </li>
-                ))}
+                )})}
               </ul>
             </Box>
           </Box>

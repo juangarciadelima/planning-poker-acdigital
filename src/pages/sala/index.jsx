@@ -8,7 +8,7 @@ import Historias from "./components/historias";
 import PlayerGrid from "./playerGrid";
 
 export default function CardRoom() {
-  const { sala, historias, setHistorias, executarPollingAtualizarSala, atualizarHistorias } = useRoomsContext();
+  const { sala, historias, setHistorias, executarPollingAtualizarSala, atualizarHistorias, executarPollingAtualizarHistoriaSelecionada } = useRoomsContext();
   const { id } = useParams();
 
   useEffect(async() => {
@@ -56,6 +56,7 @@ export default function CardRoom() {
         buttonContent={<Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
                         Convide os seus colegas
                       </Heading>}
+        jogadores={sala.jogadores}
       />
     </Grid>
   );

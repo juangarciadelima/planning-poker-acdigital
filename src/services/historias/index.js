@@ -5,6 +5,11 @@ export async function serviceCriarHistoria(req) {
   return res.data;
 }
 
+export async function serviceBuscarHistoria(id) {
+  const res = await api.get(`/historia/${id}`);
+  return res.data;
+}
+
 export async function buscarHistoriaAberta(idSala, state) {
   const res = await api.get(`/sala/${idSala}/historia/${state}`);
   return res.data;

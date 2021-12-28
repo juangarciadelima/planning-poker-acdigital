@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { buscarHistoriaAberta } from "../services/historias";
+import { buscarHistoriaAberta, serviceBuscarHistoria } from "../services/historias";
 import { serviceBuscarSala } from "../services/salas";
 import {
   serviceReiniciarVotacao,
@@ -29,6 +29,7 @@ const RoomsProvider = ({ children }) => {
     jogadores: [],
     historias: [],
   });
+  const [listaJogadoresVotos, setListaJogadoresVotos] = useState([])
 
   function limparContexto() {
     setSala({
@@ -42,6 +43,7 @@ const RoomsProvider = ({ children }) => {
     setJogador({ nome: "", email: "" });
     setAdministrador({ nome: "", email: "" });
     setUsuario({ nome: "", email: "" });
+    setHistoriaSelecionada()
   }
 
   function setLoginInContext(usuario, tipoUsuario){
@@ -59,6 +61,11 @@ const RoomsProvider = ({ children }) => {
   }
 
   useEffect(() => {
+    if(salas && salas.jogadores)
+     setListaJogadoresVotos(salas.jogadores)
+  }, [sala])
+
+  useEffect(() => {
     if (!location.pathname.includes("/jogador")) {
       if (!localStorage.getItem("tipoUsuario")) {
         history.push("/login");
@@ -73,6 +80,18 @@ const RoomsProvider = ({ children }) => {
       async() => await serviceBuscarSala(id),
       (sala) => {
         setSala(sala)
+        return false
+      },
+      2000, 
+      600000
+    )
+  }
+
+  const executarPollingAtualizarHistoriaSelecionada = async(id) => {
+    poll(
+      async() => await serviceBuscarHistoria(id),
+      (historiaSelecionada) => {
+        setHistoriaSelecionada(historiaSelecionada)
       },
       2000, 
       600000
@@ -83,6 +102,7 @@ const RoomsProvider = ({ children }) => {
     const historias = await buscarHistoriaAberta(idSala, "true");
     setHistorias(historias);
     setHistoriaSelecionada(historias[0])
+    await executarPollingAtualizarHistoriaSelecionada(historias[0]?.id)
   }
 
   const reiniciarVotacaoHistoriaSelecionada = async() => {
@@ -103,7 +123,8 @@ const RoomsProvider = ({ children }) => {
     tipoUsuario, 
     usuario, 
     historias, 
-    historiaSelecionada 
+    historiaSelecionada,
+    listaJogadoresVotos
   };
 
   const actions = {
@@ -117,9 +138,11 @@ const RoomsProvider = ({ children }) => {
     setHistoriaSelecionada,
     setHistorias,
     executarPollingAtualizarSala,
+    executarPollingAtualizarHistoriaSelecionada,
     atualizarHistorias,
     reiniciarVotacaoHistoriaSelecionada,
-    finalizarVotacaoHistoriaSelecionada
+    finalizarVotacaoHistoriaSelecionada,
+    setListaJogadoresVotos
   };
 
   return (
