@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./cardRoom.css";
-
-import { Grid, Box, Heading, Text } from "@chakra-ui/react";
-
-import { useHistory, useParams } from "react-router-dom";
-
+import { Grid, Box, Heading } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 import { useRoomsContext } from "../../context";
-
 import { Metodologia } from "./components/metodologia";
 import Historias from "./components/historias";
 import PlayerGrid from "./playerGrid";
 import { buscarHistoriaAberta } from "../../services/historias";
 import { serviceBuscarSala } from "../../services/salas";
+import poll from "easy-polling"
+
 
 export default function CardRoom() {
-  const { administrador, sala, setSala } = useRoomsContext();
+  const { sala, setSala } = useRoomsContext();
 
-  const history = useHistory();
   const [historias, setHistorias] = useState([]);
   const [classCarta, setClassCarta] = useState("cartaVirada");
   const { id } = useParams();
@@ -27,14 +24,24 @@ export default function CardRoom() {
     </Heading>
   );
 
-  useEffect(async () => {
-    const res = await buscarHistoriaAberta(id, "true");
-    setHistorias(res);
-  }, []);
+  const executarPollingAtualizarSala = async(id) => {
+    poll(
+      async() => await serviceBuscarSala(id),
+      (sala) => {
+        setSala(sala)
+      },
+      2000, 
+      900000000000000000
+    )
+  }
 
-  useEffect(async () => {
-    const response = await serviceBuscarSala(id);
-    setSala(response);
+  useEffect(async() => {
+
+    await executarPollingAtualizarSala(id)
+
+    const historias = await buscarHistoriaAberta(id, "true");
+    setHistorias(historias);
+
   }, []);
   return (
     <Grid padding="15px" paddingBottom="60px" templateColumns="2fr 1fr" className="gridCustom">

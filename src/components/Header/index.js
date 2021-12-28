@@ -15,13 +15,13 @@ import { logout } from "../../services/administrador";
 import ACLogo from "../../assets/ACLogo.png";
 import { useHistory } from "react-router-dom";
 import { useRoomsContext } from "../../context";
+import { serviceAlterarSala } from "../../services/salas";
+import { toast } from "react-toastify";
 
 export default function Header() {
-  const { tipoUsuario, limparContexto, usuario } = useRoomsContext();
+  const { limparContexto, usuario, tipoUsuario, jogador, sala } = useRoomsContext();
 
   const history = useHistory();
-
-  //Condicional se estiver no contexto -> Tal ação (a se decidir) -> Senão, outra ação
 
   return (
     <Flex
@@ -62,8 +62,13 @@ export default function Header() {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  logout(limparContexto);
-                  history.push("/login");
+                  if(tipoUsuario === "jogador"){
+                    let novaSala = sala
+                    novaSala.jogadores = novaSala.jogadores.filter(_jogador => _jogador.email !== jogador.email)
+                    serviceAlterarSala(novaSala).then(response => toast("Operação bem sucedida"))
+                  }
+                   logout(limparContexto);
+                   history.push("/login");
                 }}
               >
                 Sair
