@@ -16,18 +16,18 @@ import { FiCoffee } from "react-icons/fi";
 
 export default function PlayerGrid({ buttonContent, jogadores, idSala }) {
   const {
-    reiniciarVotacaoHistoriaSelecionada,
+    resetarVotacaoHistoriaSelecionada,
     revelarVotacaoHistoriaSelecionada,
     tipoUsuario,
     historiaSelecionada,
-    revelarVotos,
+    sala,
     proximaHistoriaSelecionada,
   } = useRoomsContext();
 
   const urlConviteJogador = window.location.href + "/jogador";
 
   const VotoRevelado = ({ carta }) => {
-    if (revelarVotos) {
+    if (sala && sala.revelarVotos) {
       if (carta.tipo == "cafe") {
         return <FiCoffee />;
       } else {
@@ -108,20 +108,20 @@ export default function PlayerGrid({ buttonContent, jogadores, idSala }) {
             >
               <Button
                 className="btnGrid"
-                onClick={reiniciarVotacaoHistoriaSelecionada}
+                onClick={resetarVotacaoHistoriaSelecionada}
               >
                 Resetar Votação
               </Button>
               <Button
                 className="btnGrid"
-                disabled={revelarVotos}
+                disabled={sala && sala.revelarVotos}
                 onClick={revelarVotacaoHistoriaSelecionada}
               >
                 Revelar Votação
               </Button>
               <Button
                 className="btnGrid"
-                disabled={!revelarVotos}
+                disabled={sala && !sala.revelarVotos}
                 onClick={async () => await proximaHistoriaSelecionada(idSala)}
               >
                 Próxima História

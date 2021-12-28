@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { buscarHistorias, serviceFinalizarVotacao } from "../services/historias";
-import { serviceBuscarSala } from "../services/salas";
+import { serviceAlterarSala, serviceBuscarSala } from "../services/salas";
 import {
   serviceReiniciarVotacao
 } from "../services/historias";
@@ -21,7 +21,6 @@ const RoomsProvider = ({ children }) => {
   const [historiasFechadas, setHistoriasFechadas] = useState([]);
   const [historiaSelecionada, setHistoriaSelecionada] = useState()
   const [listaJogadoresVotos, setListaJogadoresVotos] = useState([])
-  const [revelarVotos, setRevelarVotos] = useState(false)
 
   const history = useHistory();
   const location = useLocation();
@@ -89,18 +88,25 @@ const RoomsProvider = ({ children }) => {
     }
   }
 
-  const reiniciarVotacaoHistoriaSelecionada = async () => {
+  const resetarVotacaoHistoriaSelecionada = async () => {
+    setSala({ revelarVotos: false })
+    let _sala = { ...sala, ...{ revelarVotos: false }}
+    await serviceAlterarSala(_sala)
     await serviceReiniciarVotacao(historiaSelecionada.id);
     toast.success("Votação reiniciada com sucesso");
   };
 
   const revelarVotacaoHistoriaSelecionada = async () => {
-    setRevelarVotos(true)
+    setSala({ revelarVotos: true })
+    let _sala = { ...sala, ...{ revelarVotos: true }}
+    await serviceAlterarSala(_sala)
     toast.success("Votos revelados");
   };
 
   const proximaHistoriaSelecionada = async (idSala) => {
-    setRevelarVotos(false)
+    setSala({ revelarVotos: false })
+    let _sala = { ...sala, ...{ revelarVotos: false }}
+    await serviceAlterarSala(_sala)
     await serviceFinalizarVotacao(historiaSelecionada.id);
     await atualizarTodaSala(idSala)
   };
@@ -115,8 +121,7 @@ const RoomsProvider = ({ children }) => {
     historiasAbertas, 
     historiasFechadas, 
     historiaSelecionada,
-    listaJogadoresVotos,
-    revelarVotos
+    listaJogadoresVotos
   };
 
   const actions = {
@@ -132,10 +137,9 @@ const RoomsProvider = ({ children }) => {
     setHistoriasFechadas,
     executarPollingAtualizarSala,
     atualizarTodaSala,
-    reiniciarVotacaoHistoriaSelecionada,
+    resetarVotacaoHistoriaSelecionada,
     revelarVotacaoHistoriaSelecionada,
     setListaJogadoresVotos,
-    setRevelarVotos,
     proximaHistoriaSelecionada
   };
 
