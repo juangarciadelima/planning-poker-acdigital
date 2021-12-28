@@ -25,7 +25,7 @@ export default function TableComponent({
   funcDel,
   funcEdit,
 }) {
-  const { sala, setSala } = useRoomsContext();
+  const { setSala, polling } = useRoomsContext();
 
   function copiarLink(id) {
     const urlConviteJogador = `${window.location.href}sala/${id}/jogador`;
@@ -76,6 +76,7 @@ export default function TableComponent({
                 <Button
                   colorScheme="red"
                   onClick={() => {
+                    polling.parar = false
                     enterCardRoom(sala.id);
                   }}
                 >

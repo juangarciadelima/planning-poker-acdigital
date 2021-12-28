@@ -9,8 +9,10 @@ import poll from "easy-polling";
 import { toast } from "react-toastify";
 
 export const PokerContext = createContext();
+const polling = { parar: false }
 
 const RoomsProvider = ({ children }) => {
+
   const [salas, setSalas] = useState([]);
   const [sala, setSala] = useState();
   const [administrador, setAdministrador] = useState({ nome: "", email: "" });
@@ -34,6 +36,7 @@ const RoomsProvider = ({ children }) => {
     setSala();
     setHistoriaSelecionada()
     setListaJogadoresVotos([])
+    polling.parar = true
   }
 
   function setLoginInContext(usuario, tipoUsuario) {
@@ -63,10 +66,27 @@ const RoomsProvider = ({ children }) => {
     }
   }, []);
 
+  const states = { 
+    administrador, 
+    jogador, 
+    salas, 
+    sala, 
+    tipoUsuario, 
+    usuario, 
+    historiasAbertas, 
+    historiasFechadas, 
+    historiaSelecionada,
+    listaJogadoresVotos,
+    polling
+  };
+
   const executarPollingAtualizarSala = async (id) => {
     poll(
       async() => await atualizarTodaSala(id),
-      () => sala,
+      () => {
+        console.log("parar polling", polling.parar)
+        return polling.parar
+      },
       5000, 
       600000000000
     );
@@ -111,18 +131,7 @@ const RoomsProvider = ({ children }) => {
     await atualizarTodaSala(idSala)
   };
 
-  const states = { 
-    administrador, 
-    jogador, 
-    salas, 
-    sala, 
-    tipoUsuario, 
-    usuario, 
-    historiasAbertas, 
-    historiasFechadas, 
-    historiaSelecionada,
-    listaJogadoresVotos
-  };
+ 
 
   const actions = {
     setAdministrador,

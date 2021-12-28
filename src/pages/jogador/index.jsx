@@ -17,7 +17,7 @@ import { serviceCadastrarJogador } from "../../services/jogador";
 import { toast } from "react-toastify";
 export default function SalaJogador() {
   const [novoJogador, setNovoJogador] = useState({ nome: "", email: "" });
-  const { jogador, setJogador, setLoginInContext } = useRoomsContext();
+  const { jogador, setJogador, setLoginInContext, polling } = useRoomsContext();
   const history = useHistory();
   const { id } = useParams();
 
@@ -27,6 +27,7 @@ export default function SalaJogador() {
       if (response) {
         setJogador(novoJogador);
         setLoginInContext(novoJogador, "jogador");
+        polling.parar = false
         history.push(`/sala/${id}`);
       }
     } else {
