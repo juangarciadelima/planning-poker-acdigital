@@ -169,12 +169,7 @@ export default function Historias({ id, historias, setHistorias }) {
   }
   return (
     <>
-      <Tabs
-        className="tab"
-        size="md"
-        variant="line"
-        position="relative"
-      >
+      <Tabs className="tab" size="md" variant="line" position="relative">
         {createHistoryModal}
         <TabList>
           <Tab>
@@ -217,27 +212,6 @@ export default function Historias({ id, historias, setHistorias }) {
               Nova
             </Button>
           )}
-
-          <Button
-            className="btnTab"
-            variant="outline"
-            colorScheme="red"
-            leftIcon={<AddIcon />}
-            style={{
-              position: "absolute",
-              display: "flex",
-              textAlign: "center",
-              justifyContent: "center",
-              right: 0,
-              marginRight: "1rem",
-              marginTop: "0.4rem",
-            }}
-            onClick={() => {
-              showCreateModal();
-            }}
-          >
-            Nova
-          </Button>
         </TabList>
 
         <TabPanels>
@@ -252,21 +226,25 @@ export default function Historias({ id, historias, setHistorias }) {
                   <Tr>
                     <Td>{history.nome}</Td>
                     <Td isNumeric>
-                      <ButtonGroup>
-                        <IconButton
-                          colorScheme="red"
-                          onClick={() => {
-                            showDeleteModal(history.id);
-                          }}
-                          icon={<DeleteIcon />}
-                        />
-                        {deleteHistoryModal}
-                        <IconButton
-                          onClick={() => showEditModal(history)}
-                          icon={<EditIcon />}
-                        />
-                        {editHistoryModal}
-                      </ButtonGroup>
+                      {localStorage.getItem("tipoUsuario") == "jogador" ? (
+                        ""
+                      ) : (
+                        <ButtonGroup>
+                          <IconButton
+                            colorScheme="red"
+                            onClick={() => {
+                              showDeleteModal(history.id);
+                            }}
+                            icon={<DeleteIcon />}
+                          />
+                          {deleteHistoryModal}
+                          <IconButton
+                            onClick={() => showEditModal(history)}
+                            icon={<EditIcon />}
+                          />
+                          {editHistoryModal}
+                        </ButtonGroup>
+                      )}
                     </Td>
                   </Tr>
                 ))}
