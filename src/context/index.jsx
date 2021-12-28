@@ -78,12 +78,13 @@ const RoomsProvider = ({ children }) => {
       const _sala = await serviceBuscarSala(idSala)
       const _historiasAbertas = await buscarHistorias(idSala, "true");
       const _historiasFechadas = await buscarHistorias(idSala, "false");
-      if(_historiasAbertas){
+      if(_sala){
         setSala(_sala)
         setListaJogadoresVotos(_sala.jogadores)
         setHistoriasAbertas(_historiasAbertas);
         setHistoriasFechadas(_historiasFechadas);
-        setHistoriaSelecionada(_historiasAbertas[0])
+        if(_historiasAbertas.length > 0)
+          setHistoriaSelecionada(_historiasAbertas[0])
       }
     }
   }

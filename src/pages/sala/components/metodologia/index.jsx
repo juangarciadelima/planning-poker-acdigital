@@ -5,42 +5,38 @@ import { GiPokerHand } from "react-icons/gi";
 import { useRoomsContext } from "../../../../context";
 import { votar } from "../../../../services/historias";
 
-export function Metodologia({ className }) {
+export function Metodologia() {
   const [metodologia, setMetodologia] = useState({});
-  const { administrador, jogador, historiaSelecionada, tipoUsuario } = useRoomsContext();
-
-  const [voto, setVoto] = useState({
-    carta: { tipo: "", valor: "" },
-    jogador: { nome: "", email: "" },
-  });
+  const { administrador, jogador, historiaSelecionada, tipoUsuario, sala, atualizarTodaSala} = useRoomsContext();
+  const [cartaSelecionada, setCartaSelecionada] = useState()
 
   useEffect(async () => {
-    const res = await buscarCartas();
-    setMetodologia(res);
+    const metodolodia = await buscarCartas();
+    setMetodologia(metodolodia);
   }, []);
 
-  async function executarVoto(card) {
+  async function executarVoto(carta) {
     let usuario = jogador
     if(tipoUsuario === "administrador"){
        usuario = administrador
     }
     let voto = {
-      carta: { tipo: card.tipo, valor: card.valor },
+      carta: { tipo: carta.tipo, valor: carta.valor },
       jogador: { nome: usuario.nome, email: usuario.email },
     }
-    setVoto(voto);
     await votar(historiaSelecionada?.id, voto);
+    setCartaSelecionada(carta)
+    await atualizarTodaSala(sala.id)
   }
+
   return (
     <Box className="boxCard">
       {metodologia && metodologia.cartas ? (
-        metodologia.cartas.map((card) => (
+        metodologia.cartas.map((carta) => (
           <Box className="cardBox">
             <Box
-              className="card"
-              onClick={async() => {
-                await executarVoto(card);
-              }}
+              className={carta.id === cartaSelecionada?.id? "cardSelected" : "card" }
+              onClick={async() => await executarVoto(carta)}
             >
               <Heading
                 display="flex"
@@ -51,10 +47,10 @@ export function Metodologia({ className }) {
                 fontSize="30px"
                 fontFamily="Poppins"
               >
-                {card.valor}
+                {carta.valor}
               </Heading>
-              <span className="numCardR">{card.valor}</span>
-              <span className="numCardL">{card.valor}</span>
+              <span className="numCardR">{carta.valor}</span>
+              <span className="numCardL">{carta.valor}</span>
             </Box>
           </Box>
         ))
