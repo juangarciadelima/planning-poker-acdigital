@@ -55,28 +55,20 @@ export default function Header() {
               {tipoUsuario == "administrador" && (
                 <MenuItem
                   onClick={() => {
+                    setSala({
+                      nome: "",
+                      metodologias: { cartas: [] },
+                      jogadores: [],
+                      historias: [],
+                    });
+                    setHistoriaSelecionada(null)
+                    setListaJogadoresVotos([])
                     history.push("/");
                   }}
                 >
                   Salas
                 </MenuItem>
               )}
-
-              <MenuItem
-                onClick={() => {
-                  setSala({
-                    nome: "",
-                    metodologias: { cartas: [] },
-                    jogadores: [],
-                    historias: [],
-                  });
-                  setHistoriaSelecionada(null)
-                  setListaJogadoresVotos([])
-                  history.push("/");
-                }}
-              >
-                Salas
-              </MenuItem>
               <MenuItem
                 onClick={() => {
                   if(tipoUsuario === "jogador"){
