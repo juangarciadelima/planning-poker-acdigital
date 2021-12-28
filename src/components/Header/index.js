@@ -19,7 +19,7 @@ import { serviceAlterarSala } from "../../services/salas";
 import { toast } from "react-toastify";
 
 export default function Header() {
-  const { limparContexto, usuario, tipoUsuario, jogador, sala } = useRoomsContext();
+  const { limparContexto, usuario, tipoUsuario, jogador, sala, setSala, setHistoriaSelecionada, setListaJogadoresVotos } = useRoomsContext();
 
   const history = useHistory();
 
@@ -55,6 +55,14 @@ export default function Header() {
             <MenuList>
               <MenuItem
                 onClick={() => {
+                  setSala({
+                    nome: "",
+                    metodologias: { cartas: [] },
+                    jogadores: [],
+                    historias: [],
+                  });
+                  setHistoriaSelecionada(null)
+                  setListaJogadoresVotos([])
                   history.push("/");
                 }}
               >

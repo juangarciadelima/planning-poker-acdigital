@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { buscarHistoriaAberta, serviceBuscarHistoria } from "../services/historias";
+import { buscarHistorias, serviceBuscarHistoria } from "../services/historias";
 import { serviceBuscarSala } from "../services/salas";
 import {
   serviceReiniciarVotacao,
@@ -13,17 +13,13 @@ export const PokerContext = createContext();
 
 const RoomsProvider = ({ children }) => {
   const [salas, setSalas] = useState([]);
-  const [sala, setSala] = useState({
-    nome: "",
-    metodologias: { cartas: [] },
-    jogadores: [],
-    historias: [],
-  });
+  const [sala, setSala] = useState();
   const [administrador, setAdministrador] = useState({ nome: "", email: "" });
   const [jogador, setJogador] = useState({ nome: "", email: "" });
   const [tipoUsuario, setTipoUsuario] = useState("");
   const [usuario, setUsuario] = useState({ nome: "", email: "" });
-  const [historias, setHistorias] = useState([]);
+  const [historiasAbertas, setHistoriasAbertas] = useState([]);
+  const [historiasFechadas, setHistoriasFechadas] = useState([]);
   const [historiaSelecionada, setHistoriaSelecionada] = useState()
   const [listaJogadoresVotos, setListaJogadoresVotos] = useState([])
 
@@ -31,19 +27,13 @@ const RoomsProvider = ({ children }) => {
   const location = useLocation();
 
   function limparContexto() {
-    debugger
-    setSala({
-      nome: "",
-      metodologias: { cartas: [] },
-      jogadores: [],
-      historias: [],
-    });
     setSalas([])
     setTipoUsuario("");
     setJogador({ nome: "", email: "" });
     setAdministrador({ nome: "", email: "" });
     setUsuario({ nome: "", email: "" });
-    setHistoriaSelecionada(null)
+    setSala();
+    setHistoriaSelecionada()
     setListaJogadoresVotos([])
   }
 
@@ -79,8 +69,8 @@ const RoomsProvider = ({ children }) => {
   const executarPollingAtualizarSala = async(id) => {
     poll(
       async() => await serviceBuscarSala(id),
-      (sala) => {
-        setSala(sala)
+      (novaSala) => {
+        setSala(novaSala)
         return !sala
       },
       2000, 
@@ -88,9 +78,9 @@ const RoomsProvider = ({ children }) => {
     )
   }
 
-  const executarPollingAtualizarHistoriaSelecionada = async(id) => {
+  const executarPollingAtualizarHistoriaSelecionada = async(idHistoria) => {
     poll(
-      async() => await serviceBuscarHistoria(id),
+      async() => await serviceBuscarHistoria(idHistoria),
       (historiaSelecionada) => {
         setHistoriaSelecionada(historiaSelecionada)
         return !sala
@@ -101,10 +91,17 @@ const RoomsProvider = ({ children }) => {
   }
 
   async function atualizarHistorias(idSala){
-    const historias = await buscarHistoriaAberta(idSala, "true");
-    setHistorias(historias);
-    setHistoriaSelecionada(historias[0])
-    await executarPollingAtualizarHistoriaSelecionada(historias[0]?.id)
+    if(idSala){
+      const _historiasAbertas = await buscarHistorias(idSala, "true");
+      const _historiasFechadas = await buscarHistorias(idSala, "false");
+      if(_historiasAbertas){
+        setHistoriasAbertas(_historiasAbertas);
+        setHistoriasFechadas(_historiasFechadas);
+        setHistoriaSelecionada(_historiasAbertas[0])
+        debugger
+        // await executarPollingAtualizarHistoriaSelecionada(_historiasAbertas[0].id)
+      }
+    }
   }
 
   const reiniciarVotacaoHistoriaSelecionada = async() => {
@@ -124,7 +121,8 @@ const RoomsProvider = ({ children }) => {
     sala, 
     tipoUsuario, 
     usuario, 
-    historias, 
+    historiasAbertas, 
+    historiasFechadas, 
     historiaSelecionada,
     listaJogadoresVotos
   };
@@ -138,7 +136,8 @@ const RoomsProvider = ({ children }) => {
     limparContexto,
     setLoginInContext,
     setHistoriaSelecionada,
-    setHistorias,
+    setHistoriasAbertas,
+    setHistoriasFechadas,
     executarPollingAtualizarSala,
     executarPollingAtualizarHistoriaSelecionada,
     atualizarHistorias,

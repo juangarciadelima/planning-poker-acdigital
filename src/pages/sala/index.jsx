@@ -8,12 +8,11 @@ import Historias from "./components/historias";
 import PlayerGrid from "./playerGrid";
 
 export default function CardRoom() {
-  const { sala, historias, setHistorias, executarPollingAtualizarSala, atualizarHistorias, executarPollingAtualizarHistoriaSelecionada } = useRoomsContext();
+  const { sala, historiasAbertas, executarPollingAtualizarSala } = useRoomsContext();
   const { id } = useParams();
 
   useEffect(async() => {
     await executarPollingAtualizarSala(id)
-    await atualizarHistorias(id)
   }, []);
   
   return (
@@ -30,7 +29,7 @@ export default function CardRoom() {
         <Box className="gridOne">
           <Box w="100%">
             <Heading>
-              {historias[0] ? historias[0].nome : "Ainda não há historias"}
+              {historiasAbertas.length > 0 ? historiasAbertas[0].nome : "Ainda não há historias"}
             </Heading>
           </Box>
 
@@ -44,11 +43,7 @@ export default function CardRoom() {
             marginBottom="3rem"
             className="tabBox"
           >
-            <Historias
-              id={sala.id}
-              historias={historias}
-              setHistorias={setHistorias}
-            />
+            <Historias idSala={id}/>
           </Box>
         </Box>
       </Box>
@@ -56,7 +51,7 @@ export default function CardRoom() {
         buttonContent={<Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
                         Convide os seus colegas
                       </Heading>}
-        jogadores={sala.jogadores}
+        jogadores={sala?.jogadores}
       />
     </Grid>
   );

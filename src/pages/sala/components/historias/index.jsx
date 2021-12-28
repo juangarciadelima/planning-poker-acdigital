@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../../cardRoom.css";
 import {
   Box,
-  Grid,
-  Text,
-  Heading,
   Tabs,
   TabList,
   Button,
@@ -25,24 +22,25 @@ import { toast } from "react-toastify";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import FormCreateHistory from "../../../../components/forms/formCreateHistory";
 import {
-  buscarHistoriaAberta,
+  buscarHistorias,
   serviceAtualizarHistoria,
   serviceCriarHistoria,
   serviceDeletarHistoria,
 } from "../../../../services/historias";
 import FormEditHistory from "../../../../components/forms/formEditHistory";
 import FormDeleteHistory from "../../../../components/forms/deleteFormHistory";
-export default function Historias({ id, historias, setHistorias }) {
-  const [historiaSelecionada, setHistoriaSelecionada] = useState(null);
-  const [historiaDeletar, setHistoriaDeletar] = useState(null);
-  const [historiasFechadas, setHistoriasFechadas] = useState([]);
-  const [novaHistoria, setNovaHistoria] = useState();
+import { useRoomsContext } from "../../../../context";
 
-  useEffect(async () => {
-    const res = await buscarHistoriaAberta(id, "false");
-    setHistoriasFechadas(res);
-    console.log(historiasFechadas);
-  }, []);
+export default function Historias({ idSala }) {
+
+  const { 
+     historiaSelecionada,
+     setHistoriaSelecionada, 
+     historiasAbertas, 
+     historiasFechadas,
+     atualizarHistorias
+  } = useRoomsContext()
+  const [novaHistoria, setNovaHistoria] = useState();
 
   const [createModal, setCreateModal] = useState(false);
   const closeCreateModal = () => {
@@ -54,12 +52,12 @@ export default function Historias({ id, historias, setHistorias }) {
     setNovaHistoria(criarHistoria());
   };
 
-  async function handleClick() {
+  async function handleClickCriarHistoria() {
     const response = await serviceCriarHistoria(novaHistoria);
     if (response) {
       closeCreateModal();
       toast("História Criada");
-      await AtualizaHistorias();
+      await atualizarHistorias(idSala);
     } else {
       toast("Houve um problema ao cadastrar a história!");
     }
@@ -77,11 +75,11 @@ export default function Historias({ id, historias, setHistorias }) {
   };
 
   async function handleEditClick() {
-    const response = await serviceAtualizarHistoria(historiaSelecionada);
+    const response = await serviceAtualizarHistoria();
     if (response) {
       closeEditModal();
       toast("História Editada");
-      await AtualizaHistorias();
+      await atualizarHistorias(idSala);
     } else {
       toast("Houve um problema ao editar!");
     }
@@ -106,7 +104,7 @@ export default function Historias({ id, historias, setHistorias }) {
     if (response) {
       closeDeleteModal();
       toast("História Deletada");
-      await AtualizaHistorias();
+      await atualizarHistorias(idSala);
     } else {
       toast("Houve um problema ao deletar!");
     }
@@ -118,7 +116,7 @@ export default function Historias({ id, historias, setHistorias }) {
         onClose={closeCreateModal}
         modalHeader="Criar a História"
         onClick={closeCreateModal}
-        onClickBtn={handleClick}
+        onClickBtn={handleClickCriarHistoria}
         lBtnText="Cancelar"
         rBtnText="Criar"
         novaHistoria={novaHistoria}
@@ -156,17 +154,13 @@ export default function Historias({ id, historias, setHistorias }) {
   }
   function criarHistoria() {
     return {
-      idSala: id,
+      idSala: idSala,
       nome: "",
       votos: [],
       emAberto: true,
     };
   }
 
-  async function AtualizaHistorias() {
-    const response = await buscarHistoriaAberta(id, "true");
-    setHistorias(response);
-  }
   return (
     <>
       <Tabs className="tab" size="md" variant="line" position="relative">
@@ -176,7 +170,7 @@ export default function Historias({ id, historias, setHistorias }) {
             Histórias Abertas
             <Box marginLeft="10px">
               <EuiNotificationBadge className="tabBadge">
-                {historias.length}
+                {historiasAbertas.length}
               </EuiNotificationBadge>
             </Box>
           </Tab>
@@ -188,9 +182,7 @@ export default function Historias({ id, historias, setHistorias }) {
               </EuiNotificationBadge>
             </Box>
           </Tab>
-          {localStorage.getItem("tipoUsuario") == "jogador" ? (
-            ""
-          ) : (
+          {localStorage.getItem("tipoUsuario") !== "jogador" && (
             <Button
               className="btnTab"
               variant="outline"
@@ -222,7 +214,7 @@ export default function Historias({ id, historias, setHistorias }) {
                 <Th isNumeric></Th>
               </Thead>
               <Tbody>
-                {historias.map((history) => (
+                {historiasAbertas.length > 0 && historiasAbertas.map((history) => (
                   <Tr>
                     <Td>{history.nome}</Td>
                     <Td isNumeric>
@@ -259,7 +251,7 @@ export default function Historias({ id, historias, setHistorias }) {
                 <Th isNumeric></Th>
               </Thead>
               <Tbody>
-                {historiasFechadas.map((history) => (
+                {historiasFechadas.length > 0 && historiasFechadas.map((history) => (
                   <Tr>
                     <Td>{history.nome}</Td>
                     <Td isNumeric></Td>

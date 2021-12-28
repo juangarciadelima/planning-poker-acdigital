@@ -10,8 +10,8 @@ export async function serviceBuscarHistoria(id) {
   return res.data;
 }
 
-export async function buscarHistoriaAberta(idSala, state) {
-  const res = await api.get(`/sala/${idSala}/historia/${state}`);
+export async function buscarHistorias(idSala, emAberto) {
+  const res = await api.get(`/sala/${idSala}/historia/${emAberto}`);
   return res.data;
 }
 

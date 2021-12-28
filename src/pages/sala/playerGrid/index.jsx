@@ -17,7 +17,7 @@ export default function PlayerGrid({
   buttonContent,
   jogadores
 }) {
-  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario, historiaSelecionada, setListaJogadoresVotos, listaJogadoresVotos } = useRoomsContext()
+  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario, historiaSelecionada } = useRoomsContext()
   
   const urlConviteJogador = window.location.href + "/jogador";
 
@@ -37,7 +37,7 @@ export default function PlayerGrid({
             </Heading>
             <Box>
               <ul>
-                {jogadores.length && jogadores.map((jogador) => {
+                {jogadores && jogadores.length > 0 && jogadores.map((jogador) => {
                   return(
                   <li>
                     <cite>

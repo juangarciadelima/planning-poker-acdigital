@@ -27,7 +27,7 @@ export default function FormCreateHistory({
       </EuiModalHeader>
       <EuiModalBody>
         <FormControl id="room-name " isRequired>
-          <FormLabel>Nome da Sala</FormLabel>
+          <FormLabel>Nome da História</FormLabel>
           <Input
             placeholder="Nome"
             value={novaHistoria?.nome}
