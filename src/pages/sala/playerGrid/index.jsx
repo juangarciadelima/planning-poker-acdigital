@@ -104,7 +104,7 @@ export default function PlayerGrid({ buttonContent, jogadores, idSala }) {
               justifyContent="space-between"
               alignItems="center"
               padding="10px"
-              minWidth="100%"
+              minWidth="95%"
             >
               <Button
                 className="btnGrid"
