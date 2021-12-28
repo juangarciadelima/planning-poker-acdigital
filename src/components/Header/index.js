@@ -20,7 +20,6 @@ import { toast } from "react-toastify";
 
 export default function Header() {
   const { limparContexto, usuario, tipoUsuario, jogador, sala, setSala, setHistoriaSelecionada, setListaJogadoresVotos } = useRoomsContext();
-
   const history = useHistory();
 
   return (
@@ -53,6 +52,16 @@ export default function Header() {
               </div>
             </MenuButton>
             <MenuList>
+              {tipoUsuario == "administrador" && (
+                <MenuItem
+                  onClick={() => {
+                    history.push("/");
+                  }}
+                >
+                  Salas
+                </MenuItem>
+              )}
+
               <MenuItem
                 onClick={() => {
                   setSala({
@@ -75,7 +84,7 @@ export default function Header() {
                     novaSala.jogadores = novaSala.jogadores.filter(_jogador => _jogador.email !== jogador.email)
                     serviceAlterarSala(novaSala).then(response => toast("Operação bem sucedida"))
                   }
-                  limparContexto()
+                  limparContexto();
                   logout();
                   history.push("/login");
                 }}

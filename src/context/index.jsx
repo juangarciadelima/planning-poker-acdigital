@@ -6,7 +6,7 @@ import {
   serviceReiniciarVotacao,
   serviceFinalizarVotacao,
 } from "../services/historias";
-import poll from "easy-polling"
+import poll from "easy-polling";
 import { toast } from "react-toastify";
 
 export const PokerContext = createContext();
@@ -37,15 +37,18 @@ const RoomsProvider = ({ children }) => {
     setListaJogadoresVotos([])
   }
 
-  function setLoginInContext(usuario, tipoUsuario){
+  function setLoginInContext(usuario, tipoUsuario) {
     setTipoUsuario(tipoUsuario);
     setAdministrador(usuario);
     setUsuario(usuario);
   }
 
-  function verificaTipoUsuarioNoStorage(){
+  function verificaTipoUsuarioNoStorage() {
     if (localStorage.getItem("tipoUsuario") == "administrador") {
-      setLoginInContext(JSON.parse(localStorage.getItem("administrador")), "administrador");
+      setLoginInContext(
+        JSON.parse(localStorage.getItem("administrador")),
+        "administrador"
+      );
     } else {
       setLoginInContext(JSON.parse(localStorage.getItem("jogador")), "jogador");
     }
@@ -56,12 +59,12 @@ const RoomsProvider = ({ children }) => {
       if (!localStorage.getItem("tipoUsuario")) {
         history.push("/login");
       } else {
-        verificaTipoUsuarioNoStorage()
+        verificaTipoUsuarioNoStorage();
       }
     }
   }, []);
 
-  const executarPollingAtualizarSala = async(id) => {
+  const executarPollingAtualizarSala = async (id) => {
     poll(
       async() => {
         const _sala = await serviceBuscarSala(id)
@@ -75,8 +78,8 @@ const RoomsProvider = ({ children }) => {
       },
       5000, 
       600000
-    )
-  }
+    );
+  };
 
   async function atualizarHistorias(idSala){
     if(idSala){
@@ -90,15 +93,15 @@ const RoomsProvider = ({ children }) => {
     }
   }
 
-  const reiniciarVotacaoHistoriaSelecionada = async() => {
-    await serviceReiniciarVotacao(historiaSelecionada.id) 
-    toast.success("Votação reiniciada com sucesso")
-  }
+  const reiniciarVotacaoHistoriaSelecionada = async () => {
+    await serviceReiniciarVotacao(historiaSelecionada.id);
+    toast.success("Votação reiniciada com sucesso");
+  };
 
-  const finalizarVotacaoHistoriaSelecionada = async() => {
-    await serviceFinalizarVotacao(historiaSelecionada.id)
-    toast.success("Votação finalizada com sucesso")
-  }
+  const finalizarVotacaoHistoriaSelecionada = async () => {
+    await serviceFinalizarVotacao(historiaSelecionada.id);
+    toast.success("Votação finalizada com sucesso");
+  };
 
   const states = { 
     administrador, 
@@ -110,7 +113,7 @@ const RoomsProvider = ({ children }) => {
     historiasAbertas, 
     historiasFechadas, 
     historiaSelecionada,
-    listaJogadoresVotos
+    listaJogadoresVotos,
   };
 
   const actions = {
@@ -128,7 +131,7 @@ const RoomsProvider = ({ children }) => {
     atualizarHistorias,
     reiniciarVotacaoHistoriaSelecionada,
     finalizarVotacaoHistoriaSelecionada,
-    setListaJogadoresVotos
+    setListaJogadoresVotos,
   };
 
   return (

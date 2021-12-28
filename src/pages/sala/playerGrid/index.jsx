@@ -7,7 +7,7 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
-import { AiOutlineCheck, AiOutlineQuestion } from "react-icons/ai"
+import { AiOutlineCheck, AiOutlineQuestion } from "react-icons/ai";
 import { EuiAccordion, EuiPanel } from "@elastic/eui";
 import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
@@ -18,7 +18,6 @@ export default function PlayerGrid({
   jogadores
 }) {
   const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario, historiaSelecionada } = useRoomsContext()
-  
   const urlConviteJogador = window.location.href + "/jogador";
 
   return (
@@ -65,7 +64,7 @@ export default function PlayerGrid({
             </Box>
           </Box>
         </Box>
-        {tipoUsuario === "administrador" &&
+        {tipoUsuario === "administrador" && (
           <>
             <ButtonGroup
               className="btnGroup"
@@ -91,6 +90,9 @@ export default function PlayerGrid({
                 onClick={finalizarVotacaoHistoriaSelecionada}
               >
                 Finalizar Votação
+              </Button>
+              <Button className="btnGrid" isDisabled={true}>
+                Próxima História
               </Button>
             </ButtonGroup>
             <Box
@@ -136,7 +138,7 @@ export default function PlayerGrid({
               </EuiAccordion>
             </Box>
           </>
-        }
+        )}
       </Box>
     </>
   );

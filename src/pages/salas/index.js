@@ -65,7 +65,7 @@ export default function Salas() {
   };
 
   useEffect(async () => {
-    if(administrador){
+    if (administrador) {
       const response = await serviceBuscarSalas(administrador?.email);
       setSalas(response);
     }
@@ -109,7 +109,7 @@ export default function Salas() {
   }
 
   async function atualizarSalas() {
-    if(administrador){
+    if (administrador) {
       const response = await serviceBuscarSalas(administrador?.email);
       setSalas(response);
     }
