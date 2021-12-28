@@ -15,10 +15,25 @@ import { useRoomsContext } from "../../../context";
 
 export default function PlayerGrid({
   buttonContent,
-  jogadores
+  jogadores,
+  idSala
 }) {
-  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario, historiaSelecionada } = useRoomsContext()
+  const { 
+    reiniciarVotacaoHistoriaSelecionada,
+    revelarVotacaoHistoriaSelecionada,
+    tipoUsuario, 
+    historiaSelecionada, 
+    revelarVotos, 
+    proximaHistoriaSelecionada
+  } = useRoomsContext()
+
   const urlConviteJogador = window.location.href + "/jogador";
+
+  const VotoRevelado = ({ valorDoVoto }) => {
+      if(revelarVotos)
+        return valorDoVoto
+      return <AiOutlineCheck />
+  }
 
   return (
     <>
@@ -37,6 +52,7 @@ export default function PlayerGrid({
             <Box>
               <ul>
                 {jogadores && jogadores.length > 0 && jogadores.map((jogador) => {
+                  const voto = historiaSelecionada?.votos.filter(voto => voto.jogador.email === jogador.email)[0]
                   return(
                   <li>
                     <cite>
@@ -55,7 +71,7 @@ export default function PlayerGrid({
                         position="relative"
                         mr="2rem"
                       >
-                        {historiaSelecionada?.votos.filter(voto => voto.jogador.email === jogador.email)[0]?.carta? <AiOutlineCheck /> : <AiOutlineQuestion />}
+                        {voto ? <VotoRevelado valorDoVoto={voto.carta.valor} /> : <AiOutlineQuestion />}
                       </Text>
                     </cite>
                   </li>
@@ -87,11 +103,16 @@ export default function PlayerGrid({
               </Button>
               <Button
                 className="btnGrid"
-                onClick={finalizarVotacaoHistoriaSelecionada}
+                disabled={revelarVotos}
+                onClick={revelarVotacaoHistoriaSelecionada}
               >
-                Finalizar Votação
+                Revelar Votação
               </Button>
-              <Button className="btnGrid" isDisabled={true}>
+              <Button 
+                className="btnGrid" 
+                disabled={!revelarVotos}
+                onClick={async() => await proximaHistoriaSelecionada(idSala)}
+              >
                 Próxima História
               </Button>
             </ButtonGroup>

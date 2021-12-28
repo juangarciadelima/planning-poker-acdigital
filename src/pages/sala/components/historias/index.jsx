@@ -35,7 +35,7 @@ export default function Historias({ idSala }) {
   const {
      historiasAbertas, 
      historiasFechadas,
-     atualizarHistorias
+     atualizarTodaSala
   } = useRoomsContext()
 
   const [novaHistoria, setNovaHistoria] = useState();
@@ -43,7 +43,7 @@ export default function Historias({ idSala }) {
   const [historiaEditar, setHistoriaEditar] = useState();
 
   useEffect(async() => {
-    await atualizarHistorias(idSala)
+    await atualizarTodaSala(idSala)
   }, [])
 
   const [createModal, setCreateModal] = useState(false);
@@ -61,7 +61,7 @@ export default function Historias({ idSala }) {
     if (response) {
       closeCreateModal();
       toast("História Criada");
-      await atualizarHistorias(idSala);
+      await atualizarTodaSala(idSala);
     } else {
       toast("Houve um problema ao cadastrar a história!");
     }
@@ -83,7 +83,7 @@ export default function Historias({ idSala }) {
     if (response) {
       closeEditModal();
       toast("História Editada");
-      await atualizarHistorias(idSala);
+      await atualizarTodaSala(idSala);
     } else {
       toast("Houve um problema ao editar!");
     }
@@ -108,7 +108,7 @@ export default function Historias({ idSala }) {
     if (response) {
       closeDeleteModal();
       toast("História Deletada");
-      await atualizarHistorias(idSala);
+      await atualizarTodaSala(idSala);
     } else {
       toast("Houve um problema ao deletar!");
     }

@@ -1,10 +1,9 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { buscarHistorias, serviceBuscarHistoria } from "../services/historias";
+import { buscarHistorias, serviceFinalizarVotacao } from "../services/historias";
 import { serviceBuscarSala } from "../services/salas";
 import {
-  serviceReiniciarVotacao,
-  serviceFinalizarVotacao,
+  serviceReiniciarVotacao
 } from "../services/historias";
 import poll from "easy-polling";
 import { toast } from "react-toastify";
@@ -22,6 +21,7 @@ const RoomsProvider = ({ children }) => {
   const [historiasFechadas, setHistoriasFechadas] = useState([]);
   const [historiaSelecionada, setHistoriaSelecionada] = useState()
   const [listaJogadoresVotos, setListaJogadoresVotos] = useState([])
+  const [revelarVotos, setRevelarVotos] = useState(false)
 
   const history = useHistory();
   const location = useLocation();
@@ -66,26 +66,21 @@ const RoomsProvider = ({ children }) => {
 
   const executarPollingAtualizarSala = async (id) => {
     poll(
-      async() => {
-        const _sala = await serviceBuscarSala(id)
-        await atualizarHistorias(id)
-        return _sala
-      },
-      (_sala) => {
-        setSala(_sala)
-        setListaJogadoresVotos(_sala.jogadores)
-        return sala
-      },
+      async() => await atualizarTodaSala(id),
+      () => sala,
       5000, 
-      600000
+      600000000000
     );
   };
 
-  async function atualizarHistorias(idSala){
+  async function atualizarTodaSala(idSala){
     if(idSala){
+      const _sala = await serviceBuscarSala(idSala)
       const _historiasAbertas = await buscarHistorias(idSala, "true");
       const _historiasFechadas = await buscarHistorias(idSala, "false");
       if(_historiasAbertas){
+        setSala(_sala)
+        setListaJogadoresVotos(_sala.jogadores)
         setHistoriasAbertas(_historiasAbertas);
         setHistoriasFechadas(_historiasFechadas);
         setHistoriaSelecionada(_historiasAbertas[0])
@@ -98,9 +93,15 @@ const RoomsProvider = ({ children }) => {
     toast.success("Votação reiniciada com sucesso");
   };
 
-  const finalizarVotacaoHistoriaSelecionada = async () => {
+  const revelarVotacaoHistoriaSelecionada = async () => {
+    setRevelarVotos(true)
+    toast.success("Votos revelados");
+  };
+
+  const proximaHistoriaSelecionada = async (idSala) => {
+    setRevelarVotos(false)
     await serviceFinalizarVotacao(historiaSelecionada.id);
-    toast.success("Votação finalizada com sucesso");
+    await atualizarTodaSala(idSala)
   };
 
   const states = { 
@@ -114,6 +115,7 @@ const RoomsProvider = ({ children }) => {
     historiasFechadas, 
     historiaSelecionada,
     listaJogadoresVotos,
+    revelarVotos
   };
 
   const actions = {
@@ -128,10 +130,12 @@ const RoomsProvider = ({ children }) => {
     setHistoriasAbertas,
     setHistoriasFechadas,
     executarPollingAtualizarSala,
-    atualizarHistorias,
+    atualizarTodaSala,
     reiniciarVotacaoHistoriaSelecionada,
-    finalizarVotacaoHistoriaSelecionada,
+    revelarVotacaoHistoriaSelecionada,
     setListaJogadoresVotos,
+    setRevelarVotos,
+    proximaHistoriaSelecionada
   };
 
   return (

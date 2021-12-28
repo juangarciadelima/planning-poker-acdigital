@@ -52,6 +52,7 @@ export default function CardRoom() {
                         Convide os seus colegas
                       </Heading>}
         jogadores={sala?.jogadores}
+        idSala={id}
       />
     </Grid>
   );
