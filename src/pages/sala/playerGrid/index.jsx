@@ -7,18 +7,22 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
-import { AiOutlineCheck, AiOutlineQuestion } from "react-icons/ai"
+import { AiOutlineCheck, AiOutlineQuestion } from "react-icons/ai";
 import { EuiAccordion, EuiPanel } from "@elastic/eui";
 import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
 import { useRoomsContext } from "../../../context";
 
-export default function PlayerGrid({
-  buttonContent,
-  jogadores
-}) {
-  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario, historiaSelecionada, setListaJogadoresVotos, listaJogadoresVotos } = useRoomsContext()
-  
+export default function PlayerGrid({ buttonContent, jogadores }) {
+  const {
+    reiniciarVotacaoHistoriaSelecionada,
+    finalizarVotacaoHistoriaSelecionada,
+    tipoUsuario,
+    historiaSelecionada,
+    setListaJogadoresVotos,
+    listaJogadoresVotos,
+  } = useRoomsContext();
+
   const urlConviteJogador = window.location.href + "/jogador";
 
   return (
@@ -37,35 +41,43 @@ export default function PlayerGrid({
             </Heading>
             <Box>
               <ul>
-                {jogadores.length && jogadores.map((jogador) => {
-                  return(
-                  <li>
-                    <cite>
-                      <Text
-                        fontSize="xl"
-                        fontFamily="Poppins"
-                        fontWeight="700"
-                        ml="0.5rem"
-                      >
-                        {jogador.nome}
-                      </Text>
-                      <Text
-                        right="0"
-                        fontWeight="700"
-                        fontSize="3xl"
-                        position="relative"
-                        mr="2rem"
-                      >
-                        {historiaSelecionada?.votos.filter(voto => voto.jogador.email === jogador.email)[0]?.carta? <AiOutlineCheck /> : <AiOutlineQuestion />}
-                      </Text>
-                    </cite>
-                  </li>
-                )})}
+                {jogadores.length &&
+                  jogadores.map((jogador) => {
+                    return (
+                      <li>
+                        <cite>
+                          <Text
+                            fontSize="xl"
+                            fontFamily="Poppins"
+                            fontWeight="700"
+                            ml="0.5rem"
+                          >
+                            {jogador.nome}
+                          </Text>
+                          <Text
+                            right="0"
+                            fontWeight="700"
+                            fontSize="3xl"
+                            position="relative"
+                            mr="2rem"
+                          >
+                            {historiaSelecionada?.votos.filter(
+                              (voto) => voto.jogador.email === jogador.email
+                            )[0]?.carta ? (
+                              <AiOutlineCheck />
+                            ) : (
+                              <AiOutlineQuestion />
+                            )}
+                          </Text>
+                        </cite>
+                      </li>
+                    );
+                  })}
               </ul>
             </Box>
           </Box>
         </Box>
-        {tipoUsuario === "administrador" &&
+        {tipoUsuario === "administrador" && (
           <>
             <ButtonGroup
               className="btnGroup"
@@ -91,6 +103,9 @@ export default function PlayerGrid({
                 onClick={finalizarVotacaoHistoriaSelecionada}
               >
                 Finalizar Votação
+              </Button>
+              <Button className="btnGrid" isDisabled={true}>
+                Próxima História
               </Button>
             </ButtonGroup>
             <Box
@@ -136,7 +151,7 @@ export default function PlayerGrid({
               </EuiAccordion>
             </Box>
           </>
-        }
+        )}
       </Box>
     </>
   );

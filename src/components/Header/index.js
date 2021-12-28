@@ -19,7 +19,8 @@ import { serviceAlterarSala } from "../../services/salas";
 import { toast } from "react-toastify";
 
 export default function Header() {
-  const { limparContexto, usuario, tipoUsuario, jogador, sala } = useRoomsContext();
+  const { limparContexto, usuario, tipoUsuario, jogador, sala } =
+    useRoomsContext();
 
   const history = useHistory();
 
@@ -53,21 +54,28 @@ export default function Header() {
               </div>
             </MenuButton>
             <MenuList>
+              {tipoUsuario == "administrador" && (
+                <MenuItem
+                  onClick={() => {
+                    history.push("/");
+                  }}
+                >
+                  Salas
+                </MenuItem>
+              )}
+
               <MenuItem
                 onClick={() => {
-                  history.push("/");
-                }}
-              >
-                Salas
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  if(tipoUsuario === "jogador"){
-                    let novaSala = sala
-                    novaSala.jogadores = novaSala.jogadores.filter(_jogador => _jogador.email !== jogador.email)
-                    serviceAlterarSala(novaSala).then(response => toast("Operação bem sucedida"))
+                  if (tipoUsuario === "jogador") {
+                    let novaSala = sala;
+                    novaSala.jogadores = novaSala.jogadores.filter(
+                      (_jogador) => _jogador.email !== jogador.email
+                    );
+                    serviceAlterarSala(novaSala).then((response) =>
+                      toast("Operação bem sucedida")
+                    );
                   }
-                  limparContexto()
+                  limparContexto();
                   logout();
                   history.push("/login");
                 }}
