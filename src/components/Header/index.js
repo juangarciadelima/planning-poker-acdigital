@@ -67,8 +67,9 @@ export default function Header() {
                     novaSala.jogadores = novaSala.jogadores.filter(_jogador => _jogador.email !== jogador.email)
                     serviceAlterarSala(novaSala).then(response => toast("Operação bem sucedida"))
                   }
-                   logout(limparContexto);
-                   history.push("/login");
+                  limparContexto()
+                  logout();
+                  history.push("/login");
                 }}
               >
                 Sair

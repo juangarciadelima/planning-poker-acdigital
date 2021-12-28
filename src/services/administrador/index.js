@@ -15,7 +15,6 @@ export async function serviceLogin(administrador) {
   return response.data;
 }
 
-export async function logout(limparContexto) {
+export async function logout() {
   localStorage.clear();
-  limparContexto();
 }

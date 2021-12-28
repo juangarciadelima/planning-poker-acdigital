@@ -13,25 +13,25 @@ export const PokerContext = createContext();
 
 const RoomsProvider = ({ children }) => {
   const [salas, setSalas] = useState([]);
-  const [administrador, setAdministrador] = useState({ nome: "", email: "" });
-  const [jogador, setJogador] = useState({ nome: "", email: "" });
-  const [tipoUsuario, setTipoUsuario] = useState("");
-  const [usuario, setUsuario] = useState({ nome: "", email: "" });
-  const [historias, setHistorias] = useState([]);
-  const [historiaSelecionada, setHistoriaSelecionada] = useState()
-
-  const history = useHistory();
-  const location = useLocation();
-
   const [sala, setSala] = useState({
     nome: "",
     metodologias: { cartas: [] },
     jogadores: [],
     historias: [],
   });
+  const [administrador, setAdministrador] = useState({ nome: "", email: "" });
+  const [jogador, setJogador] = useState({ nome: "", email: "" });
+  const [tipoUsuario, setTipoUsuario] = useState("");
+  const [usuario, setUsuario] = useState({ nome: "", email: "" });
+  const [historias, setHistorias] = useState([]);
+  const [historiaSelecionada, setHistoriaSelecionada] = useState()
   const [listaJogadoresVotos, setListaJogadoresVotos] = useState([])
 
+  const history = useHistory();
+  const location = useLocation();
+
   function limparContexto() {
+    debugger
     setSala({
       nome: "",
       metodologias: { cartas: [] },
@@ -43,7 +43,8 @@ const RoomsProvider = ({ children }) => {
     setJogador({ nome: "", email: "" });
     setAdministrador({ nome: "", email: "" });
     setUsuario({ nome: "", email: "" });
-    setHistoriaSelecionada()
+    setHistoriaSelecionada(null)
+    setListaJogadoresVotos([])
   }
 
   function setLoginInContext(usuario, tipoUsuario){
@@ -80,7 +81,7 @@ const RoomsProvider = ({ children }) => {
       async() => await serviceBuscarSala(id),
       (sala) => {
         setSala(sala)
-        return false
+        return !sala
       },
       2000, 
       600000
@@ -92,6 +93,7 @@ const RoomsProvider = ({ children }) => {
       async() => await serviceBuscarHistoria(id),
       (historiaSelecionada) => {
         setHistoriaSelecionada(historiaSelecionada)
+        return !sala
       },
       2000, 
       600000
