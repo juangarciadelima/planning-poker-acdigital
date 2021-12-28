@@ -17,6 +17,7 @@ import {
 } from "../../../services/historias";
 import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
+import { useRoomsContext } from "../../../context";
 
 export default function PlayerGrid({
   buttonContent,
@@ -24,7 +25,8 @@ export default function PlayerGrid({
   setClassCarta,
   historias,
 }) {
-  const urlGuardada = window.location.href + "/jogador";
+  const { reiniciarVotacaoHistoriaSelecionada, finalizarVotacaoHistoriaSelecionada, tipoUsuario } = useRoomsContext()
+  const urlConviteJogador = window.location.href + "/jogador";
 
   return (
     <>
@@ -69,9 +71,7 @@ export default function PlayerGrid({
             </Box>
           </Box>
         </Box>
-        {localStorage.getItem("tipoUsuario") == "jogador" ? (
-          ""
-        ) : (
+        {tipoUsuario === "administrador" &&
           <>
             <ButtonGroup
               className="btnGroup"
@@ -88,19 +88,13 @@ export default function PlayerGrid({
             >
               <Button
                 className="btnGrid"
-                onClick={() =>
-                  serviceReiniciarVotacao(historias[0].id) &&
-                  toast.success("Votação reiniciada com sucesso")
-                }
+                onClick={reiniciarVotacaoHistoriaSelecionada}
               >
                 Resetar Votação
               </Button>
               <Button
                 className="btnGrid"
-                onClick={() =>
-                  serviceFinalizarVotacao(historias[0].id) &&
-                  toast.success("Votação finalizada com sucesso")
-                }
+                onClick={finalizarVotacaoHistoriaSelecionada}
               >
                 Finalizar Votação
               </Button>
@@ -126,7 +120,7 @@ export default function PlayerGrid({
                     className="boxInput"
                   >
                     <Input
-                      value={urlGuardada}
+                      value={urlConviteJogador}
                       isReadOnly={true}
                       className="inputURL"
                     />
@@ -137,7 +131,7 @@ export default function PlayerGrid({
                       colorScheme="red"
                       float="right"
                       onClick={() =>
-                        navigator.clipboard.writeText(urlGuardada) &&
+                        navigator.clipboard.writeText(urlConviteJogador) &&
                         toast.success("URL copiada com sucesso")
                       }
                     >
@@ -148,7 +142,7 @@ export default function PlayerGrid({
               </EuiAccordion>
             </Box>
           </>
-        )}
+        }
       </Box>
     </>
   );

@@ -1,10 +1,15 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { buscarSalas } from "../services/salas";
 import { useHistory, useLocation } from "react-router-dom";
+import { buscarHistoriaAberta } from "../services/historias";
+import { serviceBuscarSala } from "../services/salas";
+import {
+  serviceReiniciarVotacao,
+  serviceFinalizarVotacao,
+} from "../services/historias";
+import poll from "easy-polling"
+import { toast } from "react-toastify";
 
 export const PokerContext = createContext();
-
-//TODO Trocar nome para PokerContext
 
 const RoomsProvider = ({ children }) => {
   const [salas, setSalas] = useState([]);
@@ -12,6 +17,9 @@ const RoomsProvider = ({ children }) => {
   const [jogador, setJogador] = useState({ nome: "", email: "" });
   const [tipoUsuario, setTipoUsuario] = useState("");
   const [usuario, setUsuario] = useState({ nome: "", email: "" });
+  const [historias, setHistorias] = useState([]);
+  const [historiaSelecionada, setHistoriaSelecionada] = useState()
+
   const history = useHistory();
   const location = useLocation();
 
@@ -60,9 +68,43 @@ const RoomsProvider = ({ children }) => {
     }
   }, []);
 
-  const states = { administrador, jogador, salas, sala, tipoUsuario, usuario };
+  const executarPollingAtualizarSala = async(id) => {
+    poll(
+      async() => await serviceBuscarSala(id),
+      (sala) => {
+        setSala(sala)
+      },
+      2000, 
+      9000000000000
+    )
+  }
 
-  console.log("store", states)
+  async function atualizarHistorias(idSala){
+    const historias = await buscarHistoriaAberta(idSala, "true");
+    setHistorias(historias);
+    setHistoriaSelecionada(historias[0])
+  }
+
+  const reiniciarVotacaoHistoriaSelecionada = async() => {
+    await serviceReiniciarVotacao(historiaSelecionada.id) &&
+    toast.success("Votação reiniciada com sucesso")
+  }
+
+  const finalizarVotacaoHistoriaSelecionada = () => {
+    serviceFinalizarVotacao(historiaSelecionada.id) &&
+    toast.success("Votação finalizada com sucesso")
+  }
+
+  const states = { 
+    administrador, 
+    jogador, 
+    salas, 
+    sala, 
+    tipoUsuario, 
+    usuario, 
+    historias, 
+    historiaSelecionada 
+  };
 
   const actions = {
     setAdministrador,
@@ -71,7 +113,13 @@ const RoomsProvider = ({ children }) => {
     setSalas,
     setTipoUsuario,
     limparContexto,
-    setLoginInContext
+    setLoginInContext,
+    setHistoriaSelecionada,
+    setHistorias,
+    executarPollingAtualizarSala,
+    atualizarHistorias,
+    reiniciarVotacaoHistoriaSelecionada,
+    finalizarVotacaoHistoriaSelecionada
   };
 
   return (

@@ -7,7 +7,7 @@ import { votar } from "../../../../services/historias";
 
 export function Metodologia({ className }) {
   const [metodologia, setMetodologia] = useState({});
-  const { jogador } = useRoomsContext();
+  const { administrador, jogador, historiaSelecionada, tipoUsuario } = useRoomsContext();
 
   const [voto, setVoto] = useState({
     carta: { tipo: "", valor: "" },
@@ -20,11 +20,15 @@ export function Metodologia({ className }) {
   }, []);
 
   async function executarVoto(card) {
+    let usuario = jogador
+    if(tipoUsuario === "administrador"){
+       usuario = administrador
+    }
     setVoto({
       carta: { tipo: card.tipo, valor: card.valor },
-      jogador: { nome: jogador.nome, email: jogador.email },
+      jogador: { nome: usuario.nome, email: usuario.email },
     });
-    await votar(voto);
+    await votar(historiaSelecionada?.id, voto);
   }
   return (
     <Box className="boxCard">
@@ -33,8 +37,8 @@ export function Metodologia({ className }) {
           <Box className="cardBox">
             <Box
               className="card"
-              onClick={() => {
-                executarVoto(card);
+              onClick={async() => {
+                await executarVoto(card);
               }}
             >
               <Heading

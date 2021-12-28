@@ -6,17 +6,18 @@ import { useRoomsContext } from "../../context";
 import { Metodologia } from "./components/metodologia";
 import Historias from "./components/historias";
 import PlayerGrid from "./playerGrid";
-import { buscarHistoriaAberta } from "../../services/historias";
-import { serviceBuscarSala } from "../../services/salas";
-import poll from "easy-polling"
-
 
 export default function CardRoom() {
-  const { sala, setSala } = useRoomsContext();
-
-  const [historias, setHistorias] = useState([]);
-  const [classCarta, setClassCarta] = useState("cartaVirada");
+  const { sala, historias, setHistorias, executarPollingAtualizarSala, atualizarHistorias } = useRoomsContext();
   const { id } = useParams();
+
+  useEffect(async() => {
+    await executarPollingAtualizarSala(id)
+    await atualizarHistorias(id)
+  }, []);
+  
+  const [classCarta, setClassCarta] = useState("cartaVirada");
+ 
 
   const buttonContent = (
     <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
@@ -24,25 +25,6 @@ export default function CardRoom() {
     </Heading>
   );
 
-  const executarPollingAtualizarSala = async(id) => {
-    poll(
-      async() => await serviceBuscarSala(id),
-      (sala) => {
-        setSala(sala)
-      },
-      2000, 
-      900000000000000000
-    )
-  }
-
-  useEffect(async() => {
-
-    await executarPollingAtualizarSala(id)
-
-    const historias = await buscarHistoriaAberta(id, "true");
-    setHistorias(historias);
-
-  }, []);
   return (
     <Grid padding="15px" paddingBottom="60px" templateColumns="2fr 1fr" className="gridCustom">
       <Box
