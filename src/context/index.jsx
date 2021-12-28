@@ -74,7 +74,7 @@ const RoomsProvider = ({ children }) => {
       () => {
         return polling.parar
       },
-      5000, 
+      1000, 
       600000000000
     );
   };
