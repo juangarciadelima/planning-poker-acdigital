@@ -12,28 +12,30 @@ import { EuiAccordion, EuiPanel } from "@elastic/eui";
 import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
 import { useRoomsContext } from "../../../context";
+import { FiCoffee } from "react-icons/fi";
 
-export default function PlayerGrid({
-  buttonContent,
-  jogadores,
-  idSala
-}) {
-  const { 
+export default function PlayerGrid({ buttonContent, jogadores, idSala }) {
+  const {
     reiniciarVotacaoHistoriaSelecionada,
     revelarVotacaoHistoriaSelecionada,
-    tipoUsuario, 
-    historiaSelecionada, 
-    revelarVotos, 
-    proximaHistoriaSelecionada
-  } = useRoomsContext()
+    tipoUsuario,
+    historiaSelecionada,
+    revelarVotos,
+    proximaHistoriaSelecionada,
+  } = useRoomsContext();
 
   const urlConviteJogador = window.location.href + "/jogador";
 
-  const VotoRevelado = ({ valorDoVoto }) => {
-      if(revelarVotos)
-        return valorDoVoto
-      return <AiOutlineCheck />
-  }
+  const VotoRevelado = ({ carta }) => {
+    if (revelarVotos) {
+      if (carta.tipo == "cafe") {
+        return <FiCoffee />;
+      } else {
+        return carta.valor;
+      }
+    }
+    return <AiOutlineCheck />;
+  };
 
   return (
     <>
@@ -51,31 +53,40 @@ export default function PlayerGrid({
             </Heading>
             <Box>
               <ul>
-                {jogadores && jogadores.length > 0 && jogadores.map((jogador) => {
-                  const voto = historiaSelecionada?.votos.filter(voto => voto.jogador.email === jogador.email)[0]
-                  return(
-                  <li>
-                    <cite>
-                      <Text
-                        fontSize="xl"
-                        fontFamily="Poppins"
-                        fontWeight="700"
-                        ml="0.5rem"
-                      >
-                        {jogador.nome}
-                      </Text>
-                      <Text
-                        right="0"
-                        fontWeight="700"
-                        fontSize="3xl"
-                        position="relative"
-                        mr="2rem"
-                      >
-                        {voto ? <VotoRevelado valorDoVoto={voto.carta.valor} /> : <AiOutlineQuestion />}
-                      </Text>
-                    </cite>
-                  </li>
-                )})}
+                {jogadores &&
+                  jogadores.length > 0 &&
+                  jogadores.map((jogador) => {
+                    const voto = historiaSelecionada?.votos.filter(
+                      (voto) => voto.jogador.email === jogador.email
+                    )[0];
+                    return (
+                      <li>
+                        <cite>
+                          <Text
+                            fontSize="xl"
+                            fontFamily="Poppins"
+                            fontWeight="700"
+                            ml="0.5rem"
+                          >
+                            {jogador.nome}
+                          </Text>
+                          <Text
+                            right="0"
+                            fontWeight="700"
+                            fontSize="3xl"
+                            position="relative"
+                            mr="2rem"
+                          >
+                            {voto ? (
+                              <VotoRevelado carta={voto.carta} />
+                            ) : (
+                              <AiOutlineQuestion />
+                            )}
+                          </Text>
+                        </cite>
+                      </li>
+                    );
+                  })}
               </ul>
             </Box>
           </Box>
@@ -108,10 +119,10 @@ export default function PlayerGrid({
               >
                 Revelar Votação
               </Button>
-              <Button 
-                className="btnGrid" 
+              <Button
+                className="btnGrid"
                 disabled={!revelarVotos}
-                onClick={async() => await proximaHistoriaSelecionada(idSala)}
+                onClick={async () => await proximaHistoriaSelecionada(idSala)}
               >
                 Próxima História
               </Button>
