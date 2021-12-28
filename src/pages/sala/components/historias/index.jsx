@@ -31,20 +31,16 @@ import FormDeleteHistory from "../../../../components/forms/deleteFormHistory";
 import { useRoomsContext } from "../../../../context";
 
 export default function Historias({ idSala }) {
-
-  const {
-     historiasAbertas, 
-     historiasFechadas,
-     atualizarTodaSala
-  } = useRoomsContext()
+  const { historiasAbertas, historiasFechadas, atualizarTodaSala } =
+    useRoomsContext();
 
   const [novaHistoria, setNovaHistoria] = useState();
   const [historiaDeletar, setHistoriaDeletar] = useState();
   const [historiaEditar, setHistoriaEditar] = useState();
 
-  useEffect(async() => {
-    await atualizarTodaSala(idSala)
-  }, [])
+  useEffect(async () => {
+    await atualizarTodaSala(idSala);
+  }, []);
 
   const [createModal, setCreateModal] = useState(false);
   const closeCreateModal = () => {
@@ -219,28 +215,30 @@ export default function Historias({ idSala }) {
                 <Th isNumeric></Th>
               </Thead>
               <Tbody>
-                {historiasAbertas.length > 0 && historiasAbertas.map((historia) => (
-                  <Tr>
-                    <Td>{historia.nome}</Td>
-                    <Td isNumeric>
-                      {localStorage.getItem("tipoUsuario") === "administrador" && (
-                        <ButtonGroup>
-                          <IconButton
-                            colorScheme="red"
-                            onClick={() => {
-                              showDeleteModal(historia.id);
-                            }}
-                            icon={<DeleteIcon />}
-                          />
-                          <IconButton
-                            onClick={() => showEditModal(historia)}
-                            icon={<EditIcon />}
-                          />
-                        </ButtonGroup>
-                      )}
-                    </Td>
-                  </Tr>
-                ))}
+                {historiasAbertas.length > 0 &&
+                  historiasAbertas.map((historia) => (
+                    <Tr>
+                      <Td>{historia.nome}</Td>
+                      <Td isNumeric>
+                        {localStorage.getItem("tipoUsuario") ===
+                          "administrador" && (
+                          <ButtonGroup>
+                            <IconButton
+                              colorScheme="red"
+                              onClick={() => {
+                                showDeleteModal(historia.id);
+                              }}
+                              icon={<DeleteIcon />}
+                            />
+                            <IconButton
+                              onClick={() => showEditModal(historia)}
+                              icon={<EditIcon />}
+                            />
+                          </ButtonGroup>
+                        )}
+                      </Td>
+                    </Tr>
+                  ))}
               </Tbody>
             </Table>
           </TabPanel>
@@ -251,12 +249,27 @@ export default function Historias({ idSala }) {
                 <Th isNumeric></Th>
               </Thead>
               <Tbody>
-                {historiasFechadas.length > 0 && historiasFechadas.map((historia) => (
-                  <Tr>
-                    <Td>{historia.nome}</Td>
-                    <Td isNumeric></Td>
-                  </Tr>
-                ))}
+                {historiasFechadas.length > 0 &&
+                  historiasFechadas.map((historia) => {
+                    const votos = historia.votos;
+                    let mediaVotos = 0;
+                    votos.map((voto) => {
+                      if (voto.carta.tipo !== "cafe") {
+                        let votoJogador = voto.carta.valor;
+                        mediaVotos += votoJogador;
+                        mediaVotos = mediaVotos / votos.length;
+
+                        mediaVotos = Math.round(mediaVotos * 10) / 10;
+                      }
+                    });
+
+                    return (
+                      <Tr>
+                        <Td>{historia.nome}</Td>
+                        <Td isNumeric>{mediaVotos}</Td>
+                      </Tr>
+                    );
+                  })}
               </Tbody>
             </Table>
           </TabPanel>
