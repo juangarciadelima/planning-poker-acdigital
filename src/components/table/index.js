@@ -85,22 +85,22 @@ export default function TableComponent({
               <Td isNumeric>
                 <ButtonGroup spacing="3">
                   <IconButton
-                    title="Edit Room"
-                    aria-label="Edit Room"
+                    title="Copiar Link"
+                    aria-label="Copiar Link"
                     icon={<CopyIcon />}
                     colorScheme="red"
                     onClick={() => copiarLink(sala.id)}
                   />
                   <IconButton
-                    aria-label="Delete"
+                    aria-label="Deletar Sala"
                     icon={<CloseIcon />}
                     colorScheme="red"
                     onClick={() => funcDel(sala.id)}
-                    title="Delete Room"
+                    title="Deletar Sala"
                   />
                   <IconButton
-                    title="Edit Room"
-                    aria-label="Edit Room"
+                    title="Editar Sala"
+                    aria-label="Editar Sala"
                     icon={<EditIcon />}
                     colorScheme="gray"
                     onClick={() => funcEdit(sala)}
