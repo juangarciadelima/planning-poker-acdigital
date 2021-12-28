@@ -1,70 +1,35 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Planning Poker
 
-## Available Scripts
+[![vivaldi-w-KPw-WFwob-Z.png](https://i.postimg.cc/kGsRScWB/vivaldi-w-KPw-WFwob-Z.png)](https://postimg.cc/q6t7V2bT)
 
-In the project directory, you can run:
 
-### `yarn start`
+Esse projeto tem como o seu objetivo servir como uma ferramente de scrum, utilizando a tecnologia React, para assim, poder auxiliar o time 
+em prol de estimar as tarefas designadas para a sprint. Esse projeto foi utilizado como base para o meu programa jovem aprendiz, dentro
+do time de desenvolvimento da AC Digital.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `yarn test`
+## Tecnologias utilizadas
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+**Front-end:** React
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Back-end:** NestJS,Mongoose
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Libs Utilizadas
+- [X]  Chakra-Ui
+- [X]  axios
+- [x]  Easy-Polling
+- [X]  react-toastify
+- [X]  react-router-dom
+- [X]  react-icons
+## Screenshots
 
-### `yarn eject`
+[![chrome-r-NCo0-L3-O8-E.png](https://i.postimg.cc/1zWR13DV/chrome-r-NCo0-L3-O8-E.png)](https://postimg.cc/FfLXjmWh)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+[![FJa0h50af-P.png](https://i.postimg.cc/05Kkhxjr/FJa0h50af-P.png)](https://postimg.cc/JtmCBfbW)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[![4-HMHbqbbhx.png](https://i.postimg.cc/g00dsb1z/4-HMHbqbbhx.png)](https://postimg.cc/RW2jCyMy)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
