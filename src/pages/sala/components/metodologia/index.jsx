@@ -45,18 +45,21 @@ export function Metodologia() {
   }
 
   const MediaPontos = () => {
-    const votos = historiaSelecionada.votos;
-    let mediaVotos = 0;
-    votos.map((voto) => {
-      if (voto.carta.tipo !== "cafe") {
-        let votoJogador = voto.carta.valor;
-        mediaVotos += votoJogador;
-        mediaVotos = mediaVotos / votos.length;
+    if(historiaSelecionada){
+      const votos = historiaSelecionada.votos;
+      let mediaVotos = 0;
+      votos.map((voto) => {
+        if (voto.carta.tipo !== "cafe") {
+          let votoJogador = voto.carta.valor;
+          mediaVotos += votoJogador;
+          mediaVotos = mediaVotos / votos.length;
 
-        mediaVotos = Math.round(mediaVotos * 10) / 10;
-      }
-    });
-    return <Heading>Média de pontos: {mediaVotos}</Heading>
+          mediaVotos = Math.round(mediaVotos * 10) / 10;
+        }
+      });
+      return <Heading>Média de pontos: {mediaVotos}</Heading>
+    }
+    return <Heading>Carregando ...</Heading>
   }
 
   return (
