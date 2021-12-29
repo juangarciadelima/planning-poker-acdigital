@@ -3,7 +3,7 @@ import { Box, Heading, Button } from "@chakra-ui/react";
 import { buscarCartas } from "../../../../services/metodologia";
 import { FiCoffee } from "react-icons/fi";
 import { useRoomsContext } from "../../../../context";
-import { votar } from "../../../../services/historias";
+import { serviceAtualizarHistoria } from "../../../../services/historias";
 import { toast } from "react-toastify";
 
 export function Metodologia() {
@@ -28,15 +28,19 @@ export function Metodologia() {
 
   async function executarVoto(carta) {
     if(historiaSelecionada && historiasAbertas.length > 0){
-      let usuario = jogador;
-      if (tipoUsuario === "administrador") {
-        usuario = administrador;
-      }
+      let usuario = administrador ?? jogador;
+
       let voto = {
         carta: { tipo: carta.tipo, valor: carta.valor },
         jogador: { nome: usuario.nome, email: usuario.email },
       };
-      await votar(historiaSelecionada.id, voto);
+
+      let editarHistoria = historiaSelecionada
+      editarHistoria.votos = editarHistoria.votos.filter(item => item.jogador.email !== usuario.email && item.email === "")
+      editarHistoria.votos.push(voto)
+
+      //o voto ocorre no editar a historia
+      await serviceAtualizarHistoria(editarHistoria);
       setCartaSelecionada(carta);
       await atualizarTodaSala(sala.id);
     }else{
