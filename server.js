@@ -1,16 +1,7 @@
-const express = require('express');
-const { resolve } = require('path');
+const express = require("express");
+const path = require("path");
 const app = express();
 
-app.use(express.static(
-  resolve(
-    __dirname,
-    './build'
-  )
-));
-
-app.listen(process.env.PORT || 3000, (err) => {
-   if(err)
-      console.log('Error ==> ', err);
-   console.log('Server is up!');
-});
+//This will create a middleware.
+//When you navigate to the root page, it would use the built react-app
+app.use(express.static(path.resolve(__dirname, "./client/build")));
