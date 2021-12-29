@@ -17,9 +17,8 @@ export function Metodologia() {
     atualizarTodaSala,
     historiasAbertas,
     cartaSelecionada,
-    setCartaSelecionada
+    setCartaSelecionada,
   } = useRoomsContext();
-  
 
   useEffect(async () => {
     const metodolodia = await buscarCartas();
@@ -27,7 +26,7 @@ export function Metodologia() {
   }, []);
 
   async function executarVoto(carta) {
-    if(historiaSelecionada && historiasAbertas.length > 0){
+    if (historiaSelecionada && historiasAbertas.length > 0) {
       let usuario = administrador ?? jogador;
 
       let voto = {
@@ -35,38 +34,48 @@ export function Metodologia() {
         jogador: { nome: usuario.nome, email: usuario.email },
       };
 
-      let editarHistoria = historiaSelecionada
-      editarHistoria.votos = editarHistoria.votos.filter(item => item.jogador.email !== usuario.email && item.email !== "")
-      editarHistoria.votos.push(voto)
+      let editarHistoria = historiaSelecionada;
+      editarHistoria.votos = editarHistoria.votos.filter(
+        (item) => item.jogador.email !== usuario.email && item.email !== ""
+      );
+      editarHistoria.votos.push(voto);
 
       //o voto ocorre no editar a historia
       await serviceAtualizarHistoria(editarHistoria);
       setCartaSelecionada(carta);
       await atualizarTodaSala(sala.id);
-    }else{
-      toast("Para votar o Administrador precisa cadastrar uma história")
+    } else {
+      toast("Para votar o Administrador precisa cadastrar uma história");
     }
   }
 
   const MediaPontos = () => {
-    if(historiaSelecionada){
+    if (historiaSelecionada) {
       const votos = historiaSelecionada.votos;
       let mediaVotos = 0;
-      
-      votos.map((voto) => {
-        if (voto.carta.tipo !== "cafe") {
-          let votoJogador = voto.carta.valor;
-          mediaVotos = mediaVotos + votoJogador;
-        }
-      });
-      return <Heading>Média de pontos: {Math.round((mediaVotos / votos.length) * 10) / 10}</Heading>
+
+      votos.length > 0 &&
+        votos.map((voto) => {
+          if (voto.carta.tipo !== "cafe") {
+            let votoJogador = voto.carta.valor;
+            mediaVotos = mediaVotos + votoJogador;
+          }
+        });
+      return (
+        <Heading>
+          Média de pontos:{" "}
+          {votos.length > 0
+            ? Math.round((mediaVotos / votos.length) * 10) / 10
+            : 0}
+        </Heading>
+      );
     }
-    return <Heading>Carregando ...</Heading>
-  }
+    return <Heading>Carregando ...</Heading>;
+  };
 
   return (
     <Box className="boxCard">
-      {(metodologia && metodologia.cartas) && (sala && !sala.revelarVotos) ? (
+      {metodologia && metodologia.cartas && sala && !sala.revelarVotos ? (
         metodologia.cartas.map((carta) => (
           <Box className="cardBox">
             <Box
@@ -115,7 +124,9 @@ export function Metodologia() {
             </Box>
           </Box>
         ))
-      ) : <MediaPontos />}
+      ) : (
+        <MediaPontos />
+      )}
     </Box>
   );
 }
