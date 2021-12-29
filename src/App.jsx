@@ -1,12 +1,10 @@
 import React from "react";
-import Footer from "./components/footer";
 import Header from "./components/header";
 import Salas from "./pages/salas";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useHistory,
 } from "react-router-dom";
 import Sala from "./pages/sala";
 import Cadastrar from "./pages/cadastro";
