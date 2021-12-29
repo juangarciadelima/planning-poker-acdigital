@@ -22,9 +22,6 @@ export default function App() {
           <Route exact path="/cadastrar">
             <Cadastrar />
           </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
           <Route exact path="/">
             <Salas />
           </Route>
@@ -33,6 +30,9 @@ export default function App() {
           </Route>
           <Route exact path="/sala/:id/jogador">
             <SalaJogador />
+          </Route>
+          <Route exact path="/login">
+            <Login />
           </Route>
         </RoomsProvider>
       </Switch>
