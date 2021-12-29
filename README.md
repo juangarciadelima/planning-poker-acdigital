@@ -35,6 +35,33 @@ do time de desenvolvimento da AC Digital.
 [![4-HMHbqbbhx.png](https://i.postimg.cc/g00dsb1z/4-HMHbqbbhx.png)](https://postimg.cc/RW2jCyMy)
 
 
+## Rodando o projeto localmente
+
+Clone o projeto
+
+```bash
+  git clone https://github.com/juangarciadelima/planning-poker-acdigital.git
+```
+
+Entre na pasta do front-end
+
+```bash
+  cd planning-poker-acdigital
+```
+
+Instale as dependências
+
+```bash
+  npm install
+```
+
+Inicie a aplicação 
+
+```bash
+  npm run dev
+```
+
+
 ### Link
 
 [Backend](https://github.com/vinialexandre/planning-poker-acdigital)
