@@ -36,7 +36,7 @@ export function Metodologia() {
       };
 
       let editarHistoria = historiaSelecionada
-      editarHistoria.votos = editarHistoria.votos.filter(item => item.jogador.email !== usuario.email && item.email === "")
+      editarHistoria.votos = editarHistoria.votos.filter(item => item.jogador.email !== usuario.email && item.email !== "")
       editarHistoria.votos.push(voto)
 
       //o voto ocorre no editar a historia
