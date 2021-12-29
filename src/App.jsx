@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./components/header/index";
+import Header from "./components/Header";
 import Salas from "./pages/salas";
 import {
   BrowserRouter as Router,
