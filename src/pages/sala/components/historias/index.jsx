@@ -253,20 +253,18 @@ export default function Historias({ idSala }) {
                   historiasFechadas.map((historia) => {
                     const votos = historia.votos;
                     let mediaVotos = 0;
+      
                     votos.map((voto) => {
                       if (voto.carta.tipo !== "cafe") {
                         let votoJogador = voto.carta.valor;
-                        mediaVotos += votoJogador;
-                        mediaVotos = mediaVotos / votos.length;
-
-                        mediaVotos = Math.round(mediaVotos * 10) / 10;
+                        mediaVotos = mediaVotos + votoJogador;
                       }
                     });
 
                     return (
                       <Tr>
                         <Td>{historia.nome}</Td>
-                        <Td isNumeric>{mediaVotos}</Td>
+                        <Td isNumeric>{Math.round((mediaVotos / votos.length) * 10) / 10}</Td>
                       </Tr>
                     );
                   })}

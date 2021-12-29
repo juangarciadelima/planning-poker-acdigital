@@ -52,16 +52,14 @@ export function Metodologia() {
     if(historiaSelecionada){
       const votos = historiaSelecionada.votos;
       let mediaVotos = 0;
+      
       votos.map((voto) => {
         if (voto.carta.tipo !== "cafe") {
           let votoJogador = voto.carta.valor;
-          mediaVotos += votoJogador;
-          mediaVotos = mediaVotos / votos.length;
-
-          mediaVotos = Math.round(mediaVotos * 10) / 10;
+          mediaVotos = mediaVotos + votoJogador;
         }
       });
-      return <Heading>Média de pontos: {mediaVotos}</Heading>
+      return <Heading>Média de pontos: {Math.round((mediaVotos / votos.length) * 10) / 10}</Heading>
     }
     return <Heading>Carregando ...</Heading>
   }
