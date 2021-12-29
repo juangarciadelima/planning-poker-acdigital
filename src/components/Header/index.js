@@ -10,7 +10,7 @@ import {
   Button,
   ButtonGroup,
 } from "@chakra-ui/react";
-import "./header.css";
+import "./Header.css";
 import { logout } from "../../services/administrador";
 import ACLogo from "../../assets/ACLogo.png";
 import { useHistory } from "react-router-dom";
