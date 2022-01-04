@@ -53,19 +53,23 @@ export function Metodologia() {
     if (historiaSelecionada) {
       const votos = historiaSelecionada.votos;
       let mediaVotos = 0;
+      let votosIgnorados = 0;
 
       votos.length > 0 &&
         votos.map((voto) => {
           if (voto.carta.tipo !== "cafe") {
             let votoJogador = voto.carta.valor;
             mediaVotos = mediaVotos + votoJogador;
+          } else {
+            votosIgnorados = votosIgnorados + 1;
           }
         });
       return (
         <Heading>
           Média de pontos:{" "}
           {votos.length > 0
-            ? Math.round((mediaVotos / votos.length) * 10) / 10
+            ? Math.round((mediaVotos / (votos.length - votosIgnorados)) * 10) /
+              10
             : 0}
         </Heading>
       );
