@@ -114,8 +114,7 @@ const RoomsProvider = ({ children }) => {
     if(historiaSelecionada && historiasAbertas.length > 0){
       setCartaSelecionada()
       setSala({ ...sala, ...{ revelarVotos: true }})
-      let _sala = { ...sala, ...{ revelarVotos: true }}
-      await serviceAlterarSala(_sala)
+      await serviceAlterarSala({ ...sala, ...{ revelarVotos: true }})
       toast.success("Votos revelados");
     }else{
       toast("Para votar o Administrador precisa cadastrar uma história")
@@ -124,8 +123,8 @@ const RoomsProvider = ({ children }) => {
 
   const proximaHistoriaSelecionada = async (idSala) => {
     if(historiaSelecionada && historiasAbertas.length > 0){
-      setSala({ ...sala, ...{ revelarVotos: true }})
       setCartaSelecionada()
+      setSala({ ...sala, ...{ revelarVotos: false }})
       await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
       await serviceFinalizarVotacao(historiaSelecionada.id);
       await atualizarTodaSala(idSala)
