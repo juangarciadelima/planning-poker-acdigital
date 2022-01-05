@@ -28,20 +28,22 @@ export function Metodologia() {
   async function executarVoto(carta) {
     if (historiaSelecionada && historiasAbertas.length > 0) {
       let usuario = administrador ?? jogador;
-
-      let voto = {
-        carta: { tipo: carta.tipo, valor: carta.valor },
-        jogador: { nome: usuario.nome, email: usuario.email },
-      };
-
-      let editarHistoria = historiaSelecionada;
-      editarHistoria.votos = editarHistoria.votos.filter(
-        (item) => item.jogador.email !== usuario.email && item.email !== ""
-      );
-      editarHistoria.votos.push(voto);
+    
+      if(historiaSelecionada.votos.find(voto => voto.jogador.email === usuario.email)){
+        historiaSelecionada.votos.filter(voto => voto.jogador.email === usuario.email).map(voto => {
+           voto.carta = carta
+           return voto;
+        })
+      }else{
+        let voto = {
+          carta: { tipo: carta.tipo, valor: carta.valor },
+          jogador: { nome: usuario.nome, email: usuario.email },
+        };
+        historiaSelecionada.votos.push(voto);
+      }
 
       //o voto ocorre no editar a historia
-      await serviceAtualizarHistoria(editarHistoria);
+      await serviceAtualizarHistoria(historiaSelecionada);
       setCartaSelecionada(carta);
       await atualizarTodaSala(sala.id);
     } else {
