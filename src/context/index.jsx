@@ -74,7 +74,7 @@ const RoomsProvider = ({ children }) => {
       () => {
         return polling.parar
       },
-      5000, 
+      1000, 
       600000000000
     );
   };
@@ -96,15 +96,20 @@ const RoomsProvider = ({ children }) => {
   }
 
   const resetarVotacaoHistoriaSelecionada = async () => {
-    if(historiaSelecionada && historiasAbertas.length > 0){
-      setCartaSelecionada()
-      setSala({ ...sala, ...{ revelarVotos: false }})
-      let _sala = { ...sala, ...{ revelarVotos: false }}
-      await serviceAlterarSala(_sala)
-      await serviceReiniciarVotacao(historiaSelecionada.id);
-      toast.success("Votação reiniciada com sucesso");
-    }else{
-      toast("Para votar o Administrador precisa cadastrar uma história")
+    try{
+      if(historiaSelecionada && historiasAbertas.length > 0){
+        setCartaSelecionada()
+        setSala({ ...sala, ...{ revelarVotos: false }})
+        await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
+        await serviceReiniciarVotacao(historiaSelecionada.id);
+        toast.success("Votação reiniciada com sucesso");
+      }else{
+        toast("Para votar o Administrador precisa cadastrar uma história")
+      }
+    }catch(e){
+    }finally{
+      polling.parar = false
+      await executarPollingAtualizarSala(sala.id)
     }
   };
 
@@ -123,8 +128,8 @@ const RoomsProvider = ({ children }) => {
   const proximaHistoriaSelecionada = async (idSala) => {
     if(historiaSelecionada && historiasAbertas.length > 0){
       setSala({ ...sala, ...{ revelarVotos: true }})
-      let _sala = { ...sala, ...{ revelarVotos: false }}
-      await serviceAlterarSala(_sala)
+      setCartaSelecionada()
+      await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
       await serviceFinalizarVotacao(historiaSelecionada.id);
       await atualizarTodaSala(idSala)
     }else{

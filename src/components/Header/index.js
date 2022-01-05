@@ -67,6 +67,7 @@ export default function Header() {
               )}
               <MenuItem
                 onClick={() => {
+                  polling.parar = true
                   if(tipoUsuario === "jogador" && sala){
                     let novaSala = sala
                     novaSala.jogadores = novaSala.jogadores.filter(_jogador => _jogador.email !== jogador.email)
