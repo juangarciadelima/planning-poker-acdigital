@@ -5,6 +5,7 @@ import { FiCoffee } from "react-icons/fi";
 import { useRoomsContext } from "../../../../context";
 import { serviceAtualizarHistoria } from "../../../../services/historias";
 import { toast } from "react-toastify";
+import { TiposVotos } from "../tipos-votos";
 
 export function Metodologia() {
   const [metodologia, setMetodologia] = useState({});
@@ -73,6 +74,7 @@ export function Metodologia() {
             ? Math.round((mediaVotos / (votos.length - votosIgnorados)) * 10) /
               10
             : 0}
+          <TiposVotos votos={votos} />
         </Heading>
       );
     }
