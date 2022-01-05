@@ -89,8 +89,11 @@ const RoomsProvider = ({ children }) => {
         setListaJogadoresVotos(_sala.jogadores)
         setHistoriasAbertas(_historiasAbertas);
         setHistoriasFechadas(_historiasFechadas);
-        if(_historiasAbertas.length > 0)
+        if(_historiasAbertas.length > 0){
           setHistoriaSelecionada(_historiasAbertas[0])
+        }else{
+          setCartaSelecionada()
+        }
       }
     }
   }
@@ -98,7 +101,6 @@ const RoomsProvider = ({ children }) => {
   const resetarVotacaoHistoriaSelecionada = async () => {
     try{
       if(historiaSelecionada && historiasAbertas.length > 0){
-        setCartaSelecionada()
         await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
         await serviceReiniciarVotacao(historiaSelecionada.id);
         toast.success("Votação reiniciada com sucesso");
@@ -106,26 +108,36 @@ const RoomsProvider = ({ children }) => {
         toast("Para votar o Administrador precisa cadastrar uma história")
       }
     }catch(e){
+    }finally{
+      setCartaSelecionada()
     }
   };
 
   const revelarVotacaoHistoriaSelecionada = async () => {
-    if(historiaSelecionada && historiasAbertas.length > 0){
-      await serviceAlterarSala({ ...sala, ...{ revelarVotos: true }})
-      toast.success("Votos revelados");
-    }else{
-      toast("Para votar o Administrador precisa cadastrar uma história")
+    try{
+      if(historiaSelecionada && historiasAbertas.length > 0){
+        await serviceAlterarSala({ ...sala, ...{ revelarVotos: true }})
+        toast.success("Votos revelados");
+      }else{
+        toast("Para votar o Administrador precisa cadastrar uma história")
+      }
+    }catch(e){
+    }finally{
+      setCartaSelecionada()
     }
   };
 
   const proximaHistoriaSelecionada = async (idSala) => {
-    if(historiaSelecionada && historiasAbertas.length > 0){
+    try{
+      if(historiaSelecionada && historiasAbertas.length > 0){
+        await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
+        await serviceFinalizarVotacao(historiaSelecionada.id);
+      }else{
+        toast("Para votar o Administrador precisa cadastrar uma história")
+      }
+    }catch(e){
+    }finally{
       setCartaSelecionada()
-      setHistoriaSelecionada()
-      await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
-      await serviceFinalizarVotacao(historiaSelecionada.id);
-    }else{
-      toast("Para votar o Administrador precisa cadastrar uma história")
     }
   };
 

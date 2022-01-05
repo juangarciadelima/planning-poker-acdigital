@@ -253,18 +253,27 @@ export default function Historias({ idSala }) {
                   historiasFechadas.map((historia) => {
                     const votos = historia.votos;
                     let mediaVotos = 0;
-      
-                    votos.map((voto) => {
-                      if (voto.carta.tipo !== "cafe") {
-                        let votoJogador = voto.carta.valor;
-                        mediaVotos = mediaVotos + votoJogador;
-                      }
-                    });
+                    let votosIgnorados = 0;
+
+                    votos.length > 0 &&
+                      votos.map((voto) => {
+                        if (voto.carta.tipo !== "cafe") {
+                          let votoJogador = voto.carta.valor;
+                          mediaVotos = mediaVotos + votoJogador;
+                        } else {
+                          votosIgnorados = votosIgnorados + 1;
+                        }
+                      });
 
                     return (
                       <Tr>
                         <Td>{historia.nome}</Td>
-                        <Td isNumeric>{Math.round((mediaVotos / votos.length) * 10) / 10}</Td>
+                        <Td isNumeric>{
+                         votos.length > 0 && mediaVotos
+                          ? Math.round((mediaVotos / (votos.length - votosIgnorados)) * 10) /
+                            10
+                          : 0
+                        }</Td>
                       </Tr>
                     );
                   })}
