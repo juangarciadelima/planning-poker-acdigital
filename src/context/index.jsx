@@ -107,9 +107,6 @@ const RoomsProvider = ({ children }) => {
         toast("Para votar o Administrador precisa cadastrar uma história")
       }
     }catch(e){
-    }finally{
-      polling.parar = false
-      await executarPollingAtualizarSala(sala.id)
     }
   };
 
