@@ -56,7 +56,7 @@ export default function PlayerGrid({ buttonContent, jogadores, idSala }) {
                 {jogadores &&
                   jogadores.length > 0 &&
                   jogadores.map((jogador) => {
-                    const voto = historiaSelecionada?.votos.filter(
+                    const voto = historiaSelecionada && historiaSelecionada.votos.filter(
                       (voto) => voto.jogador.email === jogador.email
                     )[0];
                     return (

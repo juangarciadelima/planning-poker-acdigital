@@ -99,7 +99,6 @@ const RoomsProvider = ({ children }) => {
     try{
       if(historiaSelecionada && historiasAbertas.length > 0){
         setCartaSelecionada()
-        setSala({ ...sala, ...{ revelarVotos: false }})
         await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
         await serviceReiniciarVotacao(historiaSelecionada.id);
         toast.success("Votação reiniciada com sucesso");
@@ -112,8 +111,6 @@ const RoomsProvider = ({ children }) => {
 
   const revelarVotacaoHistoriaSelecionada = async () => {
     if(historiaSelecionada && historiasAbertas.length > 0){
-      setCartaSelecionada()
-      setSala({ ...sala, ...{ revelarVotos: true }})
       await serviceAlterarSala({ ...sala, ...{ revelarVotos: true }})
       toast.success("Votos revelados");
     }else{
@@ -124,10 +121,9 @@ const RoomsProvider = ({ children }) => {
   const proximaHistoriaSelecionada = async (idSala) => {
     if(historiaSelecionada && historiasAbertas.length > 0){
       setCartaSelecionada()
-      setSala({ ...sala, ...{ revelarVotos: false }})
+      setHistoriaSelecionada()
       await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
       await serviceFinalizarVotacao(historiaSelecionada.id);
-      await atualizarTodaSala(idSala)
     }else{
       toast("Para votar o Administrador precisa cadastrar uma história")
     }

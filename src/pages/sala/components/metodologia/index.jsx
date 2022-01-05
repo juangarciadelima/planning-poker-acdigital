@@ -70,7 +70,7 @@ export function Metodologia() {
       return (
         <Heading>
           Média de pontos:{" "}
-          {votos.length > 0
+          {votos.length > 0 && mediaVotos
             ? Math.round((mediaVotos / (votos.length - votosIgnorados)) * 10) /
               10
             : 0}
