@@ -2,7 +2,8 @@ import { api } from "../../api";
 
 export async function cadastrar(req) {
   const res = await api.post("/administrador", req);
-  localStorage.setItem("user", JSON.stringify(res.data));
+  localStorage.setItem("administrador", JSON.stringify(res.data));
+  localStorage.setItem("tipoUsuario", "administrador");
 
   return res.data;
 }
