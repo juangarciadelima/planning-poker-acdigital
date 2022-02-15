@@ -8,7 +8,7 @@ import {
   EuiModalFooter,
   EuiButton,
 } from "@elastic/eui";
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Select } from "@chakra-ui/react";
 
 export default function FormEdit({
   onClose,
@@ -19,6 +19,7 @@ export default function FormEdit({
   rBtnText,
   salaSelecionada,
   setSalaSelecionada,
+  metodologias,
 }) {
   return (
     <EuiModal onClose={onClose}>
@@ -38,6 +39,20 @@ export default function FormEdit({
               });
             }}
           />
+          <FormLabel marginTop="10px">Escolha seu deck</FormLabel>
+          <Select
+            placeholder="Selecione sua opção"
+            onChange={(e) =>
+              setSalaSelecionada({
+                ...salaSelecionada,
+                ...{ metodologiaSelecionada: e.target?.value },
+              })
+            }
+          >
+            {metodologias.map((metodologia) => (
+              <option value={metodologia.id}>{metodologia.nome}</option>
+            ))}
+          </Select>
         </FormControl>
       </EuiModalBody>
       <EuiModalFooter>

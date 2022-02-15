@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import TableComponent from "../../components/table";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useRoomsContext } from "../../context";
+import { buscarCartas } from "../../services/metodologia";
 import {
   serviceBuscarSalas,
   serviceAlterarSala,
@@ -20,11 +21,17 @@ import {
 } from "../../services/salas";
 import DeleteForm from "../../components/forms/deleteForm";
 
-//State that picks the room when click on deleteModal
 export default function Salas() {
   const { setSalas, salas } = useRoomsContext();
 
   const administrador = JSON.parse(localStorage.getItem("administrador"));
+
+  const [metodologia, setMetodologia] = useState();
+
+  useEffect(async () => {
+    const result = await buscarCartas();
+    setMetodologia(result);
+  }, []);
 
   const history = useHistory();
 
@@ -122,13 +129,14 @@ export default function Salas() {
         {
           email: administrador?.email,
           nome: administrador?.nome,
-        }
+        },
       ],
       administrador: {
         email: administrador?.email,
         nome: administrador?.nome,
         id: administrador?.id,
       },
+      metodologiaSelecionada: "",
     };
   }
 
@@ -147,6 +155,7 @@ export default function Salas() {
         onClickBtn={handleEditClick}
         lBtnText="Sair"
         rBtnText="Editar"
+        metodologias={metodologia}
       />
     );
   }
@@ -176,6 +185,7 @@ export default function Salas() {
         onClickBtn={handleClick}
         lBtnText="Cancelar"
         rBtnText="Criar"
+        metodologias={metodologia}
       />
     );
   }
