@@ -8,7 +8,7 @@ import {
   EuiModalFooter,
   EuiButton,
 } from "@elastic/eui";
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Select } from "@chakra-ui/react";
 
 export default function FormCreate({
   onClose,
@@ -18,7 +18,8 @@ export default function FormCreate({
   lBtnText,
   rBtnText,
   novaSala,
-  setNovaSala
+  setNovaSala,
+  metodologias,
 }) {
   return (
     <EuiModal onClose={onClose}>
@@ -28,13 +29,27 @@ export default function FormCreate({
       <EuiModalBody>
         <FormControl id="room-name " isRequired>
           <FormLabel>Nome da Sala</FormLabel>
-          <Input 
-           placeholder="Nome"
-           value={novaSala?.nome}
-           onChange={(e) => {
-              setNovaSala({...novaSala,...{nome: e.target?.value} })
-           }}
+          <Input
+            placeholder="Nome"
+            value={novaSala?.nome}
+            onChange={(e) => {
+              setNovaSala({ ...novaSala, ...{ nome: e.target?.value } });
+            }}
           />
+          <FormLabel marginTop="16px">Escolha suas cartas</FormLabel>
+          <Select
+            placeholder="Selecione sua opção"
+            onChange={(e) => {
+              setNovaSala({
+                ...novaSala,
+                ...{ metodologiaSelecionada: e.target?.value },
+              });
+            }}
+          >
+            {metodologias.map((metodologia) => (
+              <option value={metodologia.id}>{metodologia.nome}</option>
+            ))}
+          </Select>
         </FormControl>
       </EuiModalBody>
       <EuiModalFooter>

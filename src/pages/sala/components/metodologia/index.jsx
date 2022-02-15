@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Heading, Button } from "@chakra-ui/react";
-import { buscarCartas } from "../../../../services/metodologia";
+import { buscarMetodologiaPorId } from "../../../../services/metodologia";
 import { FiCoffee } from "react-icons/fi";
 import { useRoomsContext } from "../../../../context";
 import { serviceAtualizarHistoria } from "../../../../services/historias";
@@ -22,20 +22,29 @@ export function Metodologia() {
   } = useRoomsContext();
 
   useEffect(async () => {
-    const metodolodia = await buscarCartas();
-    setMetodologia(metodolodia);
+    const metodologia = await buscarMetodologiaPorId(
+      sala.metodologiaSelecionada
+    );
+    setMetodologia(metodologia);
   }, []);
 
+  console.log(sala);
   async function executarVoto(carta) {
     if (historiaSelecionada && historiasAbertas.length > 0) {
       let usuario = administrador ?? jogador;
-    
-      if(historiaSelecionada.votos.find(voto => voto.jogador.email === usuario.email)){
-        historiaSelecionada.votos.filter(voto => voto.jogador.email === usuario.email).map(voto => {
-           voto.carta = carta
-           return voto;
-        })
-      }else{
+
+      if (
+        historiaSelecionada.votos.find(
+          (voto) => voto.jogador.email === usuario.email
+        )
+      ) {
+        historiaSelecionada.votos
+          .filter((voto) => voto.jogador.email === usuario.email)
+          .map((voto) => {
+            voto.carta = carta;
+            return voto;
+          });
+      } else {
         let voto = {
           carta: { tipo: carta.tipo, valor: carta.valor },
           jogador: { nome: usuario.nome, email: usuario.email },
