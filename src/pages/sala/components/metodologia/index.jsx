@@ -8,8 +8,8 @@ import { toast } from "react-toastify";
 import { TiposVotos } from "../tipos-votos";
 
 export function Metodologia() {
-  const [metodologia, setMetodologia] = useState({});
   const {
+    metodologia,
     administrador,
     jogador,
     historiaSelecionada,
@@ -19,11 +19,12 @@ export function Metodologia() {
     historiasAbertas,
     cartaSelecionada,
     setCartaSelecionada,
+    setMetodologia,
   } = useRoomsContext();
 
   useEffect(async () => {
     const metodologia = await buscarMetodologiaPorId(
-      sala.metodologiaSelecionada
+      sala?.metodologiaSelecionada
     );
     setMetodologia(metodologia);
   }, []);
