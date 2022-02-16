@@ -1,18 +1,19 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { buscarHistorias, serviceFinalizarVotacao } from "../services/historias";
-import { serviceAlterarSala, serviceBuscarSala } from "../services/salas";
 import {
-  serviceReiniciarVotacao
+  buscarHistorias,
+  serviceFinalizarVotacao,
 } from "../services/historias";
+import { serviceAlterarSala, serviceBuscarSala } from "../services/salas";
+import { serviceReiniciarVotacao } from "../services/historias";
 import poll from "easy-polling";
 import { toast } from "react-toastify";
+import { buscarMetodologiaPorId } from "../services/metodologia";
 
 export const PokerContext = createContext();
-const polling = { parar: false }
+const polling = { parar: false };
 
 const RoomsProvider = ({ children }) => {
-
   const [salas, setSalas] = useState([]);
   const [sala, setSala] = useState();
   const [administrador, setAdministrador] = useState({ nome: "", email: "" });
@@ -21,23 +22,24 @@ const RoomsProvider = ({ children }) => {
   const [usuario, setUsuario] = useState({ nome: "", email: "" });
   const [historiasAbertas, setHistoriasAbertas] = useState([]);
   const [historiasFechadas, setHistoriasFechadas] = useState([]);
-  const [historiaSelecionada, setHistoriaSelecionada] = useState()
-  const [listaJogadoresVotos, setListaJogadoresVotos] = useState([])
+  const [historiaSelecionada, setHistoriaSelecionada] = useState();
+  const [listaJogadoresVotos, setListaJogadoresVotos] = useState([]);
   const [cartaSelecionada, setCartaSelecionada] = useState();
+  const [metodologia, setMetodologia] = useState();
 
   const history = useHistory();
   const location = useLocation();
 
   function limparContexto() {
-    setSalas([])
+    setSalas([]);
     setTipoUsuario("");
     setJogador({ nome: "", email: "" });
     setAdministrador({ nome: "", email: "" });
     setUsuario({ nome: "", email: "" });
     setSala();
-    setHistoriaSelecionada()
-    setListaJogadoresVotos([])
-    polling.parar = true
+    setHistoriaSelecionada();
+    setListaJogadoresVotos([]);
+    polling.parar = true;
   }
 
   function setLoginInContext(usuario, tipoUsuario) {
@@ -67,95 +69,98 @@ const RoomsProvider = ({ children }) => {
     }
   }, []);
 
- 
   const executarPollingAtualizarSala = async (id) => {
     poll(
-      async() => await atualizarTodaSala(id),
+      async () => await atualizarTodaSala(id),
       () => {
-        return polling.parar
+        return polling.parar;
       },
-      1000, 
+      1000,
       600000000000
     );
   };
 
-  async function atualizarTodaSala(idSala){
-    if(idSala){
-      const _sala = await serviceBuscarSala(idSala)
+  async function atualizarTodaSala(idSala) {
+    if (idSala) {
+      const _sala = await serviceBuscarSala(idSala);
       const _historiasAbertas = await buscarHistorias(idSala, "true");
       const _historiasFechadas = await buscarHistorias(idSala, "false");
-      if(_sala){
-        setSala(_sala)
-        setListaJogadoresVotos(_sala.jogadores)
+      const _metodologia = await buscarMetodologiaPorId(
+        _sala?.metodologiaSelecionada
+      );
+      if (_sala) {
+        setSala(_sala);
+        setListaJogadoresVotos(_sala.jogadores);
         setHistoriasAbertas(_historiasAbertas);
         setHistoriasFechadas(_historiasFechadas);
-        if(_historiasAbertas.length > 0){
-          setHistoriaSelecionada(_historiasAbertas[0])
-        }else{
-          setCartaSelecionada()
+        setMetodologia(_metodologia);
+        if (_historiasAbertas.length > 0) {
+          setHistoriaSelecionada(_historiasAbertas[0]);
+        } else {
+          setCartaSelecionada();
         }
       }
     }
   }
 
   const resetarVotacaoHistoriaSelecionada = async () => {
-    try{
-      if(historiaSelecionada && historiasAbertas.length > 0){
-        await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
+    try {
+      if (historiaSelecionada && historiasAbertas.length > 0) {
+        await serviceAlterarSala({ ...sala, ...{ revelarVotos: false } });
         await serviceReiniciarVotacao(historiaSelecionada.id);
         toast.success("Votação reiniciada com sucesso");
-      }else{
-        toast("Para votar o Administrador precisa cadastrar uma história")
+      } else {
+        toast("Para votar o Administrador precisa cadastrar uma história");
       }
-    }catch(e){
-    }finally{
-      setCartaSelecionada()
+    } catch (e) {
+    } finally {
+      setCartaSelecionada();
     }
   };
 
   const revelarVotacaoHistoriaSelecionada = async () => {
-    try{
-      if(historiaSelecionada && historiasAbertas.length > 0){
-        await serviceAlterarSala({ ...sala, ...{ revelarVotos: true }})
+    try {
+      if (historiaSelecionada && historiasAbertas.length > 0) {
+        await serviceAlterarSala({ ...sala, ...{ revelarVotos: true } });
         toast.success("Votos revelados");
-      }else{
-        toast("Para votar o Administrador precisa cadastrar uma história")
+      } else {
+        toast("Para votar o Administrador precisa cadastrar uma história");
       }
-    }catch(e){
-    }finally{
-      setCartaSelecionada()
+    } catch (e) {
+    } finally {
+      setCartaSelecionada();
     }
   };
 
   const proximaHistoriaSelecionada = async (idSala) => {
-    try{
-      if(historiaSelecionada && historiasAbertas.length > 0){
-        await serviceAlterarSala({ ...sala, ...{ revelarVotos: false }})
+    try {
+      if (historiaSelecionada && historiasAbertas.length > 0) {
+        await serviceAlterarSala({ ...sala, ...{ revelarVotos: false } });
         await serviceFinalizarVotacao(historiaSelecionada.id);
-      }else{
-        toast("Para votar o Administrador precisa cadastrar uma história")
+      } else {
+        toast("Para votar o Administrador precisa cadastrar uma história");
       }
-    }catch(e){
-    }finally{
-      setCartaSelecionada()
+    } catch (e) {
+    } finally {
+      setCartaSelecionada();
     }
   };
 
-  const states = { 
-    administrador, 
-    jogador, 
-    salas, 
-    sala, 
-    tipoUsuario, 
-    usuario, 
-    historiasAbertas, 
-    historiasFechadas, 
+  const states = {
+    administrador,
+    jogador,
+    salas,
+    sala,
+    tipoUsuario,
+    usuario,
+    historiasAbertas,
+    historiasFechadas,
     historiaSelecionada,
     listaJogadoresVotos,
     polling,
-    cartaSelecionada
+    cartaSelecionada,
+    metodologia,
   };
-
 
   const actions = {
     setAdministrador,
@@ -174,7 +179,8 @@ const RoomsProvider = ({ children }) => {
     revelarVotacaoHistoriaSelecionada,
     setListaJogadoresVotos,
     proximaHistoriaSelecionada,
-    setCartaSelecionada
+    setCartaSelecionada,
+    setMetodologia,
   };
 
   return (
