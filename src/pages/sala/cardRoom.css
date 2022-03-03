@@ -49,25 +49,6 @@
   color: #f6443d;
 }
 
-.numCardR {
-  position: absolute;
-  font-family: "Poppins";
-
-  font-size: 0.8rem;
-  margin-right: 0.5rem;
-  right: 0;
-  bottom: 0;
-  transform: rotate(-180deg);
-}
-
-.numCardL {
-  position: absolute;
-  font-family: "Poppins";
-  font-size: 0.8rem;
-  margin-left: 0.5rem;
-  left: 0;
-  top: 0;
-}
 .card div h2 {
   display: flex;
   justify-content: center;
@@ -101,7 +82,7 @@ cite {
   font-style: normal;
   padding: 15px;
   width: 100%;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 li {
@@ -333,7 +314,7 @@ tbody {
   text-overflow: ellipsis;
 }
 
-.gridOne{
+.gridOne {
   width: 100%;
   text-align: center;
 }

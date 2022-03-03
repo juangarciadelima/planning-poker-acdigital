@@ -1,0 +1,39 @@
+.value-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: light;
+  font-size: "30px";
+  font-family: "Poppins";
+}
+
+h2.text-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: "Poppins";
+}
+
+.numCardR {
+  position: absolute;
+  font-family: "Poppins";
+
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+  right: 0;
+  bottom: 0;
+  transform: rotate(-180deg);
+}
+
+.numCardL {
+  position: absolute;
+  font-family: "Poppins";
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  left: 0;
+  top: 0;
+}
