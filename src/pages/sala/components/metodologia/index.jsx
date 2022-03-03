@@ -6,6 +6,7 @@ import { useRoomsContext } from "../../../../context";
 import { serviceAtualizarHistoria } from "../../../../services/historias";
 import { toast } from "react-toastify";
 import { TiposVotos } from "../tipos-votos";
+import { Card } from "../../../../components/card";
 
 export function Metodologia() {
   const {
@@ -29,7 +30,6 @@ export function Metodologia() {
     setMetodologia(metodologia);
   }, []);
 
-  console.log(sala);
   async function executarVoto(carta) {
     if (historiaSelecionada && historiasAbertas.length > 0) {
       let usuario = administrador ?? jogador;
@@ -70,20 +70,27 @@ export function Metodologia() {
 
       votos.length > 0 &&
         votos.map((voto) => {
-          if (voto.carta.tipo !== "cafe") {
+          if (voto.carta.tipo === "numeros") {
             let votoJogador = voto.carta.valor;
             mediaVotos = mediaVotos + votoJogador;
           } else {
             votosIgnorados = votosIgnorados + 1;
           }
         });
+
       return (
         <Heading>
-          Média de pontos:{" "}
-          {votos.length > 0 && mediaVotos
-            ? Math.round((mediaVotos / (votos.length - votosIgnorados)) * 10) /
-              10
-            : 0}
+          {votos.some((element) => element.carta.tipo === "numeros") && (
+            <Heading>
+              <>Média de pontos: </>
+              {votos.length > 0 && mediaVotos
+                ? Math.round(
+                    (mediaVotos / (votos.length - votosIgnorados)) * 10
+                  ) / 10
+                : 0}
+            </Heading>
+          )}
+
           <TiposVotos votos={votos} />
         </Heading>
       );
@@ -102,41 +109,13 @@ export function Metodologia() {
               }
               onClick={async () => await executarVoto(carta)}
             >
-              {carta.tipo == "cafe" ? (
+              {carta.tipo === "cafe" ? (
                 <>
-                  <Heading
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    textAlign="center"
-                    fontWeight="light"
-                    fontSize="30px"
-                    fontFamily="Poppins"
-                  >
-                    <FiCoffee />
-                  </Heading>
-                  <span className="numCardR">
-                    <FiCoffee />
-                  </span>
-                  <span className="numCardL">
-                    <FiCoffee />
-                  </span>
+                  <Card valor={<FiCoffee />} />
                 </>
               ) : (
                 <>
-                  <Heading
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    textAlign="center"
-                    fontWeight="light"
-                    fontSize="30px"
-                    fontFamily="Poppins"
-                  >
-                    {carta.valor}
-                  </Heading>
-                  <span className="numCardR">{carta.valor}</span>
-                  <span className="numCardL">{carta.valor}</span>
+                  <Card valor={carta.valor} />
                 </>
               )}
             </Box>
