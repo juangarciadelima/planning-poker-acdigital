@@ -25,7 +25,7 @@ const RoomsProvider = ({ children }) => {
   const [historiaSelecionada, setHistoriaSelecionada] = useState();
   const [listaJogadoresVotos, setListaJogadoresVotos] = useState([]);
   const [cartaSelecionada, setCartaSelecionada] = useState();
-  const [metodologia, setMetodologia] = useState();
+  const [metodologia, setMetodologia] = useState({});
 
   const history = useHistory();
   const location = useLocation();
@@ -75,7 +75,7 @@ const RoomsProvider = ({ children }) => {
       () => {
         return polling.parar;
       },
-      1000,
+      3000,
       600000000000
     );
   };
@@ -83,6 +83,7 @@ const RoomsProvider = ({ children }) => {
   async function atualizarTodaSala(idSala) {
     if (idSala) {
       const _sala = await serviceBuscarSala(idSala);
+
       const _historiasAbertas = await buscarHistorias(idSala, "true");
       const _historiasFechadas = await buscarHistorias(idSala, "false");
       const _metodologia = await buscarMetodologiaPorId(
@@ -110,7 +111,9 @@ const RoomsProvider = ({ children }) => {
         await serviceReiniciarVotacao(historiaSelecionada.id);
         toast.success("Votação reiniciada com sucesso");
       } else {
-        toast("Para votar o Administrador precisa cadastrar uma história");
+        toast(
+          "Para resetar a votação o Administrador precisa cadastrar uma história"
+        );
       }
     } catch (e) {
     } finally {
@@ -124,7 +127,9 @@ const RoomsProvider = ({ children }) => {
         await serviceAlterarSala({ ...sala, ...{ revelarVotos: true } });
         toast.success("Votos revelados");
       } else {
-        toast("Para votar o Administrador precisa cadastrar uma história");
+        toast(
+          "Para revelar a votação o Administrador precisa cadastrar uma história"
+        );
       }
     } catch (e) {
     } finally {
@@ -138,7 +143,9 @@ const RoomsProvider = ({ children }) => {
         await serviceAlterarSala({ ...sala, ...{ revelarVotos: false } });
         await serviceFinalizarVotacao(historiaSelecionada.id);
       } else {
-        toast("Para votar o Administrador precisa cadastrar uma história");
+        toast(
+          "Para trocar de história o Administrador precisa cadastrar uma história"
+        );
       }
     } catch (e) {
     } finally {

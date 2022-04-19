@@ -8,15 +8,17 @@ import Historias from "./components/historias";
 import PlayerGrid from "./playerGrid";
 
 export default function CardRoom() {
-  const { sala, historiasAbertas, executarPollingAtualizarSala } = useRoomsContext();
+  const { sala, historiasAbertas, executarPollingAtualizarSala } =
+    useRoomsContext();
   const { id } = useParams();
 
-  useEffect(async() => {
-    await executarPollingAtualizarSala(id)
-  }, []);
-  
   return (
-    <Grid padding="15px" paddingBottom="60px" templateColumns="2fr 1fr" className="gridCustom">
+    <Grid
+      padding="15px"
+      paddingBottom="60px"
+      templateColumns="2fr 1fr"
+      className="gridCustom"
+    >
       <Box
         background="transparent"
         marginTop="2rem"
@@ -29,12 +31,14 @@ export default function CardRoom() {
         <Box className="gridOne">
           <Box w="100%">
             <Heading>
-              {historiasAbertas.length > 0 ? historiasAbertas[0].nome : "Ainda não há historias"}
+              {historiasAbertas.length > 0
+                ? historiasAbertas[0].nome
+                : "Ainda não há historias"}
             </Heading>
           </Box>
 
           <Box className="boxCard" w="100%">
-            <Metodologia/>
+            <Metodologia />
           </Box>
           <Box
             w="100%"
@@ -43,14 +47,16 @@ export default function CardRoom() {
             marginBottom="3rem"
             className="tabBox"
           >
-            <Historias idSala={id}/>
+            <Historias idSala={id} />
           </Box>
         </Box>
       </Box>
       <PlayerGrid
-        buttonContent={<Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
-                        Convide os seus colegas
-                      </Heading>}
+        buttonContent={
+          <Heading fontSize="2xl" fontFamily="Poppins" fontWeight="light">
+            Convide os seus colegas
+          </Heading>
+        }
         jogadores={sala?.jogadores}
         idSala={id}
       />

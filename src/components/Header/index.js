@@ -19,7 +19,17 @@ import { serviceAlterarSala } from "../../services/salas";
 import { toast } from "react-toastify";
 
 export default function Header() {
-  const { limparContexto, usuario, tipoUsuario, jogador, sala, setSala, setHistoriaSelecionada, setListaJogadoresVotos, polling } = useRoomsContext();
+  const {
+    limparContexto,
+    usuario,
+    tipoUsuario,
+    jogador,
+    sala,
+    setSala,
+    setHistoriaSelecionada,
+    setListaJogadoresVotos,
+    polling,
+  } = useRoomsContext();
   const history = useHistory();
 
   return (
@@ -56,9 +66,9 @@ export default function Header() {
                 <MenuItem
                   onClick={() => {
                     setSala();
-                    setHistoriaSelecionada()
-                    setListaJogadoresVotos([])
-                    polling.parar = true
+                    setHistoriaSelecionada();
+                    setListaJogadoresVotos([]);
+
                     history.push("/");
                   }}
                 >
@@ -67,11 +77,15 @@ export default function Header() {
               )}
               <MenuItem
                 onClick={() => {
-                  polling.parar = true
-                  if(tipoUsuario === "jogador" && sala){
-                    let novaSala = sala
-                    novaSala.jogadores = novaSala.jogadores.filter(_jogador => _jogador.email !== jogador.email)
-                    serviceAlterarSala(novaSala).then(response => toast("Operação bem sucedida"))
+                  polling.parar = true;
+                  if (tipoUsuario === "jogador" && sala) {
+                    let novaSala = sala;
+                    novaSala.jogadores = novaSala.jogadores.filter(
+                      (_jogador) => _jogador.email !== jogador.email
+                    );
+                    serviceAlterarSala(novaSala).then((response) =>
+                      toast("Operação bem sucedida")
+                    );
                   }
                   limparContexto();
                   logout();
