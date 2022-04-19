@@ -3,7 +3,7 @@ import { Box, Heading, Button } from "@chakra-ui/react";
 import { buscarMetodologiaPorId } from "../../../../services/metodologia";
 import { FiCoffee } from "react-icons/fi";
 import { useRoomsContext } from "../../../../context";
-import { serviceAtualizarHistoria } from "../../../../services/historias";
+import { votar } from "../../../../services/historias";
 import { toast } from "react-toastify";
 import { TiposVotos } from "../tipos-votos";
 import { Card } from "../../../../components/card";
@@ -30,33 +30,27 @@ export function Metodologia() {
     setMetodologia(metodologia);
   }, []);
 
-  async function executarVoto(carta) {
+  function executarVoto(carta) {
+    //add a loader when vote is being executed with setTimeout webhook and remove it when it's done
+    const loader = toast.loading("Processando voto");
     if (historiaSelecionada && historiasAbertas.length > 0) {
-      let usuario = administrador ?? jogador;
+      setTimeout(async () => {
+        let usuario = administrador ?? jogador;
 
-      if (
-        historiaSelecionada.votos.find(
-          (voto) => voto.jogador.email === usuario.email
-        )
-      ) {
-        historiaSelecionada.votos
-          .filter((voto) => voto.jogador.email === usuario.email)
-          .map((voto) => {
-            voto.carta = carta;
-            return voto;
-          });
-      } else {
         let voto = {
           carta: { tipo: carta.tipo, valor: carta.valor },
           jogador: { nome: usuario.nome, email: usuario.email },
         };
-        historiaSelecionada.votos.push(voto);
-      }
-
-      //o voto ocorre no editar a historia
-      await serviceAtualizarHistoria(historiaSelecionada);
-      setCartaSelecionada(carta);
-      await atualizarTodaSala(sala.id);
+        await votar(historiaSelecionada.id, voto);
+        toast.update(loader, {
+          render: "Voto processado",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
+        setCartaSelecionada(carta);
+      }, 3000);
+      loader;
     } else {
       toast("Para votar o Administrador precisa cadastrar uma história");
     }

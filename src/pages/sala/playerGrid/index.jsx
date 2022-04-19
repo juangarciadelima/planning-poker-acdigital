@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { BiCopy } from "react-icons/bi";
 import { useRoomsContext } from "../../../context";
 import { FiCoffee } from "react-icons/fi";
+import { useParams } from "react-router-dom";
 
 export default function PlayerGrid({ buttonContent, jogadores, idSala }) {
   const {
@@ -21,14 +22,27 @@ export default function PlayerGrid({ buttonContent, jogadores, idSala }) {
     tipoUsuario,
     historiaSelecionada,
     sala,
+    polling,
     proximaHistoriaSelecionada,
+    executarPollingAtualizarSala,
   } = useRoomsContext();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    executarPollingAtualizarSala(id);
+    console.log("Iniciou");
+    return () => {
+      polling.parar = true;
+      console.log("Parou");
+    };
+  }, []);
 
   const urlConviteJogador = window.location.href + "/jogador";
 
   const VotoRevelado = ({ carta }) => {
     if (sala && sala.revelarVotos) {
-      if (carta.tipo == "cafe") {
+      if (carta.tipo === "cafe") {
         return <FiCoffee />;
       } else {
         return carta.valor;
@@ -55,10 +69,15 @@ export default function PlayerGrid({ buttonContent, jogadores, idSala }) {
               <ul>
                 {jogadores &&
                   jogadores.length > 0 &&
+                  //Filter that verifies if the player voted based on his email address
+
                   jogadores.map((jogador) => {
-                    const voto = historiaSelecionada && historiaSelecionada.votos.filter(
-                      (voto) => voto.jogador.email === jogador.email
-                    )[0];
+                    let voto =
+                      historiaSelecionada &&
+                      historiaSelecionada.votos.filter(
+                        (voto) => voto.jogador.email === jogador.email
+                      )[0];
+
                     return (
                       <li>
                         <cite>

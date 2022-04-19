@@ -1,9 +1,11 @@
 import React from "react";
 import { Heading, Text } from "@chakra-ui/react";
 import "./index.css";
-function Card({ valor }) {
+function Card({ valor, carta }) {
   //Function that verify if is string and return two values one if's true and other if false
   const isString = (valor) => typeof valor === "string";
+
+  //Function that verify if the loading prop is true and return a spinner
 
   return (
     <>
@@ -11,16 +13,18 @@ function Card({ valor }) {
         {valor}
       </Heading>
 
-      {!isString(valor) && (
-        <>
-          <Text as="span" className="numCardR">
-            {valor}
-          </Text>
-          <Text as="span" className="numCardL">
-            {valor}
-          </Text>
-        </>
-      )}
+      {!isString(valor) ||
+        carta.tipo !=
+          "loading"(
+            <>
+              <Text as="span" className="numCardR">
+                {valor}
+              </Text>
+              <Text as="span" className="numCardL">
+                {valor}
+              </Text>
+            </>
+          )}
     </>
   );
 }
