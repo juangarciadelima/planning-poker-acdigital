@@ -13,18 +13,16 @@ function Card({ valor, carta }) {
         {valor}
       </Heading>
 
-      {!isString(valor) ||
-        carta.tipo !=
-          "loading"(
-            <>
-              <Text as="span" className="numCardR">
-                {valor}
-              </Text>
-              <Text as="span" className="numCardL">
-                {valor}
-              </Text>
-            </>
-          )}
+      {!isString(valor) && (
+        <>
+          <Text as="span" className="numCardR">
+            {valor}
+          </Text>
+          <Text as="span" className="numCardL">
+            {valor}
+          </Text>
+        </>
+      )}
     </>
   );
 }
