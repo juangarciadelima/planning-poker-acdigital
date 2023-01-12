@@ -25,7 +25,7 @@ export default function FormDeleteHistory({
       </EuiModalHeader>
       <EuiModalBody>
         <FormControl id="room-name " isRequired>
-          <FormLabel>Você deseja mesmo deletar a sala?</FormLabel>
+          <FormLabel>Você deseja mesmo deletar a história?</FormLabel>
         </FormControl>
       </EuiModalBody>
       <EuiModalFooter>
