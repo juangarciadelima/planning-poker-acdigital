@@ -27,7 +27,7 @@ export default function Cadastrar() {
     if(user && user.email && user.nome){
       const response = await cadastrar(user);
       if (response) {
-        setLoginInContext(response, "administrador");
+        setLoginInContext(response, "administrado");
         history.push("/");
       } else {
         toast("Entre em contato com o Desenvolvedor");
