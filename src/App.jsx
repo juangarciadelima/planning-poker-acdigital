@@ -16,7 +16,7 @@ export default function App() {
       <Switch>
         <RoomsProvider>
           <Header />
-          <Route exact path="/cadastra">
+          <Route exact path="/cadastrar">
             <Cadastrar />
           </Route>
           <Route exact path="/">
